@@ -1,0 +1,25 @@
+{
+  "name": "Focus",
+  "version": "0.0.1",
+  "description": "Focus ",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.upd.sogou-inc.com:zhengxin/focus.git"
+  },
+  "keywords": [
+    "gitlab"
+  ],
+  "author": "zhengxin@sogou-inc.com",
+  "license": "ISC",
+  "devDependencies": {
+    "livereload": "~0.3.2"
+  },
+  "dependencies": {
+    "express": "~3.4.8",
+    "swig": "~1.3.2"
+  }
+}

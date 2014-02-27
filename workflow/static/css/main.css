@@ -1,0 +1,12 @@
+
+
+.content{
+    padding-top:20px;
+    width:960px;
+    margin:0 auto;
+}
+
+.content>div{
+    background:#fff;
+    padding:20px;
+}
