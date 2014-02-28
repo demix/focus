@@ -7,9 +7,13 @@
 <link rel="stylesheet" href="./static/css/main.css" type="text/css" media="screen" />
 {% endblock %}
 
-{% block content %}
-<div>
-    hello
+{% block scripts %}
+<script type="text/javascript">
+ 
+ require(['./common/static/js/form'] , function(form){
+     form.init();
+ });
+ 
 
-</div> 
+</script>
 {% endblock %}
