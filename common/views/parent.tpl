@@ -47,8 +47,9 @@
         <script type="text/javascript" src="./common/static/js/global.js"></script>
         <script type="text/javascript">
          
-         require(['./common/static/js/menu'] , function(menu){
-             menu.init();
+         require(['/common/static/js/header.js' , '/common/static/js/main.js'] , function(header , main){
+             header.init();
+             main.init();
          });
          
         </script>

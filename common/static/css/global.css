@@ -70,6 +70,7 @@ h2{ color:#7d8b91; font-size:24px; line-height:78px; padding-left:20px;font-weig
 .fc-form p{ padding:10px 0; }
 .fc-form label{ width:200px; text-align:right; display:inline-block; padding-right:5px; }
 .fc-form label:after{ content:":"; }
+.fc-form.label-block label{ width:auto;text-align:left;display:block;padding:10px 5px; }
 .fc-form .required label:before{ content:'*';padding-right:3px;position:relative; top:3px; color:#d44a4a; }
 .fc-form .desc{  padding:0 5px 0 50px; width:150px;text-align:right; color:#666;font-size:12px;padding-top:20px; }
 .fc-form button{ padding:4px 12px; background:#d3dade; border-radius:2px; font-size:16px;border:0;  font-weight:700; cursor:pointer;}

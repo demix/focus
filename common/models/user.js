@@ -1,6 +1,17 @@
 var db = require('../utils/db');
 
 
+/**
+ user:{
+ sid:
+ uname:
+ role:
+ gitlabacc:
+ gitlabpwd:
+ }
+
+ */
+
 var ERROR_CODE = {
     'none':0,
     'user_exist':1,

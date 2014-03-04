@@ -16,7 +16,7 @@ define(function(){
                 $.post(url , $(this).serialize() , function(response){
                     if( +response.status ){
                         form.find("button[type='submit']").attr('disabled' , null);
-                        result.show().addClass('error').html('System Error');
+                        result.show().addClass('error').html( response.msg ? response.msg : 'System Error');
                     }else{
                         result.show().addClass('success').html('success');
                         var successUrl = form.data('success');

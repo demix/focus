@@ -19,6 +19,7 @@ app.use( '/common', express.static(__dirname + '/../common'));
 
 app.get('*' , require('../common/controllers/common').get);
 app.get('/', require('./controllers/index').get);
+app.get(/api\/(\w+)\/(.*)/, require('./controllers/api').get);
 
 
 
@@ -35,6 +36,6 @@ if(process.env.NODE_ENV == 'development'){
 
 
 db.connect(function(){
-    app.listen(3202);
+    app.listen(3200);
 });
 
