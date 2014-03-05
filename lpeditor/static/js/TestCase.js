@@ -9,7 +9,7 @@
   * @version 0.0.1
   * @since 0.0.1
   */
-define(['Element'],function(Element){
+define(['element'],function(Element){
 
     function TestCase(callbackfn){
         if(this===window){
@@ -27,7 +27,9 @@ define(['Element'],function(Element){
     function run(){
 
         new TestCase(function(){
-            new Element('div','case',{id:'xxx',name:'x'},{'color':'red'}).html(true);
+            var ele=new Element('div','case',{id:'xxx',name:'x'},{'color':'red'});
+            ele.addSuffixSelector('.on');
+            ele.setCss('background-image','none','.on',false);
         });
 
     }

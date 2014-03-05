@@ -9,7 +9,8 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-require(['TestCase'], function(TestCase) {
+require(['TestCase','system'], function(TestCase,System) {
 
-    TestCase.run();
+   // TestCase.run();
+    System.startup();
 });

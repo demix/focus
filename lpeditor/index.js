@@ -25,11 +25,11 @@ app.get('/', require('./controllers/index').get);
 
 
 
-if(process.env.NODE_ENV == 'development'){
+//if(process.env.NODE_ENV == 'development'){
     app.set('view cache', false);
     swig.setDefaults({cache: false});
     let livereload = require('livereload');
-}
+//}
 
 
 db.connect(function(){

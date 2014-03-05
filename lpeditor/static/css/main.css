@@ -1,0 +1,90 @@
+* {
+padding:0;
+margin:0
+}
+
+.w-fil {
+width:100%
+}
+
+.h-fil {
+height:100%
+}
+
+.fl {
+float:left
+}
+
+.fr {
+float:right
+}
+
+.fz0 {
+font-size:0
+}
+
+.ab {
+position:absolute
+}
+
+.re {
+position:relative
+}
+
+.editor-content {
+padding:0
+}
+
+.editor-content .bench {
+left:0;
+top:0
+}
+
+.editor-content .bench .bg {
+left:0;
+top:0;
+background:#000;
+opacity:.5
+}
+
+.editor-content .home {
+background:url(/static/img/home.png) no-repeat;
+background-size:72px 72px;
+width:72px;
+height:72px;
+position:fixed;
+bottom:20px;
+left:20px;
+z-index:10000;
+cursor:pointer;
+-webkit-transition:all .4s;
+transition:all .4s
+}
+
+.editor-content .home:hover {
+-webkit-transition:all .7s linear;
+-webkit-transform:rotate(6.28rad);
+transition:all .7s;
+transform:rotate(6.28rad)
+}
+
+.editor-content .canvas {
+position:relative;
+width:404px;
+height:455px;
+margin:100px auto;
+background:url(http://img.wan.sogou.com/ufo/img/newnav/dialog3/ybg2.png) no-repeat
+}
+
+.editor-content .dock{
+  width:0;
+  left: 10%;
+  height: 50px;
+  border: 2px solid #111;
+  background-color: rgba(175, 168, 168, 0.75);
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+  position: fixed;
+  bottom: 20px;
+  z-index: 10001;
+}
