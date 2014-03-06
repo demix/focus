@@ -16,10 +16,10 @@ define(['element'], function(Element) {
     //Other values are not supported.
     var initializingElementsConfig = {
         close: {
-            tag:'a',
+            tag: 'a',
             text: '',
             props: {
-                href:'javascript:;'
+                href: 'javascript:;'
             },
             css: {
                 '': {
@@ -41,14 +41,14 @@ define(['element'], function(Element) {
         },
         /*Tab*/
         'tab-new-reg,tab-old-login': {
-            tag:'a',
-            text: function(id,index){
-                return index?'老用户登录':'新用户注册';
+            tag: 'a',
+            text: function(id, index) {
+                return index ? '老用户登录' : '新用户注册';
             },
-            props:{
-                href:'javascript:;',
-                'class':function(id,index){
-                    return index?'tab':'tab on'
+            props: {
+                href: 'javascript:;',
+                'class': function(id, index) {
+                    return index ? 'tab' : 'tab on'
                 }
             },
             css: {
@@ -63,41 +63,54 @@ define(['element'], function(Element) {
                     top: '63px',
                     width: '171px',
                     height: '33px',
-                    color:'#fff',
-                    'text-decoration':'none',
-                    'font-size':'14px',
-                    'font-family':'',
+                    color: '#fff',
+                    'text-decoration': 'none',
+                    'font-size': '14px',
+                    'font-family': '',
                     'background-color': '',
-                    'line-height':'33px',
-                    'text-align':'center',
-                    'background-repeat':'no-repeat',
-                    'background-image': function(id){
-                        switch(id){
+                    'line-height': '33px',
+                    'text-align': 'center',
+                    'background-repeat': 'no-repeat',
+                    'background-image': function(id) {
+                        switch (id) {
                             case 'tab-new-reg':
-                            return 'url(http://s5.wan.sogou.com/cdn/image/2014/03/05/20140305211018_817.jpg)';
+                                return 'url(http://s5.wan.sogou.com/cdn/image/2014/03/05/20140305211018_817.jpg)';
                             case 'tab-old-login':
-                            return 'url(http://s7.wan.sogou.com/cdn/image/2014/03/05/20140305211310_980.jpg)'
-                            default:throw Error('Unknown ID '+id);
+                                return 'url(http://s7.wan.sogou.com/cdn/image/2014/03/05/20140305211310_980.jpg)'
+                            default:
+                                throw Error('Unknown ID ' + id);
                         }
                     }
                 },
                 '>:hover': {
-                    color:'',
-                    'text-decoration':'underline',
+                    color: '',
+                    'text-decoration': 'underline',
                     'background-color': '',
                     'background-image': ''
                 },
                 '>.on': {
-                    color:'',
-                    'text-decoration':'',
+                    color: '',
+                    'text-decoration': '',
                     'background-color': '',
                     'background-image': ''
                 }
             }
         },
+        /*注册区域*/
+/*        'area-reg':{
+            tag:'div',
+            css:{
+                '':{
+                    width:'400px',
+                    height:'200px',
+                    left:0,
+                    top:'200px'
+                }
+            }
+        },*/
         /*标签*/
         'lbl-reg-user,lbl-reg-pwd,lbl-reg-rpwd,lbl-login-user,lbl-login-pwd,lbl-login-server': {
-            tag:'label',
+            tag: 'label',
             text: function(id) {
                 switch (id) {
                     case 'lbl-reg-user':
@@ -112,19 +125,23 @@ define(['element'], function(Element) {
                         return '游戏密码：';
                     case 'lbl-login-server':
                         return '游戏分区：';
-                    default:throw Error('Unknown ID '+id);
+                    default:
+                        throw Error('Unknown ID ' + id);
                 }
             },
-            props:{
-                'class':'lbl',
-                'for':function(id){
-                     return id.replace(/^lbl/,'input')
+            parent:function(id,index){
+                return 
+            },
+            props: {
+                'class': 'lbl',
+                'for': function(id) {
+                    return id.replace(/^lbl/, 'input')
                 }
             },
             css: {
                 '': {
-                    display:function(id){
-                        return !!~id.indexOf('login')?'none':'block';
+                    display: function(id) {
+                        return !!~id.indexOf('login') ? 'none' : 'block';
                     },
                     left: '50px',
                     top: function(id) {
@@ -150,21 +167,20 @@ define(['element'], function(Element) {
             }
         },
         'input-reg-user,input-reg-pwd,input-reg-rpwd,input-login-user,input-login-pwd,input-login-server': {
-            tag:'input',
-            text: '',
-            props:{
-                value:'',
-                autocomplete:'off',
-                disableautocomplete:'',
-                'class':'input',
-                type:function(id){
-                    return !!~id.indexOf('pwd')?'password':(!!~id.indexOf('server')?'select':'text')
+            tag: 'input',
+            props: {
+                value: '',
+                autocomplete: 'off',
+                disableautocomplete: '',
+                'class': 'input',
+                type: function(id) {
+                    return !!~id.indexOf('pwd') ? 'password' : ( !! ~id.indexOf('server') ? 'select' : 'text')
                 }
             },
             css: {
                 '': {
-                    display:function(id){
-                        return !!~id.indexOf('login')?'none':'block';
+                    display: function(id) {
+                        return !!~id.indexOf('login') ? 'none' : 'block';
                     },
                     left: '120px',
                     top: function(id) {
@@ -189,22 +205,22 @@ define(['element'], function(Element) {
             }
         },
         'tip-reg-user,tip-reg-pwd,tip-reg-rpwd,tip-login-user,tip-login-pwd,tip-login-server,tip-login,tip-reg': {
-            tag:'div',
-            text: 'TIP MESSAGE',
-            props:{
-                'class':'tip'
+            tag: 'div',
+            text: '提示信息，修改文本无效',
+            props: {
+                'class': 'tip'
             },
             css: {
                 '': {
-                    display:function(id){
-                        return !!~id.indexOf('login')?'none':'block';
+                    display: function(id) {
+                        return !!~id.indexOf('login') ? 'none' : 'block';
                     },
-                    color:'#fff',
+                    color: '#fff',
                     width: '200px',
                     height: '15px',
                     left: '120px',
-                    'font-size':'12px',
-                    'font-family':'',
+                    'font-size': '12px',
+                    'font-family': '',
                     top: function(id) {
                         switch (id) {
                             case 'tip-reg':
@@ -229,11 +245,13 @@ define(['element'], function(Element) {
             }
         },
         'ckb-protocol': {
-            tag:'input',
+            tag: 'input',
             props: {
-                type:'checkbox',
+                type: 'checkbox',
                 checked: true,
-                name:function(id){return id}
+                name: function(id) {
+                    return id;
+                }
             },
             css: {
                 '': {
@@ -244,11 +262,11 @@ define(['element'], function(Element) {
             }
         },
         'a-protocol': {
-            tag:'a',
-            text:'《搜狗服务协议》',
-            props:{
-                href:'https://account.sogou.com/static/agreement.html',
-                target:'_blank'
+            tag: 'a',
+            text: '《搜狗服务协议》',
+            props: {
+                href: 'https://account.sogou.com/static/agreement.html',
+                target: '_blank'
             },
             css: {
                 '': {
@@ -268,10 +286,10 @@ define(['element'], function(Element) {
             }
         },
         'txt-protocol': {
-            tag:'label',
-            text:'我已仔细阅读并同意',
-            props:{
-                'for':'ckb-protocol'
+            tag: 'label',
+            text: '我已仔细阅读并同意',
+            props: {
+                'for': 'ckb-protocol'
             },
             css: {
                 '': {
@@ -287,10 +305,10 @@ define(['element'], function(Element) {
         },
         /*开始按钮*/
         'btn-start': {
-            tag:'a',
+            tag: 'a',
             text: '',
-            props:{
-                href:'javascript:;'
+            props: {
+                href: 'javascript:;'
             },
             css: {
                 '': {
@@ -309,34 +327,46 @@ define(['element'], function(Element) {
                 }
             }
         },
-        'txt-3rdlogin': {
-            tag:'div',
-            text:'使用其他帐号登录',
-            props:{},
+        'area-3rd': {
+            tag: 'div',
             css: {
                 '': {
-                    width: '100px',
-                    height: '20px',
-                    left: '70px',
-                    top: '400px',
-                    color: '#fff',
-                    'font-size': '12px',
-                    'font-family': ''
+                    width: '404px',
+                    height: '100px',
+                    left: '0',
+                    top: '355px'
                 }
-            }
-        },
-        '3rd-qq-login,3rd-renren-login,3rd-weibo-login': {
-            tag:'a',
+            },
+            children: {
+                'txt-3rdlogin': {
+                    tag: 'div',
+                    text: '使用其他帐号登录',
+                    props: {},
+                    css: {
+                        '': {
+                            width: '100px',
+                            height: '20px',
+                            left: '10px',
+                            top: '10px',
+                            color: '#fff',
+                            'font-size': '12px',
+                            'font-family': ''
+                        }
+                    }
+                },
+
+        'qq-3rd-login,renren-3rd-login,weibo-3rd-login': {
+            tag: 'a',
             text: '',
-            props:{
-                href:'javascript:;',
-                'class':'3rdlogin'
+            props: {
+                href: 'javascript:;',
+                'class': 'login3rd'
             },
             css: {
                 '': {
-                    top: '420px',
-                    left: function(id) {
-                        return '20px';//TODO
+                    top: '40px',
+                    left: function(id,index) {
+                        return 30+75*index+'px'; 
                     },
                     width: '70px',
                     height: '25px',
@@ -347,6 +377,8 @@ define(['element'], function(Element) {
                     'background-image': '',
                     'background-color': 'yellow'
                 }
+            }
+        }
             }
         }
     };
