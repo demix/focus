@@ -9,28 +9,25 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['initializing', 'element','listener','jquery-ui'], function(Initializing, Element,Listener) {
+define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializing, Element, Listener) {
 
     var $canvas = $('.canvas'),
         $previewStyle = $('#previewStyle');
-    /**
-     * 生成默认页面元素
-     * @return {Map}
-     */
+
     function loadDefaultElements() {
         var self = this;
         for (var ids in Initializing) {
-            //元素ID以逗号分隔
+            //id(s) splited with ','
             ids = ids.split(',');
             var found = Initializing[ids];
-            //针对每个ID，生成Element
-            //TODO，判断元素ID重复
+            //generate element by ids
+            //todo:check dumplated
             ids.forEach(function(id, index, ids) {
                 var innerText = ('function' === typeof found.text) ? found.text(id, index) : (found.text || "");
                 var props = {
                     id: id
                 }, css = {
-                        position: 'absolute'
+                        position: 'absolute'//every element is absolute
                     };
                 //Copy properties
                 $.each((found.props || {}), function(k, v) {
@@ -65,7 +62,8 @@ define(['initializing', 'element','listener','jquery-ui'], function(Initializing
         return self;
     }
 
-    var REFRESH_HTML= 1,REFRESH_CSS= 1 << 1;
+    var REFRESH_HTML = 1,
+        REFRESH_CSS = 1 << 1;
     //Singleton Editor Object
     var Editor = {
         gElements: {},
@@ -80,11 +78,11 @@ define(['initializing', 'element','listener','jquery-ui'], function(Initializing
             loadDefaultElements.call(this);
             //This event has to register before first draw
             this.listen('drawcomplete', this.onDrawComplete, this);
-            this.drawCanvas(REFRESH_HTML|REFRESH_CSS);
+            this.drawCanvas(REFRESH_HTML | REFRESH_CSS);
 
             //Just listen the following adding events.
-            this.listen('elementadded',this.onElementAdded,this);
-            this.listen('elementremoved',this.onElementRemoved,this);
+            this.listen('elementadded', this.onElementAdded, this);
+            this.listen('elementremoved', this.onElementRemoved, this);
             this.__mInitialized = true;
 
             return this;
@@ -93,10 +91,10 @@ define(['initializing', 'element','listener','jquery-ui'], function(Initializing
          * [getElementById description]
          * @return {[type]} [description]
          */
-        getElementById:function(id){
-            if(!id)return null;
-            var ele=this.gElements[id];
-            if(!ele)return null;
+        getElementById: function(id) {
+            if (!id) return null;
+            var ele = this.gElements[id];
+            if (!ele) return null;
             return ele;
         },
         /**
@@ -107,7 +105,7 @@ define(['initializing', 'element','listener','jquery-ui'], function(Initializing
             var styleText = '',
                 innerHtml = '';
             level = level | 0;
-            $.each(this.gElements,function(id,ele) {
+            $.each(this.gElements, function(id, ele) {
                 if (REFRESH_HTML === (level & REFRESH_HTML))
                     innerHtml += ele.html(false);
                 if (REFRESH_CSS === (level & REFRESH_CSS))
@@ -127,33 +125,34 @@ define(['initializing', 'element','listener','jquery-ui'], function(Initializing
          * @param {[type]} ele [description]
          */
         addElement: function(ele) {
-            var self=this;
+            var self = this;
             if (!(ele instanceof Element)) {
                 throw Error('Only element could be added!');
             }
-            var id=ele.getId();
-            if(this.gElements[id]){
-                throw Error('This element['+id+'] has already added!')
+            var id = ele.getId();
+            if (this.gElements[id]) {
+                throw Error('This element[' + id + '] has already added!')
             }
 
             this.gElements[id] = ele;
 
-            this.trigger('elementadded',ele);
+            this.trigger('elementadded', ele);
         },
         /**
          * [removeElementById description]
          * @param  {String} id
-         * @return {Boolean}   
+         * @return {Boolean}
          */
-        removeElementById:function(id){
-            if(!id||!this.gElements[id]){
-                console.warn('Element with ID['+id+'] does not been found!');
+        removeElementById: function(id) {
+            if (!id || !this.gElements[id]) {
+                console.warn('Element with ID[' + id + '] does not been found!');
                 return false;
             }
 
-            var ele=this.gElements[id],deleted=delete this.gElements[id];
-            if(deleted){
-                this.trigger('elementremoved',ele);
+            var ele = this.gElements[id],
+                deleted = delete this.gElements[id];
+            if (deleted) {
+                this.trigger('elementremoved', ele);
             }
             return deleted;
         },
@@ -162,8 +161,8 @@ define(['initializing', 'element','listener','jquery-ui'], function(Initializing
          * @param  {[type]} ele [description]
          * @return {[type]}     [description]
          */
-        removeElement:function(ele){
-             var self=this;
+        removeElement: function(ele) {
+            var self = this;
             if (!(ele instanceof Element)) {
                 throw Error('Only Element could be added!');
             }
@@ -176,7 +175,7 @@ define(['initializing', 'element','listener','jquery-ui'], function(Initializing
          * @param  {[type]} args   [description]
          */
         onPropChanged: function(evt, evtObj, args) {
-            console.log(evt,evtObj,args);
+            console.log(evt, evtObj, args);
             this.drawCanvas(REFRESH_HTML);
         },
         /**
@@ -186,7 +185,7 @@ define(['initializing', 'element','listener','jquery-ui'], function(Initializing
          * @param  {[type]} args   [description]
          */
         onCssChanged: function(evt, evtObj, args) {
-            console.log(evt,evtObj,args);
+            console.log(evt, evtObj, args);
             this.drawCanvas(REFRESH_CSS);
         },
         /**
@@ -195,9 +194,9 @@ define(['initializing', 'element','listener','jquery-ui'], function(Initializing
          * @param  {[type]} evtObj [description]
          * @param  {[type]} args   [description]
          */
-        onElementAdded:function(evt,evtObj,args){
-            console.log(evt,evtObj,args);
-            this.drawCanvas(REFRESH_CSS|REFRESH_HTML);
+        onElementAdded: function(evt, evtObj, args) {
+            console.log(evt, evtObj, args);
+            this.drawCanvas(REFRESH_CSS | REFRESH_HTML);
         },
         /**
          * [onElementRemoved description]
@@ -205,8 +204,8 @@ define(['initializing', 'element','listener','jquery-ui'], function(Initializing
          * @param  {[type]} evtObj [description]
          * @param  {[type]} args   [description]
          */
-        onElementRemoved:function(evt,evtObj,args){
-            console.log(evt,evtObj,args);
+        onElementRemoved: function(evt, evtObj, args) {
+            console.log(evt, evtObj, args);
             this.drawCanvas(REFRESH_HTML);
         },
         /**
@@ -216,20 +215,44 @@ define(['initializing', 'element','listener','jquery-ui'], function(Initializing
          * @param  {[type]} args   [description]
          * @return {[type]}        [description]
          */
-        onDrawComplete:function(evt,evtObj,args){
-            console.log(evt,evtObj,args);
+        onDrawComplete: function(evt, evtObj, args) {
+            console.log(evt, evtObj, args);
+            var self = this;
             //todo
             //draggable,resizeable
-            $canvas.find('*').draggable().resizable();
+            $canvas.find('*').draggable({
+                containment: "parent",
+                stop: function(event, ui) {
+                    var id = event.target.id;
+                    var ele = self.getElementById(id);
+                    if (!ele) {
+                        console.warn('cannot find ID[' + id + '] which is dragging');
+                    } else {
+                        ele.setCss('left', ui.position.left + 'px', '', false, true);
+                        ele.setCss('top', ui.position.top + 'px', '', false, true);
+                    }
+                }
+            }).resizable({
+                stop: function(event, ui) {
+                    var id = event.target.id;
+                    var ele = self.getElementById(id);
+                    if (!ele) {
+                        console.warn('cannot find ID[' + id + '] which is resizing');
+                    } else {
+                        ele.setCss('width', ui.size.width + 'px', '', false, true);
+                        ele.setCss('height', ui.size.height + 'px', '', false, true);
+                    }
+                }
+            });
         },
         /**
          * [dump description]
          * @return {[type]} [description]
          */
-        dump:function(){
+        dump: function() {
             console.log(this.gElements);
         }
     };
-    $.extend(Editor,new Listener());
+    $.extend(Editor, new Listener());
     return Editor;
 });

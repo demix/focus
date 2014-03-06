@@ -39,7 +39,7 @@ define(['listener'], function(Listener) {
             '': (csses || {})//default is kind of suffix selector
         }; //like #id.on
 
-        
+        this;
 
         $.extend(this,new Listener());
     }
@@ -74,12 +74,12 @@ define(['listener'], function(Listener) {
          * @param {String} value
          * @return {Boolean}
          */
-        setProps:function(key,value){
+        setProps:function(key,value,silence){
             if(!key)return false;
             var oldVal =this.mProps[key];
             if(value===oldVal)return false;
             this.mProps[key]=value;
-            this.trigger('propchanged',{
+            (!silence)&&this.trigger('propchanged',{
                 key:key,
                 oldVal:oldVal,
                 newVal:value
@@ -93,7 +93,7 @@ define(['listener'], function(Listener) {
          * @param {String}  selector
          * @param {Boolean} isPrefix
          */
-        setCss: function(key,value, selector, isPrefix) {
+        setCss: function(key,value, selector, isPrefix,silence) {
             var self=this;
             switch(arguments.length){
                 case 0:
@@ -120,7 +120,7 @@ define(['listener'], function(Listener) {
             var oldVal = selectors[selector][key];
             if(oldVal === value)return false;
             selectors[selector][key] = value;
-            this.trigger('csschanged',{
+             (!silence)&&this.trigger('csschanged',{
                 key:key,
                 oldVal:oldVal,
                 newVal:value
