@@ -88,3 +88,4 @@ background:url(http://img.wan.sogou.com/ufo/img/newnav/dialog3/ybg2.png) no-repe
   bottom: 20px;
   z-index: 10001;
 }
+.canvas .ui-draggable.ui-draggable-dragging{border:1px solid red !important;}

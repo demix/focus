@@ -31,7 +31,7 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
                     v = v(id, index);
                 props[k] = v;
             });
-            var eleModel = new Element(found.tag, props, css, innerText);
+            var eleModel = new Element(found.tag||'div', props, css, innerText);
 
             //copy css attributes
             $.each((found.css || {}), function(selector, selectorItems) {
@@ -52,7 +52,7 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
                 });
             });
 
-            var children = found.children || {};
+            var children = ('function'===typeof found.children)?found.children(id,index):(found.children || {});
             $.each(children, function(ids, found) {
                 var eles = analyzeElement(ids, found);
                 eleModel.appendChildren(eles);
@@ -106,6 +106,7 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
          * @param  {[type]} id   [description]
          * @param  {[type]} root [description]
          * @return {[type]}      [description]
+         * todo;
          */
         getElementById: function(id,root) {
             var self = this ;
@@ -136,7 +137,7 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
                 ele=root.mChildren[id];
                 if(ele)return ele;
                 for(var _id in root.mChildren){
-                    var child=root.mChildren[id];
+                    var child=root.mChildren[_id];
                     var v=self.getElementById(id,child);
                     if(v){
                         return v;
