@@ -1,3 +1,4 @@
 node_modules
 tmp
 workflow/packages
+*DS_Store
