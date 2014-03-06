@@ -9,6 +9,13 @@
  * @version 0.0.1
  * @since 0.0.1
  */
+require.config({
+    map:{
+        '*':{
+            'jquery-ui':'jquery-ui-1.10.4.custom.min'
+        }
+    }
+});
 require(['TestCase','system'], function(TestCase,System) {
 
    // TestCase.run();

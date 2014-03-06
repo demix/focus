@@ -1,5 +1,5 @@
 /**
- * Element.js
+ * element.js
  *
  * changelog
  * 2014-03-04[19:06:21]:created
@@ -9,39 +9,81 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define([], function() {
+define(['listener'], function(Listener) {
 
     var noClosureTag = 'br,img,hr,link,meta,base,input'.split(',');
+    
     /**
      * [Element description]
      * @param {[type]} tagname   [description]
-     * @param {[type]} innerText [description]
      * @param {[type]} props     [description]
      * @param {[type]} csses     [description]
+     * @param {[type]} innerText [description]
      */
-    function Element(tagname, innerText, props, csses) {
-        this.mTagName = (tagname || 'div').toLowerCase();
+    function Element(tagname, props, csses,innerText) {
+        if(arguments.length<2){
+            throw Error('Construct an element need as least TWO parameters!');
+        }
+        if(!/^[\w\-]+$/.test(props.id)){
+            throw Error('Element need a legal ID property');
+        }
+        this.mTagName = String(tagname).toLowerCase();
         this.mNoClosure = !! ~noClosureTag.indexOf(this.mTagName);
-        this.mInnerText = innerText;
-        this.mProps = props || {};
-
-        this.mBaseSelector = ('#' + this.mProps.id) || this.mTagName;
+        this.mInnerText = innerText||"";
+        this.mProps = props;
+        //has to own a ID
+        this.mBaseSelector =  '#' + this.mProps.id;
 
         this.mPrefixSelectors = {}; //like .on #id
         this.mSuffixSelectors = {
             '': (csses || {})//default is kind of suffix selector
         }; //like #id.on
+
+        
+
+        $.extend(this,new Listener());
     }
 
     var elementProto = {
         /**
+         * [getId description]
+         * @return {String}
+         */
+        getId:function(){
+            return this.mProps.id;
+        },
+        /**
+         * [equals description]
+         * @param  {Element} ele
+         * @return {Boolean}    
+         */
+        equals:function(ele){
+            if(!(ele instanceof Element)){
+                return false;
+            }
+
+            if(ele===this)return true;
+
+            if(ele.mProps.id&&(ele.mProps.id===this.mProps.id))
+                return true;
+            return false;
+        },
+        /**
          * [setProps description]
-         * @param {[type]} key   [description]
-         * @param {[type]} value [description]
+         * @param {String} key  
+         * @param {String} value
+         * @return {Boolean}
          */
         setProps:function(key,value){
             if(!key)return false;
+            var oldVal =this.mProps[key];
+            if(value===oldVal)return false;
             this.mProps[key]=value;
+            this.trigger('propchanged',{
+                key:key,
+                oldVal:oldVal,
+                newVal:value
+            });
             return true;
         },
         /**
@@ -75,13 +117,19 @@ define([], function() {
             if(!selectors[selector]){
                 (isPrefix?self.addPrefixSelector:self.addSuffixSelector).call(self,selector);
             }
-            selectors[selector][key]=value;
-
+            var oldVal = selectors[selector][key];
+            if(oldVal === value)return false;
+            selectors[selector][key] = value;
+            this.trigger('csschanged',{
+                key:key,
+                oldVal:oldVal,
+                newVal:value
+            });
             return true;
         },
         /**
          * [addPrefixSelector description]
-         * @param {[type]} selector [description]
+         * @param {String} selector [description]
          */
         addPrefixSelector: function(selector) {
             if (/^[\w\-\+>\.:]+$/.test(selector) && !this.mPrefixSelectors[selector]) {
@@ -92,7 +140,7 @@ define([], function() {
         },
         /**
          * [addSuffixSelector description]
-         * @param {[type]} selector [description]
+         * @param {String} selector [description]
          */
         addSuffixSelector: function(selector) {
             if (/^[\w\-\+>\.:]+$/.test(selector)  && !this.mSuffixSelectors[selector]) {
@@ -104,8 +152,8 @@ define([], function() {
 
         /**
          * [style description]
-         * @param  {Boolean} wrapped [description]
-         * @return {[type]}         [description]
+         * @param  {Boolean} wrapped
+         * @return {String}        
          */
         style: function(wrapped) {
             var self = this;
@@ -133,8 +181,8 @@ define([], function() {
         },
         /**
          * [html description]
-         * @param  {[type]} inlineCss [description]
-         * @return {[type]}           [description]
+         * @param  {Boolean} inlineCss [description]
+         * @return {HTMLString}           [description]
          */
         html: function(inlineCss) {
             var propsText = [];
@@ -147,8 +195,8 @@ define([], function() {
         },
         /**
          * [dom description]
-         * @param  {[type]} inlineCss [description]
-         * @return {[type]}           [description]
+         * @param  {Boolean} inlineCss
+         * @return {jQuery DOM}
          */
         dom: function(inlineCss) {
             return $(this.html(inlineCss));

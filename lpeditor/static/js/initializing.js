@@ -23,8 +23,8 @@ define(['element'], function(Element) {
             },
             css: {
                 '': {
-                    left: '383px',
-                    top: '2px',
+                    left: '373px',
+                    top: '10px',
                     width: '18px',
                     height: '18px',
                     'background-color': '',
@@ -199,6 +199,7 @@ define(['element'], function(Element) {
                     display:function(id){
                         return !!~id.indexOf('login')?'none':'block';
                     },
+                    color:'#fff',
                     width: '200px',
                     height: '15px',
                     left: '120px',
@@ -255,13 +256,13 @@ define(['element'], function(Element) {
                     height: '20px',
                     left: '235px',
                     top: '330px',
-                    color: 'blue',
+                    color: '#005EC8',
                     'font-size': '12px',
                     'font-family': '',
                     'text-decoration': 'underline'
                 },
                 '>:hover': {
-                    color: '#fff',
+                    color: '',
                     'text-decoration': ''
                 }
             }

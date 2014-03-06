@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>LP Editor</title>
         <link rel="stylesheet" type="text/css" href="static/css/main.css" />
+        <link rel="stylesheet" type="text/css" href="static/css/jquery-ui-1.10.4.custom.min.css" />
     </head>
     <body>
         <div class="w-fil h-fil editor-content">

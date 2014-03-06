@@ -80,10 +80,10 @@ background:url(http://img.wan.sogou.com/ufo/img/newnav/dialog3/ybg2.png) no-repe
   width:0;
   left: 10%;
   height: 50px;
-  border: 2px solid #111;
-  background-color: rgba(175, 168, 168, 0.75);
-  border-top-right-radius: 40px;
-  border-bottom-right-radius: 40px;
+  border: 1px solid rgba(124, 124, 124, 0.89);;
+  background: rgba(219, 211, 211, 0.4);
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
   position: fixed;
   bottom: 20px;
   z-index: 10001;

@@ -27,7 +27,7 @@ define(['element'],function(Element){
     function run(){
 
         new TestCase(function(){
-            var ele=new Element('div','case',{id:'xxx',name:'x'},{'color':'red'});
+            var ele=new Element('div',{id:'xxx',name:'x'},{'color':'red'},'case');
             ele.addSuffixSelector('.on');
             ele.setCss('background-image','none','.on',false);
         });
