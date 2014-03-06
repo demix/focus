@@ -2,13 +2,14 @@
 
 
 
+
 {% block content %}
 
-<div class="content" >
+<div  >
     <h3>
         Select Gitlab Project you want to <b>flow</b>
     </h3>
-    <div id="Content">
+    <div id="Content" class="fc-form">
         
     </div>
 </div>

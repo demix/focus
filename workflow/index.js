@@ -16,9 +16,11 @@ app.use(express.cookieParser());
 app.use(express.bodyParser());
 app.use( '/static', express.static(__dirname + '/static'));
 app.use( '/common', express.static(__dirname + '/../common'));
+app.use( '/packages', express.static(__dirname + '/packages'));
 
 app.get('*' , require('../common/controllers/common').get);
 app.get('/', require('./controllers/index').get);
+app.get('/project/:action', require('./controllers/project').get);
 
 
 
