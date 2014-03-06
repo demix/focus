@@ -54,6 +54,14 @@ exports.add = function(info , callback){
     });
 };
 
+exports.USER_TYPE = {
+    1: 'Backend Engineer',
+    2: 'Frontend Engineer',
+    3: 'QA',
+    4: 'Project Manager',
+    5: 'Product Desinger'
+};
+
 
 
 exports.getBySid = getBySid;

@@ -17,10 +17,9 @@
             <p>
                 <label>Role</label>
                 <select name="role">
-                    <option value="0">Backend Engineer</option>
-                    <option value="1">Frontend Engineer</option>
-                    <option value="2">Prodoct Designer</option>
-                    
+                    {% for idx,item in types %}
+                    <option value="{{idx}}">{{item}}</option>
+                    {% endfor %}
                 </select>
             </p>
             <p class="desc">Gitlab binding</p>

@@ -8,7 +8,6 @@ const URL_LIST = {
 };
 
 exports.get = function(req , res){
-    console.log(req.params[1],111)
     request.get( URL_LIST[req.params[0]] + req.params[1] , {
         qs: req.query
     } , function(e,r,body){

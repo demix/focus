@@ -6,17 +6,37 @@ define(function(){
             selected: false
         },
         url: function(){
-            return ['' , 'api/gitlab/projects' , this.get('id') , 'repository/branches'].join('/');
+            return {
+                branches: ['' , 'api/gitlab/projects' , this.get('id') , 'repository/branches'].join('/'),
+                tags: ['' , 'api/gitlab/projects' , this.get('id') , 'repository/tags'].join('/')
+            };
         },
         initialize: function(){
             this.on('change:selected' , function(model,value){
                 if(value){
-                    this.fetch({data:{private_token:TOKEN} , success: this.fetchSuccess.bind(this)});
+                    this.fetch({private_token:TOKEN,per_page:100});
                 }
             });
         },
-        fetchSuccess: function(){
-            console.log(1)
+        fetch: function(data){
+            this._fetchTime = 0;
+            Object.keys(this.url()).forEach(function(type){
+                if( !this.get(type) ){
+                    $.getJSON( this.url()[type] + '?' + $.param(data) , function(data){
+                        this._fetchTime ++;
+                        this.set(type , data);
+                        this._fetchSuccess();
+                    }.bind(this));
+                }else{
+                    this._fetchTime++;
+                    this._fetchSuccess();
+                }
+            }.bind(this));
+        },
+        _fetchSuccess: function(){
+            if( this._fetchTime == Object.keys(this.url()).length ){
+
+            }
         }
         
     });
@@ -29,7 +49,8 @@ define(function(){
 
             this.fetch({
                 data:{
-                    private_token:TOKEN
+                    private_token:TOKEN,
+                    per_page:100
                 },
                 success: this.fetchSuccess.bind(this)
             });

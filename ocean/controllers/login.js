@@ -5,9 +5,12 @@ var gitlab = require('../../common/utils/gitlab');
 
 
 exports.get = function(req,res){
+
+    
     
     res.render('login' , {
-        sid: res.locals.sid
+        sid: res.locals.sid,
+        types: user.USER_TYPE
     });
 };
 
