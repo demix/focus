@@ -6,6 +6,7 @@
         <title>LP Editor</title>
         <link rel="stylesheet" type="text/css" href="static/css/main.css" />
         <link rel="stylesheet" type="text/css" href="static/css/jquery-ui-1.10.4.custom.min.css" />
+        <link rel="stylesheet" type="text/css" href="static/css/zTreeStyle.css" />
     </head>
     <body>
         <div class="w-fil h-fil editor-content">
@@ -16,9 +17,24 @@
                 </div>
             </div>
             <div class="home"></div>
-            <div class="dock"></div>
+            <div class="dock">
+                <div class="dock-item" data-action="structure">
+                    <p class="tit">结构<span class="tri"></span></p>
+                    <img src="/static/img/tor-icon.png"/>
+                </div>
+                <div class="dock-item" data-action="property">
+                    <p class="tit">属性<span class="tri"></span></p>
+                    <img src="/static/img/alacarte.png"/>
+                </div>
+            </div>
+            <style id="previewStyle" type="text/css"></style>
+            <!--TREE Dialog-->
+            <div class="dialog" id="dialog-tree">
+                <div class="bar">元素结构<div class="closer" title="关闭">X</div></div>
+                <div class="content ztree"></div>
+            </div>
         </div>
-        <style id="previewStyle"></style>
+       
     </body>
     <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
     <script data-main="static/js/main" src="static/js/require.js"></script>

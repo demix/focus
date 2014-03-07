@@ -9,15 +9,15 @@
   * @version 0.0.1
   * @since 0.0.1
   */
-define([],function(){
+define(['dock'],function(Dock){
 
     var dockShow=false;
     $('.home').click(function(){
         if(dockShow){
-            $('.dock').stop().animate({width:0});
+            Dock.hide();
             dockShow=false;
         }else{
-             $('.dock').stop().animate({width:'80%'});
+             Dock.show();
              dockShow=true;
         }
     });

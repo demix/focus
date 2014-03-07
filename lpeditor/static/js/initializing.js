@@ -147,9 +147,9 @@ var areaRegTipsDefine={
                     top: function(id) {
                         switch (id) {
                             case 'tip-reg':
-                                return '170px';
+                                return '150px';
                             case 'tip-login':
-                                return '170px';
+                                return '150px';
                             case 'tip-reg-user':
                                 return '46px';
                             case 'tip-reg-pwd':
@@ -171,10 +171,10 @@ var areaLoginTipsDefine={};
 $.extend(areaLoginTipsDefine,areaRegTipsDefine);
 var allTipIds='tip-reg-user,tip-reg-pwd,tip-reg-rpwd,tip-login-user,tip-login-pwd,tip-login-server,tip-login,tip-reg';
 var areaLoginTipId = allTipIds.split(',').filter(function(v) {
-    return !!~v.indexOf('-login-')
+    return !!~v.indexOf('-login')
 }).join();
 var areaRegTipId = allTipIds.split(',').filter(function(v) {
-    return !!~v.indexOf('-reg-')
+    return !!~v.indexOf('-reg')
 }).join();
 var areaLoginTips = {};
 areaLoginTips[areaLoginTipId] = areaLoginTipsDefine;
@@ -359,13 +359,13 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
             },
             css: {
                 '': {
-                    left: '200px',
-                    top: '350px',
+                    left: '100px',
+                    top: '270px',
                     width: '190px',
                     height: '47px',
                     'font-size': '20px',
                     'font-family': '',
-                    'background-image': "",
+                    'background-image': "url(http://img.wan.sogou.com/ufo/img/newnav/dialog3/nav_reg_start_btn.jpg)",
                     'background-color': ''
                 },
                 '>:hover': {

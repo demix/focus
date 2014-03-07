@@ -12,7 +12,8 @@
 require.config({
     map:{
         '*':{
-            'jquery-ui':'jquery-ui-1.10.4.custom.min'
+            'jquery-ui':'jquery-ui-1.10.4.custom.min',
+            'jquery-ztree':'jquery.ztree.core-3.5.min'
         }
     }
 });
