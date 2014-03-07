@@ -14,7 +14,7 @@ input,textarea,button,select{font-family: PFDin , 'Microsoft Yahei', Arial , san
 b{ color:#d44a4a;font-weight:700; }
 ::selection{ background:#d44a4a; color:#fff; }
 
-#header{ height:60px;background:#1c262b; display:flex; }
+#header{ height:60px;background:#1c262b; display:-webkit-flex; }
 h1{ height:60px; background:#d44a4a; width:200px;position:relative; }
 h1 img{ position:absolute; top:0; left:0; bottom:0; right:0; margin:auto; }
 h2{ color:#7d8b91; font-size:24px; line-height:78px; padding-left:20px;font-weight:700;  }
@@ -26,7 +26,7 @@ h2{ color:#7d8b91; font-size:24px; line-height:78px; padding-left:20px;font-weig
 #header .apps-list-wrp{ width:180px; opacity: 0; position:absolute; top:67px; right:-49px; -webkit-transition:-webkit-transform 0.15s ease-in, opacity 0.1s ease-in ; -webkit-transform: perspective(1000px) rotateX(45deg) translate(0,-37px); visibility:hidden; }
 #header .apps-list-wrp.show{ opacity: 0.9; -webkit-transform:rotateX(0); visibility:visible; }
 
-#header .apps-list{ display:flex; flex-wrap:wrap; border-radius:3px;overflow:hidden; }
+#header .apps-list{ display:-webkit-flex; -webkit-flex-wrap:wrap; border-radius:3px;overflow:hidden; }
 #header .apps-list li{ width:60px; display:inline-block; height:60px; overflow:hidden; line-height:60px; text-align:center; font-size:14px; position:relative; background:#1c262b; color:#7d8b91;cursor:pointer; -webkit-transition:background-color 0.15s ease-in-out; }
 #header .apps-list li:hover{ background:#151e22; }
 #header .apps-list li:before{ content:''; width:59px;height:59px;border:solid #445055;border-width:1px 0 0 1px; position:absolute;top:0;left:0; }

@@ -37,7 +37,7 @@ define(function(){
         
         var formhtml = '<p class="btn build"><button class="submit">Yes, Build!</button>';
         if( data.params ){
-            formhtml += '<select class="params"><option>-- Select param --</option>';
+            formhtml += '<select class="params"><option value="">-- Select param --</option>';
             formhtml += data.params.map(function(item){
                 return '<option value="'+ item +'">'+ item +'</option>';
             }).join('');

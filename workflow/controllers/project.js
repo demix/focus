@@ -5,7 +5,8 @@ var swig = require('swig');
 var _ = require('lodash-node');
 
 
-var base = process.cwd();
+var base = path.join(__dirname , '/../');
+
 var ERROR_MSG = {
     1000: "Can't find build.sh",
     1001: 'Output is not generated. See your build file.'
@@ -16,9 +17,9 @@ var Action = {
         var buildID = +new Date();
 
         data.path = data.projpath + '_' + buildID;
-        
+        data.base = base;
         var shell_cmd = swig.render(
-            'cd tmp;git clone git@gitlab.upd.sogou-inc.com:{{ projpn }} {{path}};'
+            'cd {{base}};cd tmp;git clone git@gitlab.upd.sogou-inc.com:{{ projpn }} {{path}};'
             + 'cd {{path}}; git checkout{% if type=="branch" %} -b{% endif %} {{tvalue}};'
             + '{% if type=="branch" %}git pull origin {{tvalue}}{% endif %}'
         , {locals:data});
@@ -27,7 +28,7 @@ var Action = {
         fs.mkdir(path.join(base , 'tmp') , function(){
             child_process.exec(shell_cmd , function(error , stdout , stderr){
                 if( error === null ){
-                    var buildFile = path.join( 'tmp' , data.path , 'build.sh' );
+                    var buildFile = path.join( base,  'tmp' , data.path , 'build.sh' );
                     var cbdata = {
                         buildID : buildID,
                         path: data.projpath
@@ -50,6 +51,7 @@ var Action = {
                         }
                     } );
                 }else{
+                    console.log(error,1111);
                     callback(1);
                 }
             });
@@ -57,14 +59,13 @@ var Action = {
     },
     build: function(data , callback){
         data.filename = data.path + '_' + data.buildID;
-        
         var shell_cmd = swig.render(
-            'cd tmp; cd {{filename}};sh build.sh {{shell_param}};'
-        , {locals:data});
+            'cd {{base}};cd tmp; cd {{filename}};sh build.sh {{shell_param}};'
+        , {locals:_.assign(_.clone(data),{base:base})});
 
 
         child_process.exec(shell_cmd , function(error, stdout , stderr){
-            var outputDir = path.join( 'tmp' , data.path + '_' + data.buildID , 'output' );
+            var outputDir = path.join( base, 'tmp' , data.path + '_' + data.buildID , 'output' );
             fs.stat(outputDir , function(err, state){
                 data = _.assign(data , {
                     stdout: stdout || '',
@@ -79,8 +80,10 @@ var Action = {
                     }
                 }else{
                     var zip_cmd = swig.render(
-                        'cd tmp; cd {{filename}}; zip "{{filename}}.zip" -r output; '
-                     , {locals: data});
+                        'cd {{base}};cd tmp; cd {{filename}}; zip "{{filename}}.zip" -r output; '
+                        , {locals:_.assign(_.clone(data),{base:base})});
+
+
 
                     child_process.exec(zip_cmd , function(err){
                         var tt = new Date();
@@ -89,8 +92,9 @@ var Action = {
                         fs.mkdir( path.join(base , 'packages') , function(){
                             fs.mkdir( path.join(base , 'packages' , data.ttfolder) , function(){
                                 var final_cmd = swig.render( 
-                                    'mv tmp/{{filename}}/{{filename}}.zip packages/{{ttfolder}}' 
-                                    , {locals: data});
+                                    'cd {{base}};mv tmp/{{filename}}/{{filename}}.zip packages/{{ttfolder}}' 
+                                    , {locals:_.assign(_.clone(data),{base:base})});
+
                                 child_process.exec(final_cmd , function(){
                                     data.pwd = ['packages' , data.ttfolder , data.filename + '.zip'].join('/');
                                     callback( 0 , data );

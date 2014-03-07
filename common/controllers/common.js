@@ -10,6 +10,13 @@ exports.get = function(req,res,next){
         console.log(req.path);
     }
 
+
+    var ua =req.headers['user-agent'];
+
+    if( !/chrome/i.test(ua) && !/safari/i.test(ua) && req.path.indexOf('browser-not-support') == -1 ){
+        res.redirect('/common/static/html/browser-not-support.html');
+    }
+
     var cookie = req.cookies['jpassport-sp'];
 
     username = /{username:(\w+)@sogou.*/.exec(cookie);
