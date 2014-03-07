@@ -13,7 +13,7 @@ define(['editor','window'],function(editor,gwindow) {
 
 return {
     startup:function(){
-        editor.init();
+        editor.init().dump();
         gwindow.start();
     }
 };

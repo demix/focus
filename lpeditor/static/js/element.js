@@ -12,36 +12,38 @@
 define(['listener'], function(Listener) {
 
     var noClosureTag = 'br,img,hr,link,meta,base,input'.split(',');
-    
+
     /**
      * [Element description]
-     * @param {[type]} tagname   [description]
-     * @param {[type]} props     [description]
-     * @param {[type]} csses     [description]
-     * @param {[type]} innerText [description]
+     * @param {String} tagname
+     * @param {Object} props
+     * @param {Object} csses
+     * @param {String} innerText
      */
-    function Element(tagname, props, csses,innerText) {
-        if(arguments.length<2){
+    function Element(tagname, props, csses, innerText) {
+        if (arguments.length < 2) {
             throw Error('Construct an element need as least TWO parameters!');
         }
-        if(!/^[\w\-]+$/.test(props.id)){
+        if (!/^[\w\-]+$/.test(props.id)) {
             throw Error('Element need a legal ID property');
         }
         this.mTagName = String(tagname).toLowerCase();
         this.mNoClosure = !! ~noClosureTag.indexOf(this.mTagName);
-        this.mInnerText = innerText||"";
+        this.mInnerText = innerText || "";
         this.mProps = props;
         //has to own a ID
-        this.mBaseSelector =  '#' + this.mProps.id;
+        this.mBaseSelector = '#' + this.mProps.id;
 
         this.mPrefixSelectors = {}; //like .on #id
         this.mSuffixSelectors = {
-            '': (csses || {})//default is kind of suffix selector
+            '': (csses || {}) //default is kind of suffix selector
         }; //like #id.on
 
-        this;
+        this.mChildren = {};
 
-        $.extend(this,new Listener());
+        this.mParent = null;
+
+        $.extend(this, new Listener());
     }
 
     var elementProto = {
@@ -49,81 +51,84 @@ define(['listener'], function(Listener) {
          * [getId description]
          * @return {String}
          */
-        getId:function(){
+        getId: function() {
             return this.mProps.id;
         },
         /**
          * [equals description]
          * @param  {Element} ele
-         * @return {Boolean}    
+         * @return {Boolean}
          */
-        equals:function(ele){
-            if(!(ele instanceof Element)){
+        equals: function(ele) {
+            if (!(ele instanceof Element)) {
                 return false;
             }
 
-            if(ele===this)return true;
+            if (ele === this) return true;
 
-            if(ele.mProps.id&&(ele.mProps.id===this.mProps.id))
+            if (ele.mProps.id && (ele.mProps.id === this.mProps.id))
                 return true;
             return false;
         },
         /**
          * [setProps description]
-         * @param {String} key  
+         * @param {String} key
          * @param {String} value
+         * @param {Booean} silence
          * @return {Boolean}
          */
-        setProps:function(key,value,silence){
-            if(!key)return false;
-            var oldVal =this.mProps[key];
-            if(value===oldVal)return false;
-            this.mProps[key]=value;
-            (!silence)&&this.trigger('propchanged',{
-                key:key,
-                oldVal:oldVal,
-                newVal:value
+        setProps: function(key, value, silence) {
+            if (!key) return false;
+            var oldVal = this.mProps[key];
+            if (value === oldVal) return false;
+            this.mProps[key] = value;
+            (!silence) && this.trigger('propchanged', {
+                key: key,
+                oldVal: oldVal,
+                newVal: value
             });
             return true;
         },
         /**
          * [setCss description]
-         * @param {String}  key     
-         * @param {String}  value   
+         * @param {String}  key
+         * @param {String}  value
          * @param {String}  selector
          * @param {Boolean} isPrefix
          */
-        setCss: function(key,value, selector, isPrefix,silence) {
-            var self=this;
-            switch(arguments.length){
+        setCss: function(key, value, selector, isPrefix, silence) {
+            var self = this;
+            switch (arguments.length) {
                 case 0:
                     throw Error('setCss requries one argument at least');
                 case 1:
-                    value=null;
-                    selector='';
-                    isPrefix=false;
+                    value = null;
+                    selector = '';
+                    isPrefix = false;
                     break;
                 case 2:
-                    selector='';
-                    isPrefix=false;
+                    selector = '';
+                    isPrefix = false;
                     break;
                 case 3:
-                    isPrefix=false;
+                    isPrefix = false;
                     break;
             }
             //TODO filter value
-            if(isPrefix&&''===selector){isPrefix=false}
-            var selectors=isPrefix?this.mPrefixSelectors:this.mSuffixSelectors;
-            if(!selectors[selector]){
-                (isPrefix?self.addPrefixSelector:self.addSuffixSelector).call(self,selector);
+            if (isPrefix && '' === selector) {
+                isPrefix = false
+            }
+            var selectors = isPrefix ? this.mPrefixSelectors : this.mSuffixSelectors;
+            if (!selectors[selector]) {
+                (isPrefix ? self.addPrefixSelector : self.addSuffixSelector).call(self, selector);
             }
             var oldVal = selectors[selector][key];
-            if(oldVal === value)return false;
+            if (oldVal === value) return false;
             selectors[selector][key] = value;
-             (!silence)&&this.trigger('csschanged',{
-                key:key,
-                oldVal:oldVal,
-                newVal:value
+            (!silence) && this.trigger('csschanged', {
+                key: key,
+                oldVal: oldVal,
+                newVal: value
             });
             return true;
         },
@@ -143,7 +148,7 @@ define(['listener'], function(Listener) {
          * @param {String} selector [description]
          */
         addSuffixSelector: function(selector) {
-            if (/^[\w\-\+>\.:]+$/.test(selector)  && !this.mSuffixSelectors[selector]) {
+            if (/^[\w\-\+>\.:]+$/.test(selector) && !this.mSuffixSelectors[selector]) {
                 this.mSuffixSelectors[selector] = {};
                 return true;
             }
@@ -153,7 +158,7 @@ define(['listener'], function(Listener) {
         /**
          * [style description]
          * @param  {Boolean} wrapped
-         * @return {String}        
+         * @return {String}
          */
         style: function(wrapped) {
             var self = this;
@@ -163,11 +168,16 @@ define(['listener'], function(Listener) {
                     var selector = self.mBaseSelector + k,
                         cssText = [];
                     $.each(v, function(m, n) {
-                        if(n)
+                        if (n)
                             cssText.push(m + ":" + n);
                     });
                     styleText += selector + '{' + cssText.join(';') + '}\n';
                 });
+
+                $.each(self.mChildren, function(index, child) {
+                    styleText += child.style(true);
+                });
+
                 return styleText;
             } else {
 
@@ -185,13 +195,18 @@ define(['listener'], function(Listener) {
          * @return {HTMLString}           [description]
          */
         html: function(inlineCss) {
-            var propsText = [];
+            var propsText = [],
+                innerHtml = '';
             $.each(this.mProps, function(k, v) {
                 propsText.push(k + '=\"' + v + '"');
             });
             propsText = propsText.join(' ');
 
-            return '<' + this.mTagName + ' ' + propsText + ' ' + (inlineCss ? ('style="' + this.style() + '"') : '') + (this.mNoClosure ? '/>' : ('>' + this.mInnerText + '</' + this.mTagName + '>'))
+            $.each(this.mChildren, function(index, child) {
+                innerHtml += child.html(inlineCss);
+            });
+
+            return '<' + this.mTagName + ' ' + propsText + ' ' + (inlineCss ? ('style="' + this.style() + '"') : '') + (this.mNoClosure ? '/>' : ('>' + this.mInnerText + innerHtml + '</' + this.mTagName + '>'))
         },
         /**
          * [dom description]
@@ -200,6 +215,65 @@ define(['listener'], function(Listener) {
          */
         dom: function(inlineCss) {
             return $(this.html(inlineCss));
+        },
+        /**
+         * [appendChildren description]
+         * @param  {[type]} children [description]
+         * @return {[type]}          [description]
+         */
+        appendChildren: function(children) {
+            var self = this;
+            ([]).forEach.call(children, function(child, index) {
+                self.appendChild(child)
+            });
+
+            return this;
+        },
+        /**
+         * [appendChild description]
+         * @param  {[type]} child [description]
+         * @return {[type]}       [description]
+         */
+        appendChild: function(child) {
+            if (!(child instanceof Element)) {
+                throw Error('child MUST BE an Element');
+            }
+
+            if (this.mChildren[child.getId()]) {
+                console.warn('Child dumplicated');
+                return this;
+            }
+
+            child.mParent = this;
+            var oldPar = child.parent;
+            if (oldPar) {
+                oldPar.removeChild(child);
+            }
+
+            this.mChildren[child.getId()] = child;
+
+            return this;
+        },
+        /**
+         * [removeChild description]
+         * @param  {[type]} child [description]
+         * @return {[type]}       [description]
+         */
+        removeChild: function(child) {
+            var self = this;
+            if (!(child instanceof Element)) {
+                throw Error('child MUST BE an Element');
+            }
+
+            var c = this.mChildren[child.getId()];
+            if (!c) {
+                console.warn('Element ' + child.getId() + " is not child!");
+                return null;
+            }
+            c.mParent = null;
+            delete this.mChildren[child.getId()];
+
+            return c;
         }
     };
 

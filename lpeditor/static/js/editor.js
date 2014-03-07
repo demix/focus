@@ -13,49 +13,62 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
 
     var $canvas = $('.canvas'),
         $previewStyle = $('#previewStyle');
+    //todo:tidy
+    function analyzeElement(ids, found) {
+        var self = this;
+        var idArray = ids.split(',');
+        var ret = [];
+        idArray.forEach(function(id, index, ids) {
+            var innerText = ('function' === typeof found.text) ? found.text(id, index) : (found.text || "");
+            var props = {
+                id: id
+            }, css = {
+                    position: 'absolute' //every element is absolute
+                };
+            //Copy properties
+            $.each((found.props || {}), function(k, v) {
+                if ('function' === typeof v)
+                    v = v(id, index);
+                props[k] = v;
+            });
+            var eleModel = new Element(found.tag||'div', props, css, innerText);
+
+            //copy css attributes
+            $.each((found.css || {}), function(selector, selectorItems) {
+                var isPrefix = false;
+                if ('' === selector) {
+                    selector = '';
+                } else if ('>' === selector[0]) {
+                    selector = selector.slice(1);
+                } else if ('<' === selector[0]) {
+                    isPrefix = false;
+                    selector = selector.slice(1);
+                }
+                $.each(selectorItems, function(k, v) {
+                    if ('function' === typeof v) {
+                        v = v(id, index);
+                    }
+                    eleModel.setCss(k, v, selector, isPrefix);
+                });
+            });
+
+            var children = ('function'===typeof found.children)?found.children(id,index):(found.children || {});
+            $.each(children, function(ids, found) {
+                var eles = analyzeElement(ids, found);
+                eleModel.appendChildren(eles);
+            });
+            ret.push(eleModel);
+        });
+        return ret;
+    }
 
     function loadDefaultElements() {
         var self = this;
         for (var ids in Initializing) {
-            //id(s) splited with ','
-            ids = ids.split(',');
             var found = Initializing[ids];
-            //generate element by ids
-            //todo:check dumplated
-            ids.forEach(function(id, index, ids) {
-                var innerText = ('function' === typeof found.text) ? found.text(id, index) : (found.text || "");
-                var props = {
-                    id: id
-                }, css = {
-                        position: 'absolute'//every element is absolute
-                    };
-                //Copy properties
-                $.each((found.props || {}), function(k, v) {
-                    if ('function' === typeof v)
-                        v = v(id, index);
-                    props[k] = v;
-                });
-                var eleModel = new Element(found.tag, props, css, innerText);
-
-                //copy css attributes
-                $.each((found.css || {}), function(selector, selectorItems) {
-                    var isPrefix = false;
-                    if ('' === selector) {
-                        selector = '';
-                    } else if ('>' === selector[0]) {
-                        selector = selector.slice(1)
-                    } else if ('<' === selector[0]) {
-                        isPrefix = false;
-                        selector = selector.slice(1)
-                    }
-                    $.each(selectorItems, function(k, v) {
-                        if ('function' === typeof v) v = v(id, index);
-                        eleModel.setCss(k, v, selector, isPrefix);
-                    });
-                });
-                eleModel.listen('propchanged', self.onPropChanged, self);
-                eleModel.listen('csschanged', self.onCssChanged, self);
-                self.addElement(eleModel);
+            var elements = analyzeElement.call(self, ids, found);
+            elements.forEach(function(ele, index) {
+                self.addElement(ele);
             });
         }
 
@@ -87,15 +100,52 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
 
             return this;
         },
+
         /**
          * [getElementById description]
-         * @return {[type]} [description]
+         * @param  {[type]} id   [description]
+         * @param  {[type]} root [description]
+         * @return {[type]}      [description]
+         * todo;
          */
-        getElementById: function(id) {
+        getElementById: function(id,root) {
+            var self = this ;
             if (!id) return null;
-            var ele = this.gElements[id];
-            if (!ele) return null;
-            return ele;
+            if(root&&!(root instanceof Element)){
+                throw Error('root MUST BE null or an Element');
+            }
+            if(!root){
+                //search from gElements
+                if(self.gElements[id]){
+                    return self.gElements[id];
+                }
+                for(var _id in self.gElements){
+                    var child=self.gElements[_id];
+                    var v=self.getElementById(id,child);
+                    if(v){
+                        return v;
+                    }
+                }
+
+                return null;
+            }else{
+                //search from root
+                if(id===root.getId()){
+                    return root;
+                }
+
+                ele=root.mChildren[id];
+                if(ele)return ele;
+                for(var _id in root.mChildren){
+                    var child=root.mChildren[_id];
+                    var v=self.getElementById(id,child);
+                    if(v){
+                        return v;
+                    }
+                }
+                 
+                 return null;
+            }
         },
         /**
          * [drawCanvas description]
@@ -124,17 +174,25 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
          * [addElement description]
          * @param {[type]} ele [description]
          */
-        addElement: function(ele) {
+        addElement: function(ele,parent) {
             var self = this;
             if (!(ele instanceof Element)) {
                 throw Error('Only element could be added!');
             }
             var id = ele.getId();
-            if (this.gElements[id]) {
+            if (self.getElementById(id)) {
                 throw Error('This element[' + id + '] has already added!')
             }
 
-            this.gElements[id] = ele;
+            if(parent)
+               { parent.appendChild(ele);}
+            else
+                {   ele.parent=null;
+                    self.gElements[id] = ele;
+                }
+
+            ele.listen('propchanged', self.onPropChanged, self);
+            ele.listen('csschanged', self.onCssChanged, self);
 
             this.trigger('elementadded', ele);
         },
@@ -144,13 +202,14 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
          * @return {Boolean}
          */
         removeElementById: function(id) {
-            if (!id || !this.gElements[id]) {
+            var ele;
+            if (!id || !(ele=this.getElementById(id))) {
                 console.warn('Element with ID[' + id + '] does not been found!');
                 return false;
             }
 
-            var ele = this.gElements[id],
-                deleted = delete this.gElements[id];
+
+            var deleted =  ele.parent?ele.parent.removeChild(ele):(delete this.gElements[id]);
             if (deleted) {
                 this.trigger('elementremoved', ele);
             }
