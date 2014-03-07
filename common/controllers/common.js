@@ -12,7 +12,8 @@ exports.get = function(req,res,next){
 
 
     var ua =req.headers['user-agent'];
-    if( (!/chrome/i.test(ua) || !/safari/i.test(ua) ) && req.path.indexOf('browser-not-support') == -1 ){
+
+    if( !/chrome/i.test(ua) && !/safari/i.test(ua) && req.path.indexOf('browser-not-support') == -1 ){
         res.redirect('/common/static/html/browser-not-support.html');
     }
 
