@@ -17,8 +17,11 @@ require.config({
         }
     }
 });
-require(['TestCase','system'], function(TestCase,System) {
+require(['TestCase','system','ping'], function(TestCase,System,Ping) {
 
+    window.onerror=function(e){
+        Ping.send(e);
+    };
    // TestCase.run();
     System.startup();
 });

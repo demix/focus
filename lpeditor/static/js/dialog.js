@@ -85,7 +85,7 @@ define(['local', 'jquery-ui'], function(LocalCache) {
             return this;
         },
         toggle: function() {
-            this.m$container.toggle();
+            this.m$container.toggle('slow');
             return this;
         },
     };

@@ -9,11 +9,10 @@
   * @version 0.0.1
   * @since 0.0.1
   */
-define(['editor','window'],function(editor,gwindow) {
+define(['editor','window'],function(Editor,gwindow) {
 
 return {
     startup:function(){
-        editor.init().dump();
         gwindow.start();
     }
 };

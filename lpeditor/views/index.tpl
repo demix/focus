@@ -10,7 +10,7 @@
     </head>
     <body>
         <div class="w-fil h-fil editor-content">
-            <iframe src="http://wan.sogou.com/nav.do?fl=sxd_fl_18&fid=100&tf=0&ab=0&source=0001000100002&gid=2&sid=40&pid=1663732439" frameborder="0" class="w-fil h-fil"></iframe>
+            <iframe src="http://wan.sogou.com/nav.do?fl=sxd_fl_18&fid=100&tf=0&ab=0&source=0001000100002&gid=2&sid=40&pid=1663732439" frameborder="0" class="w-fil h-fil" id="bg_iframe"></iframe>
             <div class="w-fil h-fil ab bench">
                 <div class="w-fil h-fil ab bg"></div>
                 <div class="canvas">
@@ -20,11 +20,31 @@
             <div class="dock">
                 <div class="dock-item" data-action="structure">
                     <p class="tit">结构<span class="tri"></span></p>
-                    <img src="/static/img/tor-icon.png"/>
+                    <img src="/static/img/finder.png"/>
                 </div>
                 <div class="dock-item" data-action="property">
                     <p class="tit">属性<span class="tri"></span></p>
-                    <img src="/static/img/alacarte.png"/>
+                    <img src="/static/img/launchpad.png"/>
+                </div>
+                <div class="dock-item" data-action="new">
+                    <p class="tit">新增<span class="tri"></span></p>
+                    <img src="/static/img/missioncontrol.png"/>
+                </div>
+                <div class="dock-item" data-action="setting">
+                    <p class="tit">设置<span class="tri"></span></p>
+                    <img src="/static/img/systemsettings.png"/>
+                </div>
+                <div class="dock-item" data-action="fullscreen">
+                    <p class="tit">全屏<span class="tri"></span></p>
+                    <img src="/static/img/fullscreen.png"/>
+                </div>
+                <div class="dock-item" data-action="help">
+                    <p class="tit">帮助<span class="tri"></span></p>
+                    <img src="/static/img/help-browser.png"/>
+                </div>
+                <div class="dock-item" data-action="about">
+                    <p class="tit">关于<span class="tri"></span></p>
+                    <img src="/static/img/system-about.png"/>
                 </div>
             </div>
             <style id="previewStyle" type="text/css"></style>

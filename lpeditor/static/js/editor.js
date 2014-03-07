@@ -234,7 +234,6 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
          * @param  {[type]} args   [description]
          */
         onPropChanged: function(evt, evtObj, args) {
-            console.log(evt, evtObj, args);
             this.drawCanvas(REFRESH_HTML);
         },
         /**
@@ -244,7 +243,6 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
          * @param  {[type]} args   [description]
          */
         onCssChanged: function(evt, evtObj, args) {
-            console.log(evt, evtObj, args);
             this.drawCanvas(REFRESH_CSS);
         },
         /**
@@ -254,7 +252,6 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
          * @param  {[type]} args   [description]
          */
         onElementAdded: function(evt, evtObj, args) {
-            console.log(evt, evtObj, args);
             this.drawCanvas(REFRESH_CSS | REFRESH_HTML);
         },
         /**
@@ -264,7 +261,6 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
          * @param  {[type]} args   [description]
          */
         onElementRemoved: function(evt, evtObj, args) {
-            console.log(evt, evtObj, args);
             this.drawCanvas(REFRESH_HTML);
         },
         /**
@@ -275,7 +271,6 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
          * @return {[type]}        [description]
          */
         onDrawComplete: function(evt, evtObj, args) {
-            console.log(evt, evtObj, args);
             var self = this;
             //todo
             //draggable,resizeable
@@ -305,6 +300,28 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
             });
         },
         /**
+         * [getTreeJson description]
+         * @return {Object}
+         */
+        getTreeJson:function(){
+            var nodes=[];
+            var getTreeNodes=function(root){
+                var node={
+                    id:root.getId(),
+                    name:root.getId(),
+                    children:[]
+                };
+                $.each(root.mChildren,function(index,child){
+                    node.children.push(getTreeNodes(child));
+                });
+                return node;
+            };
+            $.each(this.gElements,function(index,ele){
+                nodes.push(getTreeNodes(ele));
+            });
+            return nodes;
+        },
+        /**
          * [dump description]
          * @return {[type]} [description]
          */
@@ -313,5 +330,5 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
         }
     };
     $.extend(Editor, new Listener());
-    return Editor;
+    return Editor.init();
 });
