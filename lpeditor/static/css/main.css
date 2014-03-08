@@ -1,12 +1,14 @@
-html,body{
-    width: 100%;
-    height: 100%;
+html,body {
+width:100%;
+height:100%;
+overflow: hidden;
 }
+
 * {
 padding:0;
 margin:0
 }
-
+ul,li{list-style: none;}
 .w-fil {
 width:100%
 }
@@ -34,13 +36,18 @@ position:absolute
 .re {
 position:relative
 }
-.bl{
-    display: block;
+
+.bl {
+display:block
 }
-.hc{
-    margin: 0 auto;
+
+.hc {
+margin:0 auto
 }
-.tc{text-align: center;}
+
+.tc {
+text-align:center
+}
 
 .editor-content {
 padding:0
@@ -58,27 +65,6 @@ background:#000;
 opacity:.5
 }
 
-.editor-content .home {
-background:url(/static/img/conduit.png) no-repeat;
-background-size:72px 72px;
-width:72px;
-height:72px;
-position:fixed;
-bottom:20px;
-left:20px;
-z-index:10000;
-cursor:pointer;
--webkit-transition:all .4s;
-transition:all .4s
-}
-
-.editor-content .home:hover {
--webkit-transition:all .7s linear;
--webkit-transform:rotate(6.28rad);
-transition:all .7s;
-transform:rotate(6.28rad)
-}
-
 .editor-content .canvas {
 position:relative;
 width:404px;
@@ -86,47 +72,48 @@ height:455px;
 margin:100px auto;
 background:url(http://img.wan.sogou.com/ufo/img/newnav/dialog3/ybg2.png) no-repeat
 }
-.editor-content .dock,.editor-content .dialog{
-    font-family: 'PFDin' , 'Microsoft Yahei', Arial , sans-serif;
+
+.editor-content .dock,.editor-content .dialog {
+font-family:'PFDin' ,'Microsoft Yahei',Arial ,sans-serif
 }
+
 .editor-content .dock {
-width:0;
-left:50%;
-margin-left: -400px;
+width:100%;
 font-size:12px;
 height:80px;
-background:url(/static/img/dock.png) no-repeat;
+background:url(/static/img/dock.png) center center no-repeat;
 position:fixed;
 bottom:20px;
-z-index:10001;
-display:none
+z-index:9999
+}
+
+.editor-content .dock .dock-container {
+position:absolute;
+height:50px;
+padding-left:20px
 }
 
 .editor-content .dock .dock-item {
-margin:0 15px 2px;
-float:left;
-position:relative;
-bottom:10px;
-cursor:pointer;
-display:none;
--webkit-transform-origin: bottom;
-transform-origin: bottom;
-}
-
-.editor-content .dock .dock-item:first-child {
-margin-left:10px
+display:block;
+font:bold 12px Arial,Helvetica,sans-serif;
+width:40px;
+color:#000;
+bottom:0;
+position:absolute;
+text-align:center;
+text-decoration:none
 }
 
 .editor-content .dock .dock-item .tit {
 text-align:center;
-visibility: hidden;
 color:#000;
+display:none;
 border-radius:10px;
-background:rgba(255,255,255,0.5);
-height:15px;
-line-height:15px;
+background:rgba(255,255,255,0.7);
+height:20px;
+line-height:20px;
 position:relative;
-margin-bottom: 5px;
+margin-bottom:5px
 }
 
 .editor-content .dock .dock-item .tit .tri {
@@ -141,23 +128,15 @@ margin-left:-5px;
 bottom:-5px
 }
 
-.editor-content .dock .dock-item:hover .tit {
-visibility:visible;
-}
-
 .editor-content .dock .dock-item img {
-width:56px;
-height:56px;
 border:0;
 bottom:0;
 left:0;
+width:100%;
 -webkit-box-reflect:below -16px -webkit-gradient(linear,0 0,0 100%,from(transparent),color-stop(.5,transparent),to(white));
-box-reflect:below -16px -webkit-gradient(linear,0 0,0 100%,from(transparent),color-stop(.5,transparent),to(white));
+box-reflect:below -16px -webkit-gradient(linear,0 0,0 100%,from(transparent),color-stop(.5,transparent),to(white))
 }
-.editor-content .dock .dock-item:hover{
--webkit-transform:scale(1.5); 
-transform:scale(1.5); 
-}
+
 .editor-content .canvas .ui-draggable.ui-draggable-dragging,.editor-content .canvas .ui-resizable.ui-resizable-resizing {
 border:1px solid red!important
 }
@@ -169,18 +148,23 @@ height:350px;
 display:none;
 font-size:14px;
 top:-webkit-calc(50% - 175px);
+top:-moz-calc(50% - 175px);
+top:calc(50% - 175px);
 left:-webkit-calc(50% - 175px);
-z-index:1000;
+left:-moz-calc(50% - 175px);
+left:calc(50% - 175px);
+z-index:1000
 }
 
 .editor-content .dialog .bar {
 width:100%;
 height:30px;
-text-align: center;
+text-align:center;
 position:relative;
 line-height:30px;
 font-size:13px;
 background:-webkit-gradient(linear,left top,left bottom,from(#f1f1f1),to(#a7a7a7));
+background:  -moz-linear-gradient(top,#f1f1f1,#a7a7a7);
 cursor:move;
 border-top-left-radius:5px;
 border-top-right-radius:5px
@@ -191,29 +175,124 @@ position:absolute;
 left:0;
 width:16px;
 height:16px;
-padding: 8px;
+padding:8px;
 top:0;
 cursor:pointer;
-background: url(/static/img/closer.png) no-repeat;
-background-size: 16px auto;
-background-origin: content-box;
-font-size: 0;
+background:url(/static/img/closer.png) no-repeat;
+background-size:16px auto;
+background-origin:content-box;
+font-size:0
 }
 
 .editor-content .dialog .content {
 height:-webkit-calc(100% - 30px);
+height:-moz-calc(100% - 30px);
+height:calc(100% - 30px);
 overflow:scroll;
-background-color: rgba(255,255,255,0.8);
+background-color:rgba(255,255,255,0.8);
 border-bottom-left-radius:5px;
 border-bottom-right-radius:5px
 }
-#dialog-about {height: 250px;}
-#dialog-about .content {overflow: hidden;}
-#dialog-help .content {overflow-x: hidden;}
-#dialog-about .content .appname{font-size: 14px;font-weight: bold;font-family: cursive,arial,sans-serif;}
-#dialog-about .content p{
-    text-indent: 2em;
-    line-height: 2;
-    font-size: 12px;
-    margin: 10px 5px;
+
+#dialog-about .content {
+overflow:hidden
+}
+
+#dialog-help .content {
+overflow-x:hidden
+}
+
+#dialog-about .content .appname {
+font-size:14px;
+font-weight:700;
+font-family:cursive,arial,sans-serif
+}
+
+#dialog-about .content p {
+text-indent:2em;
+line-height:2;
+font-size:12px;
+margin:10px;
+}
+.editor-content .startup{
+    position: fixed;
+    left: 0;
+    top:0;
+    background: url(/static/img/startup.jpg)  no-repeat;
+    background-size: cover;
+    z-index: 1000000;
+}
+.editor-content .startup .list{
+    -moz-user-select:none ;
+    -webkit-user-select:none;
+    position: absolute;
+    display: none;
+    left: 10px;
+    top:10px;
+    font: 15px/1.2 'Courier New', Courier, monospace,arial,serif;
+    color: #fff;
+    min-width: 350px;
+    border-spacing: 0;
+    overflow-y:hidden;
+    background: rgba(0,0,0,0.5);
+    padding: 10px;
+    height: -webkit-calc(100% - 40px);
+    height: -moz-calc(100% - 40px);
+    height: calc(100% - 40px);
+}
+
+.editor-content .startup .list  .pass{
+    background-size: 48px auto;
+    background:url(/static/img/pass.png) no-repeat;
+    display: inline-block;
+    width: 48px;
+    height: 41px;  
+    margin-left: 10px;
+}
+
+.editor-content .startup .list  .fail{
+    background-size: 48px auto;
+    background:url(/static/img/fail.png) no-repeat;
+    display: inline-block;
+    width: 48px;
+    height: 41px;  
+    margin-left: 10px;
+}
+.editor-content .startup .starting{
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    margin-top: 5px;
+    display: none;
+}
+.editor-content .startup .login{
+    position: fixed;
+    top: 50%;
+    width: 72px;
+    height: 72px;
+    left:50%;
+    margin-left: -36px;
+    margin-top: -36px;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+}
+.editor-content .startup .login .icon{
+    width: 72px;
+    height: 72px;
+    background: url(/static/img/sogou.png) center center no-repeat;
+    background-size: 72px auto;
+    cursor: pointer;
+    border-radius: 36px;
+    overflow: hidden;
+    display: none;
+    -webkit-transition:all .4s;
+    transition:all .4s
+}
+
+.editor-content .startup .login .icon:hover {
+-webkit-transition:all .7s linear;
+-webkit-transform:rotate(6.28rad);
+transition:all .7s;
+transform:rotate(6.28rad)
 }

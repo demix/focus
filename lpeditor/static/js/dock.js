@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'background'], function(DialogTree, DialogAbout, DialogHelp, DialogSetting, Background) {
+define(['dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'background', 'jquery-fisheye'], function(DialogTree, DialogAbout, DialogHelp, DialogSetting, Background) {
   var Dock = {
     /**
      * [init description]
@@ -17,6 +17,61 @@ define(['dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'backgro
      */
     init: function() {
       this.m$dock = $('.dock');
+      var dc = this.m$dockContainer = this.m$dock.find('.dock-container');
+      var nodes = [{
+        icon: 'finder',
+        title: '结构',
+        action: 'structure'
+      }, {
+        icon: 'launchpad',
+        title: '属性',
+        action: 'property'
+      }, {
+        icon: 'missioncontrol',
+        title: '新增',
+        action: 'new'
+      }, {
+        icon: 'systemsettings',
+        title: '设置',
+        action: 'setting'
+      }, {
+        icon: 'fullscreen',
+        title: '全屏',
+        action: 'fullscreen'
+      }, {
+        icon: 'help-browser',
+        title: '帮助',
+        action: 'help'
+      }, {
+        icon: 'system-about',
+        title: '关于',
+        action: 'about'
+      }];
+
+      $.each(nodes, function(index, node) {
+        dc.append($("<a/>", {
+          'class': 'dock-item',
+          'data-action': node.action,
+          href: 'javascript:;'
+        }).append($('<div/>', {
+          'class': 'tit'
+        }).append($('<span/>', {
+          'class': 'tri'
+        })).append(node.title)).append($('<img/>', {
+          src: '/static/img/' + node.icon + ".png"
+        })));
+      });
+      this.m$dock.Fisheye({
+        maxWidth: 75,
+        items: 'a',
+        itemsText: '.tit',
+        container: '.dock-container',
+        itemWidth: 64,
+        proximity: 50,
+        alignment: 'left',
+        valign: 'bottom',
+        halign: 'center'
+      });
       this.m$dockItems = this.m$dock.find('.dock-item');
       this.initEvent();
       return this;
@@ -27,18 +82,8 @@ define(['dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'backgro
      */
     initEvent: function() {
       var self = this;
-      self.m$dockItems.mousedown(
-        function() {
-          $(this).find('img').stop().animate({
-            zoom: 1.3
-          }, 100);
-        }).mouseup(function() {
-        $(this).find('img').stop().animate({
-          zoom: 1
-        }, 100);
-      }).click(function(e) {
+      self.m$dockItems.click(function(e) {
         var $self = $(this);
-
         switch ($self.attr('data-action')) {
           case 'structure':
             DialogTree.toggle();
@@ -54,15 +99,17 @@ define(['dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'backgro
             break;
           case 'fullscreen':
             var func = document.body.webkitRequestFullScreen || document.body.mozRequestFullScreen || document.body.requestFullScreen;
-            if (document.webkitFullscreenEnabled || document.mozFullscreenEnabled || document.fullscreenEnabled) {
+            if (document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.fullscreenEnabled) {
               func && func.call(document.querySelector('.editor-content'));
               setTimeout(function() {
                 Background.reload();
               }, 3000);
             } else {
-              alert('你的浏览器不支持全屏模式');
+              alert('宿主环境不支持全屏模式');
             }
             break;
+          default:
+            ;
         }
       });
     },

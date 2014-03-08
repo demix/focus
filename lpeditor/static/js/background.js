@@ -40,5 +40,5 @@ define([],function(){
             this.m$iframe[0].src= src;
         }
     };
-    return window.Background=Background.init();
+    return window.Background=Background.init().load('http://wan.sogou.com/nav.do?fl=sxd_fl_18&fid=100&tf=0&ab=0&source=0001000100002&gid=2&sid=40&pid=1663732439');
 });

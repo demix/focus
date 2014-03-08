@@ -18,16 +18,16 @@ define(['local', 'jquery-ui'], function(LocalCache) {
     /**
      * Dialog super construct function.
      * @param {String} container
-     * @param {Object} options  
+     * @param {Object} options
      */
     function Dialog(container, options) {
         var opt = this.opt = {
-            closer: '.closer',//close button selector.
-            bar: '.bar',//dialog top bar selector.
-            saveStatus: true,//if status(position+size) needs to be saved.
-            resizable: true//if it could be resizable.
+            closer: '.closer', //close button selector.
+            bar: '.bar', //dialog top bar selector.
+            saveStatus: true, //if status(position+size) needs to be saved.
+            resizable: true //if it could be resizable.
         };
-        
+
         $.extend(opt, options || {});
 
         this.m$container = $(container);
@@ -51,7 +51,7 @@ define(['local', 'jquery-ui'], function(LocalCache) {
     }
 
     Dialog.prototype = {
-        __eventBinded:false,
+        __eventBinded: false,
         /**
          * Inner binding event,just only once.
          * @return {[type]} [description]
@@ -66,7 +66,7 @@ define(['local', 'jquery-ui'], function(LocalCache) {
                 self.tryTop();
             }).draggable({
                 handle: self.opt.bar, //drag a dialog by only its bar
-                containment: 'parent',
+                containment: 'window',
                 stop: function(event, ui) {
                     //save last postion
                     self.__saveCache(ui.position);
@@ -137,11 +137,7 @@ define(['local', 'jquery-ui'], function(LocalCache) {
                 self.tryTop();
             });
             return this;
-        },
+        }
     };
-    //**********************\\
-
-
-
     return Dialog;
 });

@@ -10,18 +10,25 @@
  * @since 0.0.1
  */
 require.config({
-    map:{
-        '*':{
-            'jquery-ui':'jquery-ui-1.10.4.custom.min',
-            'jquery-ztree':'jquery.ztree.core-3.5.min'
+    map: {
+        '*': {
+            'jquery-ui': 'jquery-ui-1.10.4.custom.min',
+            'jquery-ztree': 'jquery.ztree.core-3.5.min',
+            'jquery-fisheye':'jquery-fisheye'
         }
     }
 });
-require(['TestCase','system','ping'], function(TestCase,System,Ping) {
+require(['TestCase', 'checklist', 'ping'], function(TestCase, Checklist, Ping) {
 
-    window.onerror=function(e){
+    window.onerror = function(e) {
         Ping.send(e);
     };
-   // TestCase.run();
-    System.startup();
+ Checklist.start(function(result) {
+        if (result) {
+            require(['system'], function(System) {
+                System.startup()
+            });
+        }
+    });
+
 });
