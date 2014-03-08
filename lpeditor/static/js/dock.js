@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['dialog-tree', 'background'], function(DialogTree, Background) {
+define(['dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'background'], function(DialogTree, DialogAbout, DialogHelp, DialogSetting, Background) {
   var Dock = {
     /**
      * [init description]
@@ -27,25 +27,35 @@ define(['dialog-tree', 'background'], function(DialogTree, Background) {
      */
     initEvent: function() {
       var self = this;
-      self.m$dockItems.click(function(e) {
-        var $self = $(this),
-          $icon = $self.find('img');
-        $icon.animate({
-          zoom: 1.3
-        }, 100, function() {
-          $icon.animate({
-            zoom: 1
+      self.m$dockItems.mousedown(
+        function() {
+          $(this).find('img').stop().animate({
+            zoom: 1.3
           }, 100);
-        })
+        }).mouseup(function() {
+        $(this).find('img').stop().animate({
+          zoom: 1
+        }, 100);
+      }).click(function(e) {
+        var $self = $(this);
 
         switch ($self.attr('data-action')) {
           case 'structure':
             DialogTree.toggle();
             break;
+          case 'about':
+            DialogAbout.toggle();
+            break;
+          case 'help':
+            DialogHelp.toggle();
+            break;
+          case 'setting':
+            DialogSetting.toggle();
+            break;
           case 'fullscreen':
-            var func = document.body.webkitRequestFullScreen ||document.body.mozRequestFullScreen || document.body.requestFullScreen;
-            if (document.webkitFullscreenEnabled||document.mozFullscreenEnabled||document.fullscreenEnabled) {
-              func&&func.call(document.querySelector('.editor-content'));
+            var func = document.body.webkitRequestFullScreen || document.body.mozRequestFullScreen || document.body.requestFullScreen;
+            if (document.webkitFullscreenEnabled || document.mozFullscreenEnabled || document.fullscreenEnabled) {
+              func && func.call(document.querySelector('.editor-content'));
               setTimeout(function() {
                 Background.reload();
               }, 3000);

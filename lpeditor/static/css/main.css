@@ -1,3 +1,7 @@
+html,body{
+    width: 100%;
+    height: 100%;
+}
 * {
 padding:0;
 margin:0
@@ -30,6 +34,13 @@ position:absolute
 .re {
 position:relative
 }
+.bl{
+    display: block;
+}
+.hc{
+    margin: 0 auto;
+}
+.tc{text-align: center;}
 
 .editor-content {
 padding:0
@@ -75,7 +86,9 @@ height:455px;
 margin:100px auto;
 background:url(http://img.wan.sogou.com/ufo/img/newnav/dialog3/ybg2.png) no-repeat
 }
-
+.editor-content .dock,.editor-content .dialog{
+    font-family: 'PFDin' , 'Microsoft Yahei', Arial , sans-serif;
+}
 .editor-content .dock {
 width:0;
 left:50%;
@@ -150,27 +163,23 @@ border:1px solid red!important
 }
 
 .editor-content .dialog {
-background:#fff;
 position:fixed;
 width:350px;
 height:350px;
 display:none;
 font-size:14px;
-border:1px solid #a0a0a0;
-top:0;
-left:0;
+top:-webkit-calc(50% - 175px);
+left:-webkit-calc(50% - 175px);
 z-index:1000;
-border-top-left-radius:5px;
-border-top-right-radius:5px
 }
 
 .editor-content .dialog .bar {
 width:100%;
 height:30px;
+text-align: center;
 position:relative;
 line-height:30px;
-font-size:15px;
-text-indent:.5em;
+font-size:13px;
 background:-webkit-gradient(linear,left top,left bottom,from(#f1f1f1),to(#a7a7a7));
 cursor:move;
 border-top-left-radius:5px;
@@ -179,14 +188,32 @@ border-top-right-radius:5px
 
 .editor-content .dialog .bar .closer {
 position:absolute;
-right:2px;
+left:0;
 width:16px;
 height:16px;
-top:2px;
-cursor:pointer
+padding: 8px;
+top:0;
+cursor:pointer;
+background: url(/static/img/closer.png) no-repeat;
+background-size: 16px auto;
+background-origin: content-box;
+font-size: 0;
 }
 
 .editor-content .dialog .content {
 height:-webkit-calc(100% - 30px);
-overflow:scroll
+overflow:scroll;
+background-color: rgba(255,255,255,0.8);
+border-bottom-left-radius:5px;
+border-bottom-right-radius:5px
+}
+#dialog-about {height: 250px;}
+#dialog-about .content {overflow: hidden;}
+#dialog-help .content {overflow-x: hidden;}
+#dialog-about .content .appname{font-size: 14px;font-weight: bold;font-family: cursive,arial,sans-serif;}
+#dialog-about .content p{
+    text-indent: 2em;
+    line-height: 2;
+    font-size: 12px;
+    margin: 10px 5px;
 }

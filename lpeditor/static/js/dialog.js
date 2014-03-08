@@ -15,77 +15,127 @@ define(['local', 'jquery-ui'], function(LocalCache) {
     //global dialog z-index
     var gCurrentZindex = 1000;
 
+    /**
+     * Dialog super construct function.
+     * @param {String} container
+     * @param {Object} options  
+     */
     function Dialog(container, options) {
-        if (this === window) return new Dialog(arguments);
         var opt = this.opt = {
-            closer: '.closer',
-            bar: '.bar',
-            savedPosition: true
+            closer: '.closer',//close button selector.
+            bar: '.bar',//dialog top bar selector.
+            saveStatus: true,//if status(position+size) needs to be saved.
+            resizable: true//if it could be resizable.
         };
+        
         $.extend(opt, options || {});
+
         this.m$container = $(container);
         this.m$bar = this.m$container.find(opt.bar);
         this.m$closer = this.m$container.find(opt.closer);
 
         this.mCacheName = DIALOG_CACHE_PREFIX + String(container);
 
-        if (this.opt.savedPosition) {
+        //Try read the saved position and size.
+        if (this.opt.saveStatus) {
             var cacheJson = LocalCache.load(this.mCacheName) || {};
-            (+cacheJson.left) && this.m$container.css('left', cacheJson.left + 'px');
-            (+cacheJson.top) && this.m$container.css('top', cacheJson.top + 'px');
-            (+cacheJson.width) && this.m$container.css('width', cacheJson.width + 'px');
-            (+cacheJson.height) && this.m$container.css('height', cacheJson.height + 'px');
+            (+cacheJson.left > 0) && this.m$container.css('left', cacheJson.left + 'px');
+            (+cacheJson.top > 0) && this.m$container.css('top', cacheJson.top + 'px');
+            (+cacheJson.width > 0) && this.m$container.css('width', cacheJson.width + 'px');
+            (+cacheJson.height > 0) && this.m$container.css('height', cacheJson.height + 'px');
         }
 
         this.__bindEvent();
+
+        return this;
     }
 
     Dialog.prototype = {
+        __eventBinded:false,
+        /**
+         * Inner binding event,just only once.
+         * @return {[type]} [description]
+         */
         __bindEvent: function() {
             var self = this;
             if (this.__eventBinded) return this;
 
-            //dialog top and draggable
+            //dialogs have to be draggable
             this.m$container.mousedown(function(e) {
-                self.top();
+                //mouse down means to top layer
+                self.tryTop();
             }).draggable({
-                handle: self.opt.bar,
+                handle: self.opt.bar, //drag a dialog by only its bar
                 containment: 'parent',
-                snap: '.editor-content',
                 stop: function(event, ui) {
+                    //save last postion
                     self.__saveCache(ui.position);
                 }
-            }).resizable({
+            });
+            //dialogs may be resizable
+            this.opt.resizable && this.m$container.resizable({
                 minHeight: 150,
                 minWidth: 150,
                 stop: function(event, ui) {
+                    //save last size
                     self.__saveCache(ui.size);
                 }
             });
-            //dialog close
+            //dialog close button
             this.m$closer.click(function(e) {
-                self.hide();
+                self.toggle();
             });
 
             this.__eventBinded = true;
             return this;
         },
+        /**
+         * Inner save postion&size to local cache.
+         * If saving is not set to true,it does nothing.
+         * @param  {[type]} cache [description]
+         * @return {[type]}       [description]
+         */
         __saveCache: function(cache) {
+            if (!this.opt.saveStatus) {
+                return this;
+            }
             return LocalCache.update(this.mCacheName, cache);
         },
-        top: function() {
-            this.m$container.css('z-index', ++gCurrentZindex);
+        /**
+         * 对话框置于最上层
+         * @return {[type]} [description]
+         */
+        tryTop: function() {
+            if (this.m$container.is(':visible')) {
+                this.m$container.css('z-index', ++gCurrentZindex);
+            }
         },
+        /**
+         * [show description]
+         * @return {[type]} [description]
+         */
         show: function() {
             this.m$container.show();
+            this.tryTop();
             return this;
         },
+        /**
+         * [hide description]
+         * @return {[type]} [description]
+         */
         hide: function() {
             this.m$container.hide();
             return this;
         },
+        /**
+         * [toggle description]
+         * @return {[type]} [description]
+         */
         toggle: function() {
-            this.m$container.toggle('slow');
+            var self = this;
+            self.m$container.toggle('fast', function() {
+                self.tryTop();
+            });
             return this;
         },
     };
