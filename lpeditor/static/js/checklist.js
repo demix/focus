@@ -53,7 +53,9 @@ define(['local'], function(LocalCache) {
     };
     //checking items
     var expirments = [
+        ['navigator.onLine',navigator.onLine],
         ['window.localStorage', !! window.localStorage],
+        ['window.XMLHttpRequest', !! window.XMLHttpRequest],
         ['window.console', !! (window.console && console.error && console.log && console.warn)],
         ['Date.now()', !!Date.now],
         ['background-size:cover',
@@ -100,7 +102,7 @@ define(['local'], function(LocalCache) {
     function startCheck(callbackfn) {
         var clistCache = LocalCache.load(KEY_CHECKLIST);
         //we need check again when updated or a week later,or when I change the version.
-        if (clistCache && ua == clistCache.ua && (Date.now()-clistCache.timestamp<7*24*3600*1000) &&CHECKING_LIST_VERSION == clistCache.version) {
+        if (!~location.search.indexOf('check=force')&&clistCache && ua == clistCache.ua && (Date.now()-clistCache.timestamp<7*24*3600*1000) &&CHECKING_LIST_VERSION == clistCache.version) {
             //This version of current browser has been checked
             $starting.text("点击进入").show();
             $loginIcon.show();

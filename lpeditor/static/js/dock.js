@@ -98,12 +98,14 @@ define(['dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'backgro
             DialogSetting.toggle();
             break;
           case 'fullscreen':
-            var func = document.body.webkitRequestFullScreen || document.body.mozRequestFullScreen || document.body.requestFullScreen;
+            var request = document.body.webkitRequestFullScreen || document.body.mozRequestFullScreen || document.body.requestFullScreen;
+            var cancel = document.webkitCancelFullScreen || document.mozCancelFullScreen || document.cancelFullScreen;
             if (document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.fullscreenEnabled) {
-              func && func.call(document.querySelector('.editor-content'));
-              setTimeout(function() {
-                Background.reload();
-              }, 3000);
+              if (document.webkitIsFullScreen || document.mozIsFullScreen || document.isFullScreen) {
+                cancel.call(document);
+              } else {
+                request && request.call(document.querySelector('.editor-content'), Element.ALLOW_KEYBOARD_INPUT);
+              }
             } else {
               alert('宿主环境不支持全屏模式');
             }
@@ -111,31 +113,6 @@ define(['dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'backgro
           default:
             ;
         }
-      });
-    },
-    /**
-     * [show description]
-     * @return {[type]} [description]
-     */
-    show: function() {
-      var self = this;
-      self.m$dock.show().stop().animate({
-        width: 800
-      }, 'fast', function() {
-        self.m$dockItems.show();
-      });
-    },
-    /**
-     * [hide description]
-     * @return {[type]} [description]
-     */
-    hide: function() {
-      var self = this;
-      self.m$dock.stop().animate({
-        width: 0
-      }, 'fast', function() {
-        self.m$dock.hide();
-        self.m$dockItems.hide();
       });
     }
   };

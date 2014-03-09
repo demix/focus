@@ -61,13 +61,19 @@ define(['local', 'jquery-ui'], function(LocalCache) {
             if (this.__eventBinded) return this;
 
             //dialogs have to be draggable
-            this.m$container.mousedown(function(e) {
+            self.m$container.mousedown(function(e) {
                 //mouse down means to top layer
                 self.tryTop();
             }).draggable({
+                opacity:0.7,
                 handle: self.opt.bar, //drag a dialog by only its bar
-                containment: 'window',
+            //    containment: 'window',
                 stop: function(event, ui) {
+                    if(ui.position.left<0){
+                        self.m$container.css('left',ui.position.left=0);
+                    } if(ui.position.top<20){
+                        self.m$container.css('top',ui.position.top=20);
+                    }
                     //save last postion
                     self.__saveCache(ui.position);
                 }

@@ -9,10 +9,11 @@
   * @version 0.0.1
   * @since 0.0.1
   */
-define(['editor','window'],function(Editor,gwindow) {
+define(['topbar','window'],function(Topbar,gwindow) {
 
 return {
     startup:function(){
+      Topbar.init();
         gwindow.start();
     }
 };
