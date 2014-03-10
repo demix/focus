@@ -81,6 +81,7 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
     var Editor = {
         gElements: {},
         __mInitialized: false,
+        __lastFocusElement: null,
         /**
          * [init description]
          * @return {[type]} [description]
@@ -96,17 +97,33 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
             //Just listen the following adding events.
             this.listen('elementadded', this.onElementAdded, this);
             this.listen('elementremoved', this.onElementRemoved, this);
+
+            this.initEvt();
+
             this.__mInitialized = true;
 
             return this;
         },
-
+        /**
+         * [initEvt description]
+         * @return {[type]} [description]
+         */
+        initEvt: function() {
+            var self = this;
+            $canvas.delegate('*', 'mousedown', function(e) {
+                var ele = self.getElementById(e.target.id);
+                if (ele) {
+                    self.trigger('focuschanged', self.__lastFocusElement, self.__lastFocusElement = ele);
+                }
+            });
+            //todo
+            return self;
+        },
         /**
          * [getElementById description]
          * @param  {[type]} id   [description]
          * @param  {[type]} root [description]
          * @return {[type]}      [description]
-         * todo;
          */
         getElementById: function(id, root) {
             var self = this;
@@ -195,6 +212,8 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
             ele.listen('csschanged', self.onCssChanged, self);
 
             this.trigger('elementadded', ele);
+
+            return ele;
         },
         /**
          * [removeElementById description]
@@ -303,20 +322,20 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
          * [getTreeJson description]
          * @return {Object}
          */
-        getTreeJson:function(){
-            var nodes=[];
-            var getTreeNodes=function(root){
-                var node={
-                    id:root.getId(),
-                    name:root.getId(),
-                    children:[]
+        getTreeJson: function() {
+            var nodes = [];
+            var getTreeNodes = function(root) {
+                var node = {
+                    id: root.getId(),
+                    name: root.getId(),
+                    children: []
                 };
-                $.each(root.mChildren,function(index,child){
+                $.each(root.mChildren, function(index, child) {
                     node.children.push(getTreeNodes(child));
                 });
                 return node;
             };
-            $.each(this.gElements,function(index,ele){
+            $.each(this.gElements, function(index, ele) {
                 nodes.push(getTreeNodes(ele));
             });
             return nodes;

@@ -26,26 +26,31 @@
             <style id="previewStyle" type="text/css"></style>
             <!--TREE Dialog-->
             <div class="dialog" id="dialog-tree">
-                <div class="bar">元素结构<div class="closer" title="关闭"></div></div>
+                <div class="bar"><span class="name">元素结构</span><div class="closer" title="关闭"></div></div>
                 <div class="content ztree"></div>
             </div>
             <!--SETTING Dialog-->
             <div class="dialog" id="dialog-setting">
-                <div class="bar">设置<div class="closer" title="关闭"></div></div>
+                <div class="bar"><span class="name">设置</span><div class="closer" title="关闭"></div></div>
                 <div class="content">
                     <p>Coming soon...</p>
                 </div>
             </div>
             <!--HELP Dialog-->
             <div class="dialog" id="dialog-help">
-                <div class="bar">帮助<div class="closer" title="关闭"></div></div>
+                <div class="bar"><span class="name">帮助</span><div class="closer" title="关闭"></div></div>
                 <div class="content">
                     <p>Coming soon...</p>
                 </div>
             </div>
+            <!--PROP Dialog-->
+            <div class="dialog" id="dialog-prop">
+                <div class="bar"><span class="name">属性</span><div class="closer" title="关闭"></div></div>
+                <div class="content"></div>
+            </div>
             <!--ABOUT Dialog-->
             <div class="dialog" id="dialog-about">
-                <div class="bar">关于<div class="closer" title="关闭"></div></div>
+                <div class="bar"><span class="name">关于</span><div class="closer" title="关闭"></div></div>
                 <div class="content">
                     <img src="/static/img/ufologo-dark.png" class="bl hc"/>
                     <h6 class="tc"><span class="appname">LP Dialog Editor</span> (0.1&alpha;)</h6>
@@ -62,6 +67,6 @@
         </div><!--end editor-content-->
        
     </body>
-    <script src="http://lib.sinaapp.com/js/jquery/1.10.2/jquery-1.10.2.min.js"></script>
+    <script src="http://lib.sinaapp.com/js/jquery/2.0.3/jquery-2.0.3.min.js"></script>
     <script data-main="static/js/main" src="static/js/require.js"></script>
 </html>

@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'background', 'jquery-fisheye'], function(DialogTree, DialogAbout, DialogHelp, DialogSetting, Background) {
+define(['dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'dialog-prop', 'background', 'jquery-fisheye'], function(DialogTree, DialogAbout, DialogHelp, DialogSetting, DialogProp, Background) {
   var Dock = {
     /**
      * [init description]
@@ -67,7 +67,7 @@ define(['dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'backgro
         itemsText: '.tit',
         container: '.dock-container',
         itemWidth: 64,
-        proximity: 50,
+        proximity: 90,
         alignment: 'left',
         valign: 'bottom',
         halign: 'center'
@@ -93,6 +93,9 @@ define(['dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'backgro
             break;
           case 'help':
             DialogHelp.toggle();
+            break;
+          case 'property':
+            DialogProp.toggle();
             break;
           case 'setting':
             DialogSetting.toggle();

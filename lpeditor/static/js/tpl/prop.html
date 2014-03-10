@@ -1,0 +1,30 @@
+<table width="100%">
+    <thead>
+        <tr>
+            <th>属性</th>
+            <th>值</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for k,v in ele.mProps%}
+        <tr>
+            <td>{{k}}</td>
+            <td><input type="input" class="p.{{v}}" value="{{v}}" autocomplete="off"/></td>
+        </tr>
+        {%endfor%}
+
+        {%for cssCollection in [ele.mPrefixSelectors,ele.mSuffixSelectors]%}
+        {%for selector,props in cssCollection%}
+        <tr>
+            <td colspan="2">  {%if ''==selector%}默认{%else%}{{selector}}{%endif%}样式</td>
+        </tr>
+            {%for k,v in props%}
+            <tr>
+                <td>{{k}}</td>
+                <td><input type="input" class="c.{{selector}}.{{v}}" value="{{v}}" autocomplete="off"/></td>
+            </tr>
+            {%endfor%}
+        {%endfor%}
+        {%endfor%}
+    </tbody>
+</table>

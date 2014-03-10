@@ -24,6 +24,8 @@ define(['local', 'jquery-ui'], function(LocalCache) {
         var opt = this.opt = {
             closer: '.closer', //close button selector.
             bar: '.bar', //dialog top bar selector.
+            name: '.name', //dialog title selector.
+            content: '.content', //dialog content selector.
             saveStatus: true, //if status(position+size) needs to be saved.
             resizable: true //if it could be resizable.
         };
@@ -33,6 +35,8 @@ define(['local', 'jquery-ui'], function(LocalCache) {
         this.m$container = $(container);
         this.m$bar = this.m$container.find(opt.bar);
         this.m$closer = this.m$container.find(opt.closer);
+        this.m$content = this.m$container.find(opt.content);
+        this.m$name = this.m$container.find(opt.name);
 
         this.mCacheName = DIALOG_CACHE_PREFIX + String(container);
 
@@ -94,6 +98,19 @@ define(['local', 'jquery-ui'], function(LocalCache) {
 
             this.__eventBinded = true;
             return this;
+        },
+        /**
+         * [title description]
+         * @param  {[type]} title [description]
+         * @return {[type]}       [description]
+         */
+        title:function(title){
+            if(undefined===title){
+                return this.m$name.text();
+            }else{
+                this.m$name.text(title);
+                return this;
+            }
         },
         /**
          * Inner save postion&size to local cache.
