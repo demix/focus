@@ -38,6 +38,20 @@ define([], function() {
       return true;
     };
     /**
+     * [dislisten description]
+     * @return {[type]} [description]
+     */
+    this.dislisten = function(evt, callbackfn){
+      mls.forEach(function(item, index) {
+        if ((evt === item.evt) && (item.callbackfn === callbackfn)) {
+          mls.splice(index,1);
+          return this;
+        }
+      });
+
+      return this;
+    };
+    /**
      * [trigger description]
      * @param  {String} evt
      * @param  {Object...} args

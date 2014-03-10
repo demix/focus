@@ -87,7 +87,9 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
          * @return {[type]} [description]
          */
         init: function() {
-            if (this.__mInitialized) return this;
+            if (this.__mInitialized) {
+                return this;
+            }
 
             loadDefaultElements.call(this);
             //This event has to register before first draw
@@ -111,13 +113,29 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
         initEvt: function() {
             var self = this;
             $canvas.delegate('*', 'mousedown', function(e) {
-                var ele = self.getElementById(e.target.id);
-                if (ele) {
-                    self.trigger('focuschanged', self.__lastFocusElement, self.__lastFocusElement = ele);
-                }
+                self.selectElement(e.target.id);
             });
             //todo
             return self;
+        },
+        /**
+         * [selectElement description]
+         * @param  {String|Element} focusElement [description]
+         * @return {[type]}              [description]
+         */
+        selectElement:function(focusElement){
+            var ele;
+            if(('string'===typeof focusElement)||focusElement instanceof String){
+                 ele = this.getElementById(focusElement);
+            }else{
+                ele = focusElement;
+            }
+
+            if(ele){
+                    this.trigger('focuschanged', this.__lastFocusElement, ele);
+                    this.__lastFocusElement  = ele;
+            }
+            return ele;
         },
         /**
          * [getElementById description]
@@ -211,7 +229,7 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
             ele.listen('propchanged', self.onPropChanged, self);
             ele.listen('csschanged', self.onCssChanged, self);
 
-            this.trigger('elementadded', ele);
+            self.trigger('elementadded', ele);
 
             return ele;
         },
@@ -221,16 +239,18 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
          * @return {Boolean}
          */
         removeElementById: function(id) {
-            var ele;
+            var self = this,ele;
             if (!id || !(ele = this.getElementById(id))) {
                 console.warn('Element with ID[' + id + '] does not been found!');
                 return false;
             }
 
+            ele.dislisten('propchanged', self.onPropChanged);
+            ele.dislisten('csschanged', self.onCssChanged);
 
-            var deleted = ele.parent ? ele.parent.removeChild(ele) : (delete this.gElements[id]);
+            var deleted = ele.parent ? ele.parent.removeChild(ele) : (delete self.gElements[id]);
             if (deleted) {
-                this.trigger('elementremoved', ele);
+                self.trigger('elementremoved', ele);
             }
             return deleted;
         },
@@ -244,7 +264,7 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
             if (!(ele instanceof Element)) {
                 throw Error('Only Element could be added!');
             }
-            return this.removeElementById[ele.getId()];
+            return self.removeElementById[ele.getId()];
         },
         /**
          * [onPropChanged description]
