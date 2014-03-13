@@ -1,3 +1,11 @@
 h4{ padding:20px 0; }
 .btns button{ margin-left:208px; }
 .submit-result{ width:295px; margin-left:208px; }
+
+.fc-form .portrait-wrp *{ vertical-align:top;  }
+.fc-form .portrait-wrp label{ margin-top:5px; }
+.fc-form .portrait{ display:inline-block; width:200px;height:200px;}
+.fc-form .portrait>span{ height:196px; border:2px #d8dfe1 solid; border-radius:4px; color:#aaa;  font-size:13px; display:-webkit-flex;-webkit-align-items:center; -webkit-justify-content:center; overflow:hidden; position:relative; }
+.fc-form .portrait>span.hover{ border-style:dashed; }
+.fc-form .portrait>span.img{display:block;}
+.fc-form .portrait img{cursor:move; position:absolute;}

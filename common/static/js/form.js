@@ -1,17 +1,17 @@
-define(function(){
+define(['/common/static/js/event.js'] , function(event){
     
 
     return {
         init: function(){
             
             var form = $('form.fc-form');
+            var url = $(this).attr('action');
+            var submitbtn = form.find("button[type='submit']");
+            var result = form.find('.submit-result');
 
             form.on('submit' , function(e){
                 e.preventDefault();
-                
-                var url = $(this).attr('action');
-                var submitbtn = form.find("button[type='submit']");
-                var result = form.find('.submit-result');
+                event.dispatchEvent('form:onbeforesubmit');
                 submitbtn.attr('disabled' , 1);
                 $.post(url , $(this).serialize() , function(response){
                     if( +response.status ){
@@ -29,6 +29,15 @@ define(function(){
                     }
                     
                 });
+
+
+            });
+
+            event.addEventListener('form:error', function(errorMsg){
+                result.show().addClass('error').html(errorMsg);
+            });
+            event.addEventListener('form:noerror', function(errorMsg){
+                result.hide();
             });
             
         }

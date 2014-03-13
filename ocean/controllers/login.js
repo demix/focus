@@ -1,16 +1,19 @@
 
 
-var user = require('../../common/models/user');
+var userModel = require('../../common/models/user');
 var gitlab = require('../../common/utils/gitlab');
+var _ = require('lodash-node');
 
 
 exports.get = function(req,res){
+    
+    userModel.getBySid(res.locals.sid , function(item){
+    
+        res.render('login' , _.assign({
+            sid: res.locals.sid,
+            types: userModel.USER_TYPE
+        } , item));
 
-    
-    
-    res.render('login' , {
-        sid: res.locals.sid,
-        types: user.USER_TYPE
     });
 };
 
@@ -20,7 +23,7 @@ exports.post = function(req,res){
         if( !token ){
             res.json({status:-1 , msg:'Invalid gitlab Account.'});
         }else{
-            user.add(req.body , function( status,  sid ){
+            userModel.add(req.body , function( status,  sid ){
                 res.json({status:status,sid:sid});
             });
         }

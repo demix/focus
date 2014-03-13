@@ -5,7 +5,7 @@ var userModel = require('../models/user.js');
 //var config = require('../config');
 
 exports.get = function(req,res,next){
-    
+
     if(process.env.NODE_ENV == 'development'){
         console.log(req.path);
     }
@@ -28,6 +28,7 @@ exports.get = function(req,res,next){
         if( (!user) && req.path.indexOf('/login')==-1 ){
             res.redirect('/ocean/login');
         }else{
+            res.locals.current_user = user;
             next();
         }
     });

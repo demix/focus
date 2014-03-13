@@ -9,7 +9,7 @@
     </head>
     <body>
         <header id="header">
-            <h1><img src="./common/static/img/logo.png" class="" alt="Focus" /></h1>
+            <h1><a href="/"><img src="./common/static/img/logo.png" class="" alt="Focus" /></a></h1>
             <div class="title-bar">
                 <h2>{%block title%}{%endblock%}</h2>
                 <div class="apps">
@@ -31,7 +31,13 @@
                 </div>
             </div>
             <div class="user">
-                <p class="portrait"><img src="./common/static/img/portrait.png" class="" alt="zhengxin" /></p>
+                <p class="portrait">
+                    {% if current_user.portrait %}
+                    <img src="{{current_user.portrait}}" class="" alt="{{current_user.uname}}" />
+                    {% else %}
+                    <img src="./common/static/img/portrait.png" class="" alt="{{current_user.uname || current_user.sid}}" />
+                    {% endif %}
+                </p>
                 <ul class="func">
                     <li data-href="ocean/profile">View profile</li>
                     <li>Logout</li>

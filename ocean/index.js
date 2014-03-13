@@ -21,6 +21,8 @@ app.get('*' , require('../common/controllers/common').get);
 app.get('/', require('./controllers/index').get);
 app.get('/login', require('./controllers/login').get);
 app.post('/login', require('./controllers/login').post);
+app.get('/edit', require('./controllers/login').get);
+app.post('/edit', require('./controllers/login').post);
 app.get('/profile', require('./controllers/profile').get);
 
 
