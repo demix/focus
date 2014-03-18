@@ -31,7 +31,7 @@
             </div>
             <!--SETTING Dialog-->
             <div class="dialog" id="dialog-setting">
-                <div class="bar"><span class="name">设置</span><div class="closer" title="关闭"></div></div>
+                <div class="bar"><span class="name">系统设置</span><div class="closer" title="关闭"></div></div>
                 <div class="content">
                     <p>Coming soon...</p>
                 </div>

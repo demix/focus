@@ -27,7 +27,9 @@ define(['local', 'jquery-ui'], function(LocalCache) {
             name: '.name', //dialog title selector.
             content: '.content', //dialog content selector.
             saveStatus: true, //if status(position+size) needs to be saved.
-            resizable: true //if it could be resizable.
+            resizable: true ,//if it could be resizable.
+            minHeight: 150,
+            minWidth: 150
         };
 
         $.extend(opt, options || {});
@@ -84,8 +86,8 @@ define(['local', 'jquery-ui'], function(LocalCache) {
             });
             //dialogs may be resizable
             this.opt.resizable && this.m$container.resizable({
-                minHeight: 150,
-                minWidth: 150,
+                minHeight: self.opt.minHeight,
+                minWidth: self.opt.minWidth,
                 stop: function(event, ui) {
                     //save last size
                     self.__saveCache(ui.size);

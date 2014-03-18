@@ -204,7 +204,7 @@ height:-webkit-calc(100% - 30px);
 height:-moz-calc(100% - 30px);
 height:calc(100% - 30px);
 overflow:scroll;
-background-color:rgba(255,255,255,0.8);
+background-color:rgba(255,255,255,0.9);
 border-bottom-left-radius:5px;
 border-bottom-right-radius:5px
 }
@@ -393,4 +393,21 @@ text-align:center
 }
 #dialog-prop td:nth-child(2){
     word-break: break-word;
+}
+#dialog-setting{
+    width: 700px;
+    height: 420px
+}
+#dialog-setting .content fieldset{
+    margin: 5px 15px;
+    padding: 5px;
+    border-radius: 10px
+}
+#dialog-setting .content fieldset .row{
+    margin: 2px 5px;
+}
+#dialog-setting .content fieldset .row .tit{
+    width: 35%;
+        display: inline-block;
+        text-align: right;
 }

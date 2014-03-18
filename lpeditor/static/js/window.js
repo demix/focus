@@ -9,7 +9,7 @@
   * @version 0.0.1
   * @since 0.0.1
   */
-define(['dock'],function(Dock){
+define(['dock','canvas'],function(Dock,Canvas){
 
     var dockShow=false;
     $('.home').click(function(){

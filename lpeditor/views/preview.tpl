@@ -5,7 +5,7 @@
 <meta name="author" content="yanni4night@gmail.com"/>
 <title>Preview</title>
 <style type="text/css">
-    html,body{background: #000}
+    html{background: rgba(0,0,0,0.5)}
     {{css|raw}}
 </style>
 </head>

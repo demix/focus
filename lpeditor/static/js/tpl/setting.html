@@ -1,0 +1,46 @@
+<fieldset>
+    <legend>对话框</legend>
+    <div class="row"><span class="tit">位置：</span>
+        <input type="checkbox" name="dialogVerticalCenter" id="dialog-position-allcenter" {%if dialogVerticalCenter%}checked="checked"{%endif%}/>
+        <label for="dialog-position-allcenter">垂直居中</label>
+    </div>
+
+    <div class="row">
+        <span class="tit">上间距：</span>
+        <input type="text"  name="dialogTop" id="dialog-top" value="{{dialogTop}}"/>
+    </div>
+
+    <div class="row">
+        <span class="tit">背景：</span>
+        <label for="dialog-bgcolor">颜色</label>
+        <input type="text" name="dialogBgColor" id="dialog-bgcolor" value="{{dialogBgColor}}"/>
+        <label for="dialog-bgimg">图片</label>
+        <input type="text" name="dialogBgImg" id="dialog-bgimg" value="{{dialogBgImg}}"/>
+    </div>
+
+    <div class="row"><span class="tit">尺寸：</span>
+        <label for="dialog-width">宽度</label>
+        <input type="text" name="dialogWidth" id="dialog-width" value="{{dialogWidth}}"/>
+        <label for="dialog-height">高度</label>
+        <input type="text" name="dialogHeight" id="dialog-height" value="{{dialogHeight}}"/>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>Landing Page</legend>
+    <div class="row">
+        <span class="tit">URL：</span>
+        <input type="url" id="bg-url" name="landingPageUrl" style="width:30em" value="{{landingPageUrl}}"/>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>其它</legend>
+    <div class="row">
+        <span class="tit">选中的元素：</span>
+        <input type="radio" id="show-focus-element" name="showFocusElement" {%if showFocusElement%}checked="checked"{%endif%}/>
+        <label for="show-focus-element">以红框显示突出</label>
+        <input type="radio" id="hide-focus-element" name="showFocusElement" {%if not showFocusElement%}checked="checked"{%endif%}/>
+        <label for="hide-focus-element">不突出</label>
+    </div>
+</fieldset>

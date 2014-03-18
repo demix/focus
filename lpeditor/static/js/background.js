@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define([], function() {
+define(['setting'], function(Setting) {
   var Background = {
     /**
      * [init description]
@@ -35,7 +35,21 @@ define([], function() {
         }, 3000);
       }, false);
 
+      Setting.listen('settingchanged',this.onSettingChanged,this)
       return self;
+    },
+    /**
+     * [onSettingChanged description]
+     * @param  {[type]} evt    [description]
+     * @param  {[type]} evtObj [description]
+     * @param  {[type]} args   [description]
+     * @return {[type]}        [description]
+     */
+    onSettingChanged:function(evt,evtObj,args){
+      var arg = args[0];
+      if(arg&&'landingPageUrl' === arg.key){
+        this.load(arg.newVal);
+      }
     },
     /**
      * [load description]
@@ -57,5 +71,5 @@ define([], function() {
       this.m$iframe[0].src = src;
     }
   };
-  return Background.init().load('http://wan.sogou.com/nav.do?fl=sxd_fl_18&fid=100&tf=0&ab=0&source=0001000100002&gid=2&sid=40&pid=1663732439');
+  return Background.init().load(Setting.landingPageUrl);
 });
