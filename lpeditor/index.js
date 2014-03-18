@@ -20,6 +20,7 @@ app.use( '/static', express.static(__dirname + '/static'));
 app.use( '/common', express.static(__dirname + '/../common'));
 
 //app.get('*' , require('../common/controllers/common').get);
+app.post('/preview', require('./controllers/index').preview);
 app.get('/', require('./controllers/index').get);
 //app.get(/api\/(\w+)\/(.*)/, require('./controllers/api').get);
 

@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'dialog-prop', 'background', 'jquery-fisheye'], function(DialogTree, DialogAbout, DialogHelp, DialogSetting, DialogProp, Background) {
+define(['preview','dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'dialog-prop', 'background', 'jquery-fisheye'], function(preview,DialogTree, DialogAbout, DialogHelp, DialogSetting, DialogProp, Background) {
   var Dock = {
     /**
      * [init description]
@@ -26,6 +26,10 @@ define(['dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'dialog-
         icon: 'launchpad',
         title: '属性',
         action: 'property'
+      }, {
+        icon: 'preview',
+        title: '预览',
+        action: 'preview'
       }, {
         icon: 'missioncontrol',
         title: '新增',
@@ -90,6 +94,9 @@ define(['dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'dialog-
             break;
           case 'about':
             DialogAbout.toggle();
+            break;
+          case 'preview':
+            preview();
             break;
           case 'help':
             DialogHelp.toggle();

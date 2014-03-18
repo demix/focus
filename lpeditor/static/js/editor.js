@@ -10,15 +10,15 @@
  * @version 0.0.2
  * @since 0.0.1
  */
-define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(Setting,Initializing, Element, Listener) {
+define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function(Setting, Initializing, Element, Listener) {
 
     var $canvas = $('.canvas'),
         $previewStyle = $('#previewStyle');
     //todo:tidy
-    function analyzeElement(ids, found,parent) {
+    function analyzeElement(ids, found, parent) {
         var self = this;
         var idArray = ids.split(',');
-      //  var ret = [];
+        //  var ret = [];
         idArray.forEach(function(id, index, ids) {
             var innerText = ('function' === typeof found.text) ? found.text(id, index) : (found.text || "");
             var props = {
@@ -33,7 +33,7 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
                 props[k] = v;
             });
             var eleModel = new Element(found.tag || 'div', props, css, innerText);
-            self.addElement(eleModel,parent);
+            self.addElement(eleModel, parent);
             //copy css attributes
             $.each((found.css || {}), function(selector, selectorItems) {
                 var isPrefix = false;
@@ -55,22 +55,24 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
 
             var children = ('function' === typeof found.children) ? found.children(id, index) : (found.children || {});
             $.each(children, function(ids, found) {
-                /*var eles =*/ analyzeElement.call(self,ids, found,eleModel);
-              //  eleModel.appendChildren(eles);
+                /*var eles =*/
+                analyzeElement.call(self, ids, found, eleModel);
+                //  eleModel.appendChildren(eles);
             });
-         //   ret.push(eleModel);
+            //   ret.push(eleModel);
             //fixme
-           // eleModel.listen('csschanged',self.onCssChanged,self);
+            // eleModel.listen('csschanged',self.onCssChanged,self);
         });
-      //  return ret;
+        //  return ret;
     }
 
     function loadDefaultElements() {
         var self = this;
         for (var ids in Initializing) {
             var found = Initializing[ids];
-          /*  var elements = */analyzeElement.call(self, ids, found);
-          /*  elements.forEach(function(ele, index) {
+            /*  var elements = */
+            analyzeElement.call(self, ids, found);
+            /*  elements.forEach(function(ele, index) {
                 self.addElement(ele);
             });*/
         }
@@ -119,12 +121,12 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
             $canvas.delegate('*', 'mousedown', function(e) {
                 self.selectElement(e.target.id);
             });
-                
+
             //Tab switch
-            $(document).delegate('#tab-old-login','click',function(e){
+            $(document).delegate('#tab-old-login', 'click', function(e) {
                 $('#area-reg').hide();
                 $('#area-login').show();
-            }).delegate('#tab-new-reg','click',function(e){
+            }).delegate('#tab-new-reg', 'click', function(e) {
                 $('#area-reg').show();
                 $('#area-login').hide();
             });
@@ -136,19 +138,19 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
          * @param  {String|Element} focusElement
          * @return {this}
          */
-        selectElement:function(focusElement){
+        selectElement: function(focusElement) {
             var ele;
-            if(('string'===typeof focusElement)||focusElement instanceof String){
-                 ele = this.getElementById(focusElement);
-            }else{
+            if (('string' === typeof focusElement) || focusElement instanceof String) {
+                ele = this.getElementById(focusElement);
+            } else {
                 ele = focusElement;
             }
 
-            if(ele){
-                    this.trigger('focuschanged', this.__lastFocusElement, ele);
-                    Setting.showFocusElement&&this.__lastFocusElement&&$(this.__lastFocusElement.mBaseSelector).removeClass('focus');
-                    this.__lastFocusElement  = ele;
-                    Setting.showFocusElement&&$(ele.mBaseSelector).addClass('focus');
+            if (ele) {
+                this.trigger('focuschanged', this.__lastFocusElement, ele);
+                Setting.showFocusElement && this.__lastFocusElement && $(this.__lastFocusElement.mBaseSelector).removeClass('focus');
+                this.__lastFocusElement = ele;
+                Setting.showFocusElement && $(ele.mBaseSelector).addClass('focus');
             }
 
             return ele;
@@ -199,24 +201,36 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
             }
         },
         /**
+         * [generateCode description]
+         * @param  {[type]} level [description]
+         * @return {[type]}       [description]
+         */
+        generateCode: function(level) {
+            var styleText = '',
+                innerHtml = '';
+            var levelNum = level | 0;
+            $.each(this.gElements, function(id, ele) {
+                if (undefined === level||REFRESH_HTML === (levelNum & REFRESH_HTML))
+                    innerHtml += ele.html(false);
+                if (undefined === level||REFRESH_CSS === (levelNum & REFRESH_CSS))
+                    styleText += ele.style(true);
+            });
+            return {
+                styleText: styleText,
+                innerHtml: innerHtml
+            }
+        },
+        /**
          * [drawCanvas description]
          * @param  {Integer} level
          */
         drawCanvas: function(level) {
-            var styleText = '',
-                innerHtml = '';
-            level = level | 0;
-            $.each(this.gElements, function(id, ele) {
-                if (REFRESH_HTML === (level & REFRESH_HTML))
-                    innerHtml += ele.html(false);
-                if (REFRESH_CSS === (level & REFRESH_CSS))
-                    styleText += ele.style(true);
-            });
-            if (styleText) {
-                $previewStyle.text(styleText);
+            var code = this.generateCode(level);
+            if (code.styleText) {
+                $previewStyle.text(code.styleText);
             }
-            if (innerHtml) {
-                $canvas.html(innerHtml);
+            if (code.innerHtml) {
+                $canvas.html(code.innerHtml);
                 this.trigger('drawcomplete');
             }
 
@@ -255,7 +269,8 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
          * @return {Boolean}
          */
         removeElementById: function(id) {
-            var self = this,ele;
+            var self = this,
+                ele;
             if (!id || !(ele = this.getElementById(id))) {
                 console.warn('Element with ID[' + id + '] does not been found!');
                 return false;
@@ -311,19 +326,19 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
         },
         /**
          * [onElementRemoved description]
-         * @param  {[type]} evt   
+         * @param  {[type]} evt
          * @param  {[type]} evtObj
-         * @param  {[type]} args  
+         * @param  {[type]} args
          */
         onElementRemoved: function(evt, evtObj, args) {
             this.drawCanvas(REFRESH_HTML);
         },
         /**
          * [onDrawComplete description]
-         * @param  {[type]} evt   
+         * @param  {[type]} evt
          * @param  {[type]} evtObj
-         * @param  {[type]} args  
-         * @return {[type]}       
+         * @param  {[type]} args
+         * @return {[type]}
          */
         onDrawComplete: function(evt, evtObj, args) {
             var self = this;
