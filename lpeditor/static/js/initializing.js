@@ -135,9 +135,7 @@ var areaRegTipsDefine={
             },
             css: {
                 '': {
-                    display: function(id) {
-                        return !!~id.indexOf('login') ? 'none' : 'block';
-                    },
+                    display: 'block',
                     color: '#fff',
                     width: '200px',
                     height: '15px',

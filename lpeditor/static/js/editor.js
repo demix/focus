@@ -115,7 +115,15 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
             $canvas.delegate('*', 'mousedown', function(e) {
                 self.selectElement(e.target.id);
             });
-            //todo
+                
+            $(document).delegate('#tab-old-login','click',function(e){
+                $('#area-reg').hide();
+                $('#area-login').show();
+            }).delegate('#tab-new-reg','click',function(e){
+                $('#area-reg').show();
+                $('#area-login').hide();
+            });
+
             return self;
         },
         /**
