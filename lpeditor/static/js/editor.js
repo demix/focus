@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializing, Element, Listener) {
+define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(Setting,Initializing, Element, Listener) {
 
     var $canvas = $('.canvas'),
         $previewStyle = $('#previewStyle');
@@ -133,8 +133,11 @@ define(['initializing', 'element', 'listener', 'jquery-ui'], function(Initializi
 
             if(ele){
                     this.trigger('focuschanged', this.__lastFocusElement, ele);
+                    Setting.showFocusElement&&this.__lastFocusElement&&$(this.__lastFocusElement.mBaseSelector).removeClass('focus');
                     this.__lastFocusElement  = ele;
+                    Setting.showFocusElement&&$(ele.mBaseSelector).addClass('focus');
             }
+
             return ele;
         },
         /**

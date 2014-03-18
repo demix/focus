@@ -84,6 +84,10 @@ margin:100px auto;
 background:url(http://img.wan.sogou.com/ufo/img/newnav/dialog3/ybg2.png) no-repeat
 }
 
+.editor-content .canvas .focus{
+    border:1px dashed red !important;
+}
+
 .editor-content .dock,.editor-content .dialog {
 font-family:'PFDin' ,'Microsoft Yahei',Arial ,sans-serif
 }
