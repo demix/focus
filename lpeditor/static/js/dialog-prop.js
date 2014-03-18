@@ -14,6 +14,7 @@ define(['dialog', 'editor', 'text!tpl/prop.html', 'Ursa'], function(Dialog, Edit
     var propDialog = new Dialog('#dialog-prop');
 
     $.extend(propDialog, {
+        m$focusElement : null,
         /**
          * [init description]
          * @return {[type]}
@@ -27,7 +28,24 @@ define(['dialog', 'editor', 'text!tpl/prop.html', 'Ursa'], function(Dialog, Edit
          * @return {[type]}
          */
         initEvt: function() {
+            var self = this;
             Editor.listen('focuschanged', this.onFocusChanged, this);
+
+            this.m$content.delegate('input,select','change',function(e){
+                var clazz = e.target.className,tar;
+                if(!(tar=self.m$focusElement)){
+                    console.log('no focus element');
+                    return;
+                }
+                if ('p' === clazz[0]) {
+                    tar.setProps(clazz.split('.')[1],e.target.value);
+                } else if ('c' === clazz[0]) {
+                    tar.setCss(clazz.split('.')[2],e.target.value,clazz.split('.')[1])
+                } else if ('t' === clazz[0]) {
+                    console.debug('text setting');
+                }
+            });
+
             return this;
         },
         /**
@@ -44,6 +62,7 @@ define(['dialog', 'editor', 'text!tpl/prop.html', 'Ursa'], function(Dialog, Edit
                     ele: focusEle
                 }, Tpl_Prop));
                 this.title('属性 -- #' + focusEle.getId());
+                this.m$focusElement = focusEle;
             }
         }
     });

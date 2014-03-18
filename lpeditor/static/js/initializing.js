@@ -56,6 +56,8 @@ define(['element'], function(Element) {
                             return '104px';
                     }
                 },
+                width:'73px',
+                height:'20px',
                 color: '#fff',
                 'font-size': '14px',
                 'font-family': ''
@@ -92,6 +94,8 @@ define(['element'], function(Element) {
         css: {
             '': {
                 left: '120px',
+                width: '150px',
+                height: '20px',
                 top: function(id) {
                     switch (id) {
                         case 'input-reg-user':
@@ -107,9 +111,7 @@ define(['element'], function(Element) {
                         case 'input-login-server':
                             return '100px';
                     }
-                },
-                width: '150px',
-                height: '20px'
+                }
             }
         }
     };

@@ -3,10 +3,11 @@
  *
  * changelog
  * 2014-03-05[15:57:31]:created
+ * 2014-03-18[12:02:16]:fixed bug that children has no css change listener
  *
  * @info yinyong,osx-x64,UTF-8,10.129.172.32,js,/Volumes/yinyong/focus/lpeditor/static/js
  * @author yanni4night@gmail.com
- * @version 0.0.1
+ * @version 0.0.2
  * @since 0.0.1
  */
 define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(Setting,Initializing, Element, Listener) {
@@ -14,10 +15,10 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
     var $canvas = $('.canvas'),
         $previewStyle = $('#previewStyle');
     //todo:tidy
-    function analyzeElement(ids, found) {
+    function analyzeElement(ids, found,parent) {
         var self = this;
         var idArray = ids.split(',');
-        var ret = [];
+      //  var ret = [];
         idArray.forEach(function(id, index, ids) {
             var innerText = ('function' === typeof found.text) ? found.text(id, index) : (found.text || "");
             var props = {
@@ -32,7 +33,7 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
                 props[k] = v;
             });
             var eleModel = new Element(found.tag || 'div', props, css, innerText);
-
+            self.addElement(eleModel,parent);
             //copy css attributes
             $.each((found.css || {}), function(selector, selectorItems) {
                 var isPrefix = false;
@@ -54,22 +55,24 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
 
             var children = ('function' === typeof found.children) ? found.children(id, index) : (found.children || {});
             $.each(children, function(ids, found) {
-                var eles = analyzeElement(ids, found);
-                eleModel.appendChildren(eles);
+                /*var eles =*/ analyzeElement.call(self,ids, found,eleModel);
+              //  eleModel.appendChildren(eles);
             });
-            ret.push(eleModel);
+         //   ret.push(eleModel);
+            //fixme
+           // eleModel.listen('csschanged',self.onCssChanged,self);
         });
-        return ret;
+      //  return ret;
     }
 
     function loadDefaultElements() {
         var self = this;
         for (var ids in Initializing) {
             var found = Initializing[ids];
-            var elements = analyzeElement.call(self, ids, found);
-            elements.forEach(function(ele, index) {
+          /*  var elements = */analyzeElement.call(self, ids, found);
+          /*  elements.forEach(function(ele, index) {
                 self.addElement(ele);
-            });
+            });*/
         }
 
         return self;
@@ -82,6 +85,7 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
         gElements: {},
         __mInitialized: false,
         __lastFocusElement: null,
+
         /**
          * [init description]
          * @return {[type]} [description]
@@ -108,7 +112,7 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
         },
         /**
          * [initEvt description]
-         * @return {[type]} [description]
+         * @return {this}
          */
         initEvt: function() {
             var self = this;
@@ -116,6 +120,7 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
                 self.selectElement(e.target.id);
             });
                 
+            //Tab switch
             $(document).delegate('#tab-old-login','click',function(e){
                 $('#area-reg').hide();
                 $('#area-login').show();
@@ -128,8 +133,8 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
         },
         /**
          * [selectElement description]
-         * @param  {String|Element} focusElement [description]
-         * @return {[type]}              [description]
+         * @param  {String|Element} focusElement
+         * @return {this}
          */
         selectElement:function(focusElement){
             var ele;
@@ -306,19 +311,19 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
         },
         /**
          * [onElementRemoved description]
-         * @param  {[type]} evt    [description]
-         * @param  {[type]} evtObj [description]
-         * @param  {[type]} args   [description]
+         * @param  {[type]} evt   
+         * @param  {[type]} evtObj
+         * @param  {[type]} args  
          */
         onElementRemoved: function(evt, evtObj, args) {
             this.drawCanvas(REFRESH_HTML);
         },
         /**
          * [onDrawComplete description]
-         * @param  {[type]} evt    [description]
-         * @param  {[type]} evtObj [description]
-         * @param  {[type]} args   [description]
-         * @return {[type]}        [description]
+         * @param  {[type]} evt   
+         * @param  {[type]} evtObj
+         * @param  {[type]} args  
+         * @return {[type]}       
          */
         onDrawComplete: function(evt, evtObj, args) {
             var self = this;
@@ -377,8 +382,9 @@ define(['setting','initializing', 'element', 'listener', 'jquery-ui'], function(
          */
         dump: function() {
             console.log(this.gElements);
+            return this;
         }
     };
     $.extend(Editor, new Listener());
-    return Editor.init();
+    return Editor.init().dump();
 });

@@ -25,7 +25,7 @@
             {%for k,v in props%}
                 <tr>
                     <td>{{k}}</td>
-                    <td><input type="input" class="c.{{selector}}.{{v}}" value="{{v}}" autocomplete="off" {%if k in disabledKey%}disabled="disabled"{%endif%}/></td>
+                    <td><input type="input" class="c.{{selector}}.{{k}}" value="{{v}}" autocomplete="off" {%if k in disabledKey%}disabled="disabled"{%endif%}/></td>
                 </tr>
             {%endfor%}
         {%endfor%}
