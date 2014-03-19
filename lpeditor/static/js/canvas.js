@@ -88,7 +88,11 @@ define(['setting'], function(Setting) {
                 $canvas.css('top', Setting.dialogTop);
                 $canvas.css('margin-top', '0');
             }
-        }
+        },
+        getCanvasHTML: function() {
+            var css = ['top:' + $canvas.css('top'), 'margin-top:' + $canvas.css('margin-top'), 'background-image:' + $canvas.css('background-image'),'background-color:'+$canvas.css('background-color'),'width:'+$canvas.css('width'),'height:'+$canvas.css('height')].join(';');
+            return '<div style="'+css+'">';
+        },
     };
 
 

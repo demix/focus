@@ -241,16 +241,7 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                     'line-height': '33px',
                     'text-align': 'center',
                     'background-repeat': 'no-repeat',
-                    'background-image': function(id) {
-                        switch (id) {
-                            case 'tab-new-reg':
-                                return 'url(http://s5.wan.sogou.com/cdn/image/2014/03/05/20140305211018_817.jpg)';
-                            case 'tab-old-login':
-                                return 'url(http://s7.wan.sogou.com/cdn/image/2014/03/05/20140305211310_980.jpg)'
-                            default:
-                                throw Error('Unknown ID ' + id);
-                        }
-                    }
+                    'background-image': 'url(http://s7.wan.sogou.com/cdn/image/2014/03/05/20140305211310_980.jpg)'
                 },
                 '>:hover': {
                     color: '',
@@ -262,7 +253,7 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                     color: '',
                     'text-decoration': '',
                     'background-color': '',
-                    'background-image': ''
+                    'background-image': 'url(http://s5.wan.sogou.com/cdn/image/2014/03/05/20140305211018_817.jpg)'
                 }
             }
         },

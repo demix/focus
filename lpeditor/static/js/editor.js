@@ -124,9 +124,13 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
 
             //Tab switch
             $(document).delegate('#tab-old-login', 'click', function(e) {
+                $('#tab-old-login').addClass('on');
+                $('#tab-new-reg').removeClass('on');
                 $('#area-reg').hide();
                 $('#area-login').show();
             }).delegate('#tab-new-reg', 'click', function(e) {
+                 $('#tab-old-login').removeClass('on');
+                $('#tab-new-reg').addClass('on');
                 $('#area-reg').show();
                 $('#area-login').hide();
             });
