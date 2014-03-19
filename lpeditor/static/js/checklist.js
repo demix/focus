@@ -72,7 +72,18 @@ define(['local'], function(LocalCache) {
         ],
         ['Adobe flash',
             function() {
-                return navigator.mimeTypes['application/x-shockwave-flash'];
+                
+                if(window.ActiveXObject)
+                {
+                    try{
+                        new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+                        return true;
+                    }catch(e){
+                        return !!navigator.plugins['Shockwave Flash'];
+                    }
+                }else{
+                    return !!navigator.mimeTypes['application/x-shockwave-flash'];
+                }
             }
         ],
         ['Array.isArray()', !!Array.isArray],

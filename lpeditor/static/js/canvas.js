@@ -90,7 +90,7 @@ define(['setting'], function(Setting) {
             }
         },
         getCanvasHTML: function() {
-            var css = ['top:' + $canvas.css('top'), 'margin-top:' + $canvas.css('margin-top'), 'background-image:' + $canvas.css('background-image'),'background-color:'+$canvas.css('background-color'),'width:'+$canvas.css('width'),'height:'+$canvas.css('height')].join(';');
+            var css = ['position:relative','margin:0 auto','top:' + $canvas.css('top'), 'margin-top:' + $canvas.css('margin-top'), 'background-image:' + $canvas.css('background-image'),'background-color:'+$canvas.css('background-color'),'width:'+$canvas.css('width'),'height:'+$canvas.css('height')].join(';');
             return '<div style="'+css+'">';
         },
     };

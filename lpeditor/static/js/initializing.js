@@ -137,7 +137,7 @@ var areaRegTipsDefine={
             },
             css: {
                 '': {
-                    display: 'block',
+                    display: 'none',
                     color: '#fff',
                     width: '200px',
                     height: '15px',
