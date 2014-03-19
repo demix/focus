@@ -1,4 +1,4 @@
-{%set disabledKey=['id','position','class']%}
+{%set disabledKey=['id','position','class','disableautocomplete','autocomplete']%}
 <table width="100%">
     <thead>
         <tr>
@@ -10,7 +10,17 @@
         {%for k,v in ele.mProps%}
             <tr>
                 <td>{{k}}</td>
-                <td><input type="input" class="p/{{v}}" value="{{v}}" autocomplete="off"  {%if k in disabledKey%}disabled="disabled"{%endif%}/></td>
+                <td>
+                    {%if propSelector[k]%}
+                                        <select class="p/{{k}}">
+                                            {%for kitem,vitem in propSelector[k]%}
+                                            <option value="{{kitem}}" {%if v==kitem%}selected{%endif%}>{{vitem}}</option>
+                                            {%endfor%}
+                                        </select>
+                    {%else%}
+                                        <input type="input" class="p/{{k}}" value="{{v}}" autocomplete="off"  {%if k in disabledKey%}disabled="disabled"{%endif%}/>
+                    {%endif%}
+                </td>
             </tr>
         {%endfor%}
         <tr>
@@ -20,12 +30,22 @@
         {%for cssCollection in [ele.mPrefixSelectors,ele.mSuffixSelectors]%}
         {%for selector,props in cssCollection%}
         <tr>
-            <td colspan="2">  {%if ''==selector%}默认{%else%}{{selector}}{%endif%}样式</td>
+            <td colspan="2">{%if ''==selector%}默认{%else%}{{selector}}{%endif%}样式</td>
         </tr>
             {%for k,v in props%}
                 <tr>
                     <td>{{k}}</td>
-                    <td><input type="input" class="c/{{selector}}/{{k}}" value="{{v}}" autocomplete="off" {%if k in disabledKey%}disabled="disabled"{%endif%}/></td>
+                    <td>
+                        {%if propSelector[k]%}
+                            <select class="c/{{selector}}/{{k}}">
+                                        {%for kitem,vitem in propSelector[k]%}
+                                            <option value="{{kitem}}" {%if v==kitem%}selected{%endif%}>{{vitem}}</option>
+                                        {%endfor%}
+                            </select>
+                        {%else%}
+                            <input type="input" class="c/{{selector}}/{{k}}" value="{{v}}" autocomplete="off" {%if k in disabledKey%}disabled="disabled"{%endif%}/>
+                        {%endif%}
+                </td>
                 </tr>
             {%endfor%}
         {%endfor%}

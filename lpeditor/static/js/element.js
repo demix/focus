@@ -198,7 +198,7 @@ define(['listener'], function(Listener) {
             var propsText = [],
                 innerHtml = '';
             $.each(this.mProps, function(k, v) {
-                propsText.push(k + '=\"' + v + '"');
+                v&&propsText.push(k + '=\"' + v + '"');
             });
             propsText = propsText.join(' ');
 

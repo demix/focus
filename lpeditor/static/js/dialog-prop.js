@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['dialog', 'editor', 'text!tpl/prop.html', 'Ursa'], function(Dialog, Editor, Tpl_Prop) {
+define(['dialog', 'editor', 'text!tpl/prop.html','propselector', 'Ursa'], function(Dialog, Editor,Tpl_Prop,PropSelector) {
 
     var propDialog = new Dialog('#dialog-prop');
 
@@ -38,9 +38,9 @@ define(['dialog', 'editor', 'text!tpl/prop.html', 'Ursa'], function(Dialog, Edit
                     return;
                 }
                 if ('p' === clazz[0]) {
-                    tar.setProps(clazz.split('/')[1],e.target.value);
+                    tar.setProps(clazz.split('/')[1],$(e.target).val());
                 } else if ('c' === clazz[0]) {
-                    tar.setCss(clazz.split('/')[2],e.target.value,clazz.split('/')[1]);
+                    tar.setCss(clazz.split('/')[2],$(e.target).val(),clazz.split('/')[1]);
                 } else if ('t' === clazz[0]) {
                     console.debug('text setting');
                 }
@@ -59,7 +59,8 @@ define(['dialog', 'editor', 'text!tpl/prop.html', 'Ursa'], function(Dialog, Edit
             var focusEle = args[1];
             if (focusEle) {
                 this.m$content.html(Ursa.render('Tpl_Prop', {
-                    ele: focusEle
+                    ele: focusEle,
+                    propSelector:PropSelector
                 }, Tpl_Prop));
                 this.title('属性 -- #' + focusEle.getId());
                 this.m$focusElement = focusEle;

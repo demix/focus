@@ -32,7 +32,7 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
                     v = v(id, index);
                 props[k] = v;
             });
-            var tag='function'===typeof found.tag?found.tag(id,index):found.tag;
+            var tag = 'function' === typeof found.tag ? found.tag(id, index) : found.tag;
             var eleModel = new Element(tag || 'div', props, css, innerText);
             self.addElement(eleModel, parent);
             //copy css attributes
@@ -120,7 +120,7 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
                 $('#area-reg').hide();
                 $('#area-login').show();
             }).delegate('#tab-new-reg', 'click', function(e) {
-                 $('#tab-old-login').removeClass('on');
+                $('#tab-old-login').removeClass('on');
                 $('#tab-new-reg').addClass('on');
                 $('#area-reg').show();
                 $('#area-login').hide();
@@ -205,9 +205,9 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
                 innerHtml = '';
             var levelNum = level | 0;
             $.each(this.gElements, function(id, ele) {
-                if (undefined === level||REFRESH_HTML === (levelNum & REFRESH_HTML))
+                if (undefined === level || REFRESH_HTML === (levelNum & REFRESH_HTML))
                     innerHtml += ele.html(false);
-                if (undefined === level||REFRESH_CSS === (levelNum & REFRESH_CSS))
+                if (undefined === level || REFRESH_CSS === (levelNum & REFRESH_CSS))
                     styleText += ele.style(true);
             });
             return {
@@ -299,7 +299,14 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
          * @param  {[type]} args   [description]
          */
         onPropChanged: function(evt, evtObj, args) {
-            this.drawCanvas(REFRESH_HTML);
+            //Don't need to re-create all elements.
+            var id = evtObj.getId();
+            if (~['selected','checked'].indexOf(args[0].key))
+                $('#' + id).prop(args[0].key, !!args[0].newVal);
+            else if ('' !== typeof args[0].newVal) {
+                $('#' + id).attr(args[0].key, args[0].newVal);
+            } else
+                $('#' + id).removeAttr(args[0].key);
         },
         /**
          * [onCssChanged description]
@@ -308,6 +315,7 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
          * @param  {[type]} args   [description]
          */
         onCssChanged: function(evt, evtObj, args) {
+            //Here we re-render through generating new stylesheet.
             this.drawCanvas(REFRESH_CSS);
         },
         /**
@@ -326,6 +334,8 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
          * @param  {[type]} args
          */
         onElementRemoved: function(evt, evtObj, args) {
+            //Don't need to redraw
+            //FIXME
             this.drawCanvas(REFRESH_HTML);
         },
         /**
@@ -337,7 +347,6 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
          */
         onDrawComplete: function(evt, evtObj, args) {
             var self = this;
-            //todo
             //draggable,resizeable
             $canvas.find('span,label,div,a').draggable({
                 containment: "parent",
