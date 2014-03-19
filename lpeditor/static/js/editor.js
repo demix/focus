@@ -32,7 +32,8 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
                     v = v(id, index);
                 props[k] = v;
             });
-            var eleModel = new Element(found.tag || 'div', props, css, innerText);
+            var tag='function'===typeof found.tag?found.tag(id,index):found.tag;
+            var eleModel = new Element(tag || 'div', props, css, innerText);
             self.addElement(eleModel, parent);
             //copy css attributes
             $.each((found.css || {}), function(selector, selectorItems) {
@@ -55,26 +56,16 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
 
             var children = ('function' === typeof found.children) ? found.children(id, index) : (found.children || {});
             $.each(children, function(ids, found) {
-                /*var eles =*/
                 analyzeElement.call(self, ids, found, eleModel);
-                //  eleModel.appendChildren(eles);
             });
-            //   ret.push(eleModel);
-            //fixme
-            // eleModel.listen('csschanged',self.onCssChanged,self);
         });
-        //  return ret;
     }
 
     function loadDefaultElements() {
         var self = this;
         for (var ids in Initializing) {
             var found = Initializing[ids];
-            /*  var elements = */
             analyzeElement.call(self, ids, found);
-            /*  elements.forEach(function(ele, index) {
-                self.addElement(ele);
-            });*/
         }
 
         return self;
@@ -348,7 +339,7 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
             var self = this;
             //todo
             //draggable,resizeable
-            $canvas.find('*').draggable({
+            $canvas.find('span,label,div,a').draggable({
                 containment: "parent",
                 stop: function(event, ui) {
                     var id = event.target.id;

@@ -81,14 +81,14 @@ define(['element'], function(Element) {
 
     //*******************input definition*******************\\
     var areaRegInputsDefine = {
-        tag: 'input',
+        tag: function(id){return !!~id.indexOf('server')?'select':'input'},
         props: {
             value: '',
             autocomplete: 'off',
             disableautocomplete: '',
             'class': 'input',
             type: function(id) {
-                return !!~id.indexOf('pwd') ? 'password' : ( !! ~id.indexOf('server') ? 'select' : 'text')
+                return !!~id.indexOf('pwd') ? 'password' : ( !! ~id.indexOf('server') ? '' : 'text')
             }
         },
         css: {
@@ -331,7 +331,7 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
             },
             css: {
                 '': {
-                    width: '200px',
+                    width: '110px',
                     height: '20px',
                     left: '120px',
                     top: '330px',
@@ -408,12 +408,21 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                             },
                             width: '70px',
                             height: '25px',
-                            'background-image': '',
-                            'background-color': 'red'
+                            'background-image': 'url(http://wan.sogou.com/images/qq-rr-wb-8.png)',
+                            'background-position':function(id,index){
+                                var s= ['-17px -7px','-21px -36px','-23px -65px'];
+                                return s[index];
+                            },
+                            'background-repeat':'no-repeat',
+                            'background-color': ''
                         },
                         '>:hover': {
                             'background-image': '',
-                            'background-color': 'yellow'
+                            'background-position':function(id,index){
+                                var s =['-5px -98px','-5px -129px','-5px -157px'];
+                                return s[index];
+                            },
+                            'background-color': ''
                         }
                     }
                 }
