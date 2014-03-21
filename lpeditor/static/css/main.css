@@ -321,7 +321,19 @@ background:-moz-linear-gradient(top,rgb(231,231,231),rgb(170,170,170));
 
 .editor-content .topbar .item {
 margin:0 5px;
-float:left
+float:left;
+color:#151617;
+text-decoration: none;
+padding: 0 5px;
+}
+
+.editor-content .topbar .menu .appname{
+    font-family: 'Courier New',Courier,monospace,arial,serif;
+    font-weight: 900;
+}
+.editor-content .topbar .menu a.item:hover{    
+    background: rgba(0,0,0,0.6);
+    color:#fff;
 }
 
 .editor-content .topbar .battery {
@@ -410,4 +422,19 @@ text-align:center
     width: 35%;
         display: inline-block;
         text-align: right;
+}
+
+#dialog-draft .content li{
+    text-indent: 2em;
+    height: 25px;
+    line-height: 25px;
+    cursor: pointer;
+    -moz-user-select:none;
+-webkit-user-select:none;
+user-select:none;
+}
+
+#dialog-draft .content li:hover{
+    background: rgba(0,0,0,0.6);
+    color: #fff;
 }

@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['preview','dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'dialog-prop', 'background', 'jquery-fisheye'], function(preview,DialogTree, DialogAbout, DialogHelp, DialogSetting, DialogProp, Background) {
+define(['preview','dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'dialog-prop', 'dialog-draft', 'background', 'jquery-fisheye'], function(preview,DialogTree, DialogAbout, DialogHelp, DialogSetting, DialogProp,DialogDraft, Background) {
   var Dock = {
     /**
      * [init description]
@@ -38,6 +38,10 @@ define(['preview','dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting'
         icon: 'systemsettings',
         title: '设置',
         action: 'setting'
+      }, {
+        icon: 'calendar',
+        title: '草稿',
+        action: 'draft'
       }, {
         icon: 'fullscreen',
         title: '全屏',
@@ -106,6 +110,9 @@ define(['preview','dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting'
             break;
           case 'setting':
             DialogSetting.toggle();
+            break;
+          case 'draft':
+            DialogDraft.toggle();
             break;
           case 'fullscreen':
             var request = document.body.webkitRequestFullScreen || document.body.mozRequestFullScreen || document.body.requestFullScreen;

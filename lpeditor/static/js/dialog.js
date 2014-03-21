@@ -29,7 +29,9 @@ define(['local', 'jquery-ui'], function(LocalCache) {
             saveStatus: true, //if status(position+size) needs to be saved.
             resizable: true ,//if it could be resizable.
             minHeight: 150,
-            minWidth: 150
+            minWidth: 150,
+            onShow:function(){},
+            onHide:function(){}
         };
 
         $.extend(opt, options || {});
@@ -142,6 +144,7 @@ define(['local', 'jquery-ui'], function(LocalCache) {
         show: function() {
             this.m$container.show();
             this.tryTop();
+            self.opt.onShow.call(this)
             return this;
         },
         /**
@@ -150,6 +153,7 @@ define(['local', 'jquery-ui'], function(LocalCache) {
          */
         hide: function() {
             this.m$container.hide();
+            self.opt.onHide.call(this)
             return this;
         },
         /**
@@ -158,9 +162,10 @@ define(['local', 'jquery-ui'], function(LocalCache) {
          */
         toggle: function() {
             var self = this;
+            //animate
             self.m$container.toggle('fast', function() {
                 self.tryTop();
-            });
+            }).is(':visible')?self.opt.onHide.call(this):self.opt.onShow.call(this);
             return this;
         }
     };

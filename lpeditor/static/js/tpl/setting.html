@@ -38,9 +38,7 @@
     <legend>其它</legend>
     <div class="row">
         <span class="tit">选中的元素：</span>
-        <input type="radio" id="show-focus-element" name="showFocusElement" {%if showFocusElement%}checked="checked"{%endif%}/>
+        <input type="checkbox" id="show-focus-element" name="showFocusElement" {%if showFocusElement%}checked="checked"{%endif%}/>
         <label for="show-focus-element">以红框显示突出</label>
-        <input type="radio" id="hide-focus-element" name="showFocusElement" {%if not showFocusElement%}checked="checked"{%endif%}/>
-        <label for="hide-focus-element">不突出</label>
     </div>
 </fieldset>

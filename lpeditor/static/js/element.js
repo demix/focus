@@ -198,7 +198,7 @@ define(['listener'], function(Listener) {
             var propsText = [],
                 innerHtml = '';
             $.each(this.mProps, function(k, v) {
-                v&&propsText.push(k + '=\"' + v + '"');
+                v && propsText.push(k + '=\"' + v + '"');
             });
             propsText = propsText.join(' ');
 
@@ -274,6 +274,34 @@ define(['listener'], function(Listener) {
             delete this.mChildren[child.getId()];
 
             return c;
+        },
+        /**
+         * [toJSON description]
+         * @return {[type]} [description]
+         */
+        toJSON: function() {
+            var self = this;
+            var ret = {
+                tag: self.mTagName,
+                props: self.mProps,
+                text: self.mInnerText,
+                css: {},
+                children: {}
+            };
+
+            $.each(self.mSuffixSelectors, function(key, sle) {
+                ret.css[key?'>' + key:''] = sle;
+            });
+
+            $.each(self.mPrefixSelectors, function(key, sle) {
+                ret.css['<' + key] = sle;
+            });
+
+            $.each(self.mChildren, function(key, sle) {
+                ret.children[key] = sle.toJSON();
+            });
+
+            return ret;
         }
     };
 

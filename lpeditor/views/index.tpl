@@ -13,7 +13,12 @@
     </head>
     <body>
         <div class="w-fil h-fil editor-content">
-            <div class="topbar" unselectable="on"><div class="mark h-fil fr cf"></div></div>
+            <div class="topbar" unselectable="on">
+                <div class="menu h-fil fl cf">
+                    <span class="appname fl h-fil item">LP Editor</span>
+                </div>
+                <div class="mark h-fil fr cf"></div>
+            </div>
             <iframe src="about:blank" frameborder="0" class="w-fil h-fil" id="bg_iframe"></iframe>
             <div class="w-fil h-fil ab bench">
                 <div class="w-fil h-fil ab bg"></div>
@@ -47,6 +52,13 @@
             <div class="dialog" id="dialog-prop">
                 <div class="bar"><span class="name">属性</span><div class="closer" title="关闭"></div></div>
                 <div class="content"></div>
+            </div>
+            <!--DRAFT Dialog-->
+            <div class="dialog" id="dialog-draft">
+                <div class="bar"><span class="name">草稿</span><div class="closer" title="关闭"></div></div>
+                <div class="content">
+                    
+                </div>
             </div>
             <!--ABOUT Dialog-->
             <div class="dialog" id="dialog-about">

@@ -9,20 +9,32 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define([], function() {
+define(['draft'], function(DraftManager) {
 
-    var MarkProto = {
+    //mark right
+    function Mark() {}
+    Mark.prototype = {
         getDom: function() {
             return this.m$div;
         }
     };
 
-    function Mark() {}
-    Mark.prototype = MarkProto;
+    //Menu left
+    function Menu() {}
+    Menu.prototype = {
+        getDom: function() {
+            return this.m$div;
+        }
+    };
 
+    //Top bar
     var MacTopbar = {
         __mInitialized: false,
         __mMarks: [],
+        __mMenus: [],
+        m$bar:null,
+        m$mark:null,
+        m$menu:null,
         /**
          * [init description]
          * @return {[type]}
@@ -34,13 +46,16 @@ define([], function() {
 
             var $bar = this.m$bar = $('.topbar');
             var $mark = this.m$mark = $bar.find('.mark');
+            var $menu = this.m$menu = $bar.find('.menu');
 
             this.__mInitialized = true;
-            return this.initEvt();
+            this.initEvt();
+
+            return this;
         },
         /**
          * [initEvt description]
-         * @return {[type]}
+         * @return {this}
          */
         initEvt: function() {
 
@@ -50,7 +65,7 @@ define([], function() {
         },
         /**
          * [addMark description]
-         * @param {[type]} mark [description]
+         * @param {Mark} mark
          */
         addMark: function(mark) {
             if (!mark instanceof Mark) {
@@ -62,9 +77,22 @@ define([], function() {
             return this;
         },
         /**
+         * [addMenu description]
+         * @param {Menu} menu
+         */
+        addMenu:function(menu){
+            if(!menu instanceof Menu){
+                throw Error('menu has to be a Menu instance.');
+            }
+            this.m$menu.append(menu.getDom());
+            this.__mMenus.push(menu);
+            return this;
+        },
+        /**
          * [playMenu description]
          * @param  {[type]} menus
          * @return {[type]}
+         * @todo menu depends on app or dialog
          */
         playMenu: function(menus) {
 
@@ -114,7 +142,7 @@ define([], function() {
                 var self = this;
                 self.m$div = $('<div/>', {
                     'class': 'item battery',
-                    'title': '电池不可用'
+                    'title': '电池状态未知'
                 });
 
                 self.batteryRun();
@@ -128,7 +156,7 @@ define([], function() {
             batteryRun: function() {
                 var self = this;
                 try {
-                    var battery = navigator.battery || navigator.mozBattery;
+                    var battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery || navigator.msBattery;
 
                     function displayBatteryStats() {
                         if (battery.charging) {
@@ -236,6 +264,28 @@ define([], function() {
         });
         networkMark.init();
         MacTopbar.addMark(networkMark);
+    })();
+
+
+    //Draft menu
+    (function(){
+        var draftMenu = new Menu();
+        $.extend(draftMenu,{
+            init:function(){
+                this.m$div =$('<a href="javascript:;" class="item save-draft">保存草稿</a>');
+                this.initEvt();
+                return this;
+            },
+            initEvt:function(){
+                this.m$div.click(function(e){
+                    DraftManager.saveDraft()
+                });
+            }
+        });
+
+
+        draftMenu.init();
+        MacTopbar.addMenu(draftMenu);
     })();
 
     return MacTopbar;

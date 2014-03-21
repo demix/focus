@@ -30,6 +30,7 @@ define(['dialog', 'editor', 'text!tpl/prop.html','propselector', 'Ursa'], functi
         initEvt: function() {
             var self = this;
             Editor.listen('focuschanged', this.onFocusChanged, this);
+            Editor.listen('loaded', this.onEditorLoaded, this);
 
             this.m$content.delegate('input,select','change',function(e){
                 var clazz = e.target.className,tar;
@@ -47,6 +48,10 @@ define(['dialog', 'editor', 'text!tpl/prop.html','propselector', 'Ursa'], functi
             });
 
             return this;
+        },
+        onEditorLoaded:function(evt,evtObj,args){
+            this.m$focusElement=null;
+            this.m$content.empty();
         },
         /**
          * [onFocusChanged description]

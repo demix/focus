@@ -40,6 +40,27 @@ define([], function() {
             document.body.removeChild(a);
 
             return this;
+        },
+        formatDate:function(d,fmt){
+            fmt=fmt||"yyyy-mm-dd HH:ii:ss";
+
+            function  o(d){
+                return d<10?'0'+d:d;
+            }
+
+            return fmt.replace(/yyyy|mm|dd|HH|ii|ss|hh|ap/g,function(n){
+                return {
+                    yyyy:d.getFullYear(),
+                    mm:d.getMonth()+1,
+                    dd:o(d.getDate()),
+                    HH:o(d.getHours()),
+                    ap:d.getHours()>=12?'下午':'上午',
+                    hh:d.getHours()>12?d.getHours()-12:d.getHours(),
+                    ii:o(d.getMinutes()),
+                    ss:o(d.getSeconds()),
+
+                }[n];
+            });
         }
     };
     return Utils;

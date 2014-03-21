@@ -30,11 +30,28 @@ define(['dialog','listener','editor','jquery-ztree'],function(Dialog,Listener,Ed
        * @return {[type]} [description]
        */
         init:function(){
-            this.mTree = $.fn.zTree.init(this.m$container.find('.content'),setting, Editor.getTreeJson());
-
+            this.createTree();
             Editor.listen('elementadded',this.onElementAdded,this);
             Editor.listen('elementremoved',this.onElementRemoved,this);
             Editor.listen('focuschanged',this.onFocusChanged,this);
+            Editor.listen('loaded',this.onEditorLoaded,this);
+        },
+        /**
+         * [createTree description]
+         * @return {Tree}
+         */
+        createTree:function(){
+            $.fn.zTree.destroy('treeEle');
+            return this.mTree = $.fn.zTree.init(this.m$content,setting, Editor.getTreeJson());
+        },
+        /**
+         * We need to refresh the tree when editor reloaded.
+         * @param  {[type]} evt   
+         * @param  {[type]} evtObj
+         * @param  {[type]} args  
+         */
+        onEditorLoaded:function(evt, evtObj, args){
+          this.createTree();
         },
         /**
          * [onElementAdded description]

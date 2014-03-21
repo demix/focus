@@ -145,7 +145,7 @@ define(['local'], function(LocalCache) {
                         timestamp: +new Date
                     });
                 }else{
-                    __console('<font color=red>宿主环境不满足启动条件.</font> 查看<a href="http://www.google.cn/intl/zh-CN/chrome/browser/"><font color=yellow>解决方案</font></a>');
+                    __console('<font color=red>宿主环境不满足启动条件.</font> 关闭隐私/无痕模式，或查看<a href="http://www.google.cn/intl/zh-CN/chrome/browser/"><font color=yellow>解决方案</font></a>');
                 }
                 //notify what ever
                 ('function' === typeof callbackfn) && callbackfn(!fault);

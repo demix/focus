@@ -9,7 +9,7 @@
   * @version 0.0.1
   * @since 0.0.1
   */
-define(['topbar','window'],function(Topbar,gwindow) {
+define(['topbar','window','draft'],function(Topbar,gwindow) {
 
 return {
     startup:function(){

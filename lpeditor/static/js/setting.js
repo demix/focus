@@ -16,7 +16,7 @@ define(['local', 'listener'], function(LocalCache, Listener) {
     dialogWidth: '404px',
     dialogHeight: '455px',
     dialogBgColor: '',
-    dialogTop:'',
+    dialogTop: '',
     landingPageUrl: 'http://wan.sogou.com/nav.do?fl=sxd_fl_18&fid=100&tf=0&ab=0&source=0001000100002&gid=2&sid=40&pid=1663732439',
     dialogBgImg: 'http://img.wan.sogou.com/ufo/img/newnav/dialog3/ybg2.png',
     dialogVerticalCenter: true,
@@ -42,6 +42,18 @@ define(['local', 'listener'], function(LocalCache, Listener) {
       var updating = {};
       updating[args[0].key] = args[0].newVal;
       LocalCache.update(KEY_SETTING, updating);
+    },
+    toJSON: function() {
+      return {
+        showFocusElement: this.showFocusElement,
+        dialogWidth: this.dialogWidth,
+        dialogHeight: this.dialogHeight,
+        dialogBgColor: this.dialogBgColor,
+        dialogTop: this.dialogTop,
+        landingPageUrl: this.landingPageUrl,
+        dialogBgImg: this.dialogBgImg,
+        dialogVerticalCenter: this.dialogVerticalCenter
+      };
     }
   };
   $.extend(Setting, new Listener());

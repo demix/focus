@@ -34,7 +34,7 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
             });
             var tag = 'function' === typeof found.tag ? found.tag(id, index) : found.tag;
             var eleModel = new Element(tag || 'div', props, css, innerText);
-            self.addElement(eleModel, parent);
+            self.addElement(eleModel, parent,true);
             //copy css attributes
             $.each((found.css || {}), function(selector, selectorItems) {
                 var isPrefix = false;
@@ -50,7 +50,7 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
                     if ('function' === typeof v) {
                         v = v(id, index);
                     }
-                    eleModel.setCss(k, v, selector, isPrefix);
+                    eleModel.setCss(k, v, selector, isPrefix,true);
                 });
             });
 
@@ -61,10 +61,10 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
         });
     }
 
-    function loadDefaultElements() {
-        var self = this;
-        for (var ids in Initializing) {
-            var found = Initializing[ids];
+    function loadDefaultElements(draft) {
+        var self = this,draft=draft||Initializing;
+        for (var ids in draft) {
+            var found = draft[ids];
             analyzeElement.call(self, ids, found);
         }
 
@@ -88,10 +88,10 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
                 return this;
             }
 
-            loadDefaultElements.call(this);
+            this.load();
             //This event has to register before first draw
             this.listen('drawcomplete', this.onDrawComplete, this);
-            this.drawCanvas(REFRESH_HTML | REFRESH_CSS);
+           // this.drawCanvas(REFRESH_HTML | REFRESH_CSS);
 
             //Just listen the following adding events.
             this.listen('elementadded', this.onElementAdded, this);
@@ -102,6 +102,18 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
             this.__mInitialized = true;
 
             return this;
+        },
+        /**
+         * [load description]
+         * @param  {[type]} data [description]
+         * @return {[type]}      [description]
+         */
+        load:function(data){
+            this.gElements={};
+            this.trigger('loading');
+            loadDefaultElements.call(this,data);
+            this.trigger('loaded');
+            this.drawCanvas(REFRESH_HTML | REFRESH_CSS);
         },
         /**
          * [initEvt description]
@@ -234,7 +246,7 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
          * [addElement description]
          * @param {[type]} ele [description]
          */
-        addElement: function(ele, parent) {
+        addElement: function(ele, parent,silence) {
             var self = this;
             if (!(ele instanceof Element)) {
                 throw Error('Only element could be added!');
@@ -254,7 +266,7 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
             ele.listen('propchanged', self.onPropChanged, self);
             ele.listen('csschanged', self.onCssChanged, self);
 
-            self.trigger('elementadded', ele);
+            !silence&&self.trigger('elementadded', ele);
 
             return ele;
         },
@@ -400,10 +412,14 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
          * @return {[type]} [description]
          */
         dump: function() {
-            console.log(this.gElements);
-            return this;
+            var draft = {};
+            $.each(this.gElements,function(key,ele){
+                draft[ele.getId()] = ele.toJSON();
+            });
+            
+            return draft;
         }
     };
     $.extend(Editor, new Listener());
-    return Editor.init().dump();
+    return Editor.init();
 });
