@@ -18,7 +18,9 @@ define(['dialog', 'setting', 'text!tpl/setting.html'], function(Dialog, Setting,
 
   $.extend(settingDialog, {
     init: function() {
+      this.render();
       this.initEvt();
+      Setting.listen('loaded', this.onSettingLoaded, this);
       return this;
     },
     initEvt: function() {
@@ -29,6 +31,18 @@ define(['dialog', 'setting', 'text!tpl/setting.html'], function(Dialog, Setting,
           Setting.set(e.target.name, $(e.target).val());
         }
       });
+    },
+    render: function() {
+      this.m$content.html(Ursa.render('Tpl_Setting', Setting, Tpl_Setting));
+    },
+    /**
+     * [onSettingLoaded description]
+     * @param  {[type]} evt    [description]
+     * @param  {[type]} evtObj [description]
+     * @param  {[type]} args   [description]
+     */
+    onSettingLoaded: function(evt, evtObj, args) {
+      this.render();
     }
   });
 

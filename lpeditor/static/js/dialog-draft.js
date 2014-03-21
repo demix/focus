@@ -32,6 +32,12 @@ define(['editor', 'dialog', 'draft', 'utils'], function(Editor, Dialog, DraftMan
         DraftManager.getDraft(timestamp);
       });
     },
+    /**
+     * Show status of loading
+     * @param  {[type]} evt    [description]
+     * @param  {[type]} evtObj [description]
+     * @param  {[type]} args   [description]
+     */
     onEditorLoadChange: function(evt, evtObj, args) {
       if ('loading' === evt) {
         this.title('装载中');
@@ -39,12 +45,18 @@ define(['editor', 'dialog', 'draft', 'utils'], function(Editor, Dialog, DraftMan
         this.title('草稿');
       }
     },
+    /**
+     * Show list on the dialog
+     * @param  {[type]} evt    [description]
+     * @param  {[type]} evtObj [description]
+     * @param  {[type]} args   [description]
+     */
     onDraftListChanged: function(evt, evtObj, args) {
       var self = this;
       var timestampList = args[0];
       self.m$content.empty();
       timestampList.forEach(function(time, index) {
-        self.m$content.append('<li data-stamp=' + time + '>' + Utils.formatDate(new Date(time), 'yyyy年mm月dd日 aphh时ii分ss秒') + '</li>');
+        self.m$content.append('<li data-stamp=' + time + '>'+(1+index)+'. ' + Utils.formatDate(new Date(time), 'yyyy年mm月dd日 aphh时ii分ss秒') + '</li>');
       });
     }
   });

@@ -37,12 +37,36 @@ define(['local', 'listener'], function(LocalCache, Listener) {
         newVal: value
       });
     },
+    /**
+     * [onSettingChanged description]
+     * @param  {[type]} evt    [description]
+     * @param  {[type]} evtObj [description]
+     * @param  {[type]} args   [description]
+     * @return {[type]}        [description]
+     */
     onSettingChanged: function(evt, evtObj, args) {
       //save to local
       var updating = {};
       updating[args[0].key] = args[0].newVal;
       LocalCache.update(KEY_SETTING, updating);
     },
+    /**
+     * [load description]
+     * @param  {[type]} settings [description]
+     * @return {[type]}          [description]
+     */
+    load:function(settings){
+      var self = this;
+      $.each(settings,function(key,val){
+        self.set(key,val);
+      });
+
+      this.trigger('loaded');
+    },
+    /**
+     * [toJSON description]
+     * @return {[type]} [description]
+     */
     toJSON: function() {
       return {
         showFocusElement: this.showFocusElement,

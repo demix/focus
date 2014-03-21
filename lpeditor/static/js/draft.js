@@ -27,8 +27,10 @@ define(['setting', 'editor', 'listener'], function(Setting, Editor, Listener) {
               break;
             case 'loadDraft':
               var draft = event.data.payload;
+              //reload elements
               Editor.load(draft.elements);
-              //load setting
+              //reload setting
+              Setting.load(draft.setting);
               break;
             default:
               ;
