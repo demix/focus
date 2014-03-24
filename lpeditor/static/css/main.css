@@ -59,6 +59,7 @@ visibility:hidden;
 clear:both;
 font-size:0
 }
+input[readonly]{border:0;background: transparent;}
 
 .editor-content {
 padding:0
@@ -432,8 +433,8 @@ text-align:center
     line-height: 25px;
     cursor: pointer;
     -moz-user-select:none;
--webkit-user-select:none;
-user-select:none;
+    -webkit-user-select:none;
+    user-select:none;
 }
 
 #dialog-draft .content li:hover,#dialog-disk .content li:hover{

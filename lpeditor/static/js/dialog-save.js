@@ -24,6 +24,7 @@ define(['dialog','disk','editor','setting'],function(Dialog,DiskManager,Editor,S
         },
         initEvt:function(){
             var self = this;
+            //Save profile to server.
             this.m$content.find('form').submit(function(e){
                 var id =  self.m$profileId.val();
                 var desc = self.m$profileDesc.val();
@@ -40,9 +41,21 @@ define(['dialog','disk','editor','setting'],function(Dialog,DiskManager,Editor,S
             });
             return this;
         },
+        /**
+         * We need to show the ID when a new profile is created.
+         * @param  {[type]} evt   
+         * @param  {[type]} evtObj
+         * @param  {[type]} args  
+         */
         onCreated:function(evt,evtObj,args){
             this.m$profileId.val(args[0]);
         },
+        /**
+         * We need to show ID&description when a profile is loaded.
+         * @param  {[type]} evt   
+         * @param  {[type]} evtObj
+         * @param  {[type]} args  
+         */
         onLoaded:function(evt,evtObj,args){
             var data = args[0],id=args[1];
             this.m$profileId.val(id);

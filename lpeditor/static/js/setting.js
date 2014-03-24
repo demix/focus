@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['local', 'listener'], function(LocalCache, Listener) {
+define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) {
   var KEY_SETTING = 'key-setting';
   var Setting = {
     showFocusElement: true,
@@ -22,6 +22,7 @@ define(['local', 'listener'], function(LocalCache, Listener) {
     dialogVerticalCenter: true,
     init: function() {
       this.listen('settingchanged', this.onSettingChanged, this);
+      DiskManager.listen(EVT_LOADED, this.onProfileLoaded, this);
       return this;
     },
     set: function(key, value) {
@@ -39,16 +40,25 @@ define(['local', 'listener'], function(LocalCache, Listener) {
     },
     /**
      * [onSettingChanged description]
-     * @param  {[type]} evt    [description]
-     * @param  {[type]} evtObj [description]
-     * @param  {[type]} args   [description]
-     * @return {[type]}        [description]
+     * @param  {[type]} evt   
+     * @param  {[type]} evtObj
+     * @param  {[type]} args  
      */
     onSettingChanged: function(evt, evtObj, args) {
       //save to local
       var updating = {};
       updating[args[0].key] = args[0].newVal;
       LocalCache.update(KEY_SETTING, updating);
+    },
+    /**
+     * [onProfileLoaded description]
+     * @param  {[type]} evt   
+     * @param  {[type]} evtObj
+     * @param  {[type]} args  
+     */
+    onProfileLoaded:function(evt, evtObj, args){
+        var profile = args[0];
+        profile&&profile.setting&&this.load(profile.setting);
     },
     /**
      * [load description]

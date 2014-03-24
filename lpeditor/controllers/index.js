@@ -87,8 +87,8 @@ var app = {
       return res.json({
         msg: error,
         status: error ? -1 : 0,
-        created: !id,
-        id: profileId
+        created: !id,//是创建还是修改，取决于又没有id
+        id: profileId//需要返回新生成的id
       });
     });
 
@@ -122,7 +122,7 @@ var app = {
         }, function(error, result) {
           return res.json({
             status: 0,
-            data: ret
+            data: ret//返回的数据中，包含文件名(即包含id)，和desc
           });
         });
 
@@ -149,7 +149,7 @@ var app = {
       return res.json({
         status: error ? -1 : 0,
         msg: error,
-        data: content
+        data: content//理论上，content应该是合法的json字符串
       });
     });
   } //get

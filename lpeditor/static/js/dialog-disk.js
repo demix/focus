@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['dialog','disk'], function(Dialog,DiskManager) {
+define(['dialog', 'disk'], function(Dialog, DiskManager) {
 
     var diskDialog = new Dialog('#dialog-disk', {
 
@@ -19,17 +19,22 @@ define(['dialog','disk'], function(Dialog,DiskManager) {
         init: function() {
             this.m$content.text('加载中......');
 
-            DiskManager.listen(EVT_LOADED_LIST,this.onListLoaded,this);
+            DiskManager.listen(EVT_LOADED_LIST, this.onListLoaded, this);
 
-            DiskManager.listen(EVT_CREATED,this.onCreated,this);
+            DiskManager.listen(EVT_CREATED, this.onModified, this);
+            DiskManager.listen(EVT_SAVED, this.onModified, this);
 
             this.loadList();
             this.initEvt();
             return this;
         },
-        initEvt:function(){
-            this.m$content.delegate('li','dblclick',function(e){
+        initEvt: function() {
+            this.m$content.delegate('li', 'dblclick', function(e) {
 
+                var id = $(e.target).attr('data-id');
+                if (id) {
+                    DiskManager.load(id);
+                }
             });
             return this;
         },
@@ -41,16 +46,17 @@ define(['dialog','disk'], function(Dialog,DiskManager) {
             DiskManager.list();
             return this;
         },
-        onCreated:function(evt,evtObj,args){
+        onModified: function(evt, evtObj, args) {
             this.loadList();
         },
-        onListLoaded: function(evt,evtObj,args) {
-            var self = this,listArr=args[0];
+        onListLoaded: function(evt, evtObj, args) {
+            var self = this,
+                listArr = args[0];
             self.m$content.empty();
-                listArr&&listArr.forEach(function(item, index) {
-                    var id=item[0].replace(/\.json$/,'');
-                        self.m$content.append('<li data-id="'+id+'">'+id+'/'+item[1]+'</li>');
-                    });
+            listArr && listArr.forEach(function(item, index) {
+                var id = item[0].replace(/\.json$/, '');
+                self.m$content.append('<li data-id="' + id + '">' + id + '/' + item[1] + '</li>');
+            });
             return this;
         },
     });

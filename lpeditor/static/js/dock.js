@@ -47,7 +47,7 @@ define(['preview','dialog-tree','dialog-disk','dialog-tools', 'dialog-new', 'dia
         title: '存储',
         action: 'disk'
       }, {
-        icon: 'calendar',
+        icon: 'notes',
         title: '草稿',
         action: 'draft'
       }, {

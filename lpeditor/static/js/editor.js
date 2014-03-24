@@ -119,12 +119,13 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
         },
         /**
          * [onDiskLoaded description]
-         * @param  {[type]} evt    [description]
-         * @param  {[type]} evtObj [description]
-         * @param  {[type]} args   [description]
+         * @param  {[type]} evt   
+         * @param  {[type]} evtObj
+         * @param  {[type]} args  
          */
         onDiskLoaded:function(evt,evtObj,args){
-            console.log(args);
+            var profile = args[0],id=args[1];
+            this.load(profile.elements);
         },
         /**
          * [initEvt description]

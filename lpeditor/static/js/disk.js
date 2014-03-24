@@ -44,6 +44,7 @@ define(['listener'], function(Listener) {
             $.ajax({
                 url: '/get',
                 dataType: 'json',
+                data:{id:id},
                 type: 'post',
                 beforeSend: function() {
                     self.__loading = true;
@@ -54,7 +55,12 @@ define(['listener'], function(Listener) {
                 }
             }).done(function(data) {
                 if (data&&!+data.status) {
-                    self.trigger(EVT_LOADED, data.data,id);
+                    try{
+                        var profile=JSON.parse(data.data);
+                        self.trigger(EVT_LOADED, profile,id);
+                    }catch(e){
+                    self.trigger(EVT_LOAD_ERROR);
+                    }
                 } else {
                     self.trigger(EVT_LOAD_ERROR);
                 }
@@ -106,6 +112,7 @@ define(['listener'], function(Listener) {
             $.ajax({
                 url: '/save',
                 data: {
+                    id:id,
                     payload: data
                 },
                 dataType: 'json',
