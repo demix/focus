@@ -10,6 +10,8 @@
         <link rel="stylesheet" type="text/css" href="static/css/main.css" />
         <link rel="stylesheet" type="text/css" href="static/css/jquery-ui-1.10.4.custom.min.css" />
         <link rel="stylesheet" type="text/css" href="static/css/zTreeStyle.css" />
+        <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.min.js"></script>
+        <script data-main="static/js/main" src="static/js/require.js"></script>
     </head>
     <body onbeforeunload=";">
         <div class="w-fil h-fil editor-content">
@@ -126,6 +128,4 @@
             </div>
         </div><!--end editor-content-->
     </body>
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.min.js"></script>
-    <script data-main="static/js/main" src="static/js/require.js"></script>
 </html>

@@ -3,6 +3,7 @@
  *
  * changelog
  * 2014-03-08[18:14:04]:created
+ * 2014-03-24[18:35:10]:removed dep on jQuery
  *
  * @info yinyong,osx-x64,UTF-8,192.168.1.105,js,/Volumes/yinyong-1/focus/lpeditor/static/js
  * @author yanni4night@gmail.com
@@ -10,15 +11,15 @@
  * @since 0.0.1
  */
 define(['local'], function(LocalCache) {
-    var $bg = $('.startup');
-    var $login = $bg.find('.login');
-    var $loginIcon = $login.find('.icon');
-    var $starting = $bg.find('.starting');
-    var $list = $bg.find('.list');
+    var $bg = document.getElementsByClassName('startup')[0];
+    var $login = $bg.getElementsByClassName('login')[0];
+    var $loginIcon = $login.getElementsByClassName('icon')[0];
+    var $starting = $bg.getElementsByClassName('starting')[0];
+    var $list = $bg.getElementsByClassName('list')[0];
     var ua = navigator.userAgent;
     var CHECKING_LIST_VERSION = 0x0810;
     var KEY_CHECKLIST = 'Checklist';
-    var isSafari7 = /AppleWebKit/.test(ua)&&/Version\/7/.test(ua)&&/Apple\sComputer/.test(navigator.vendor);
+    var isSafari7 = /AppleWebKit/.test(ua) && /Version\/7/.test(ua) && /Apple\sComputer/.test(navigator.vendor);
 
     /**
      * Output to emulate console window.
@@ -26,7 +27,9 @@ define(['local'], function(LocalCache) {
      */
     function __console(msg) {
         if (msg) {
-            $list.append($('<li/>').html('&gt; ' + String(msg)));
+            var li = document.createElement('li');
+            li.innerHTML = '&gt; ' + String(msg);
+            $list.appendChild(li);
         }
     }
     /**
@@ -53,74 +56,78 @@ define(['local'], function(LocalCache) {
     };
     //checking items
     var expirments = [
-        ['navigator.onLine',navigator.onLine],
-        ['window.localStorage', !! window.localStorage],
-        ['window.XMLHttpRequest', !! window.XMLHttpRequest],
-        ['window.console', !! (window.console && console.error && console.log && console.warn)],
-        ['Date.now()', !!Date.now],
+        ['jQuery', window.jQuery, 1],
+        ['navigator.onLine', undefined !== navigator.onLine, 0],
+        ['window.localStorage', !! window.localStorage, 1],
+        ['window.XMLHttpRequest', !! window.XMLHttpRequest, 1],
+        ['window.console', !! (window.console && console.error && console.log && console.warn), 1],
+        ['Date.now()', !! Date.now, 1],
         ['background-size:cover',
             function() {
                 //safari does not have CSS object
-                return isSafari7||CSS.supports('background-size', 'cover');
-            }
+                return isSafari7 || CSS.supports('background-size', 'cover');
+            },
+            0
         ],
         ['calc',
             function() {
                 //safari does not have CSS object
-                return isSafari7||(CSS.supports('height', '-webkit-calc(100% - 10px)') || CSS.supports('height', '-moz-calc(100% - 10px)') || CSS.supports('height', 'calc(100% - 10px)'))
-            }
+                return isSafari7 || (CSS.supports('height', '-webkit-calc(100% - 10px)') || CSS.supports('height', '-moz-calc(100% - 10px)') || CSS.supports('height', 'calc(100% - 10px)'))
+            },
+            0
         ],
         ['Adobe flash',
             function() {
-                
-                if(window.ActiveXObject)
-                {
-                    try{
+
+                if (window.ActiveXObject) {
+                    try {
                         new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
                         return true;
-                    }catch(e){
+                    } catch (e) {
                         return !!navigator.plugins['Shockwave Flash'];
                     }
-                }else{
+                } else {
                     return !!navigator.mimeTypes['application/x-shockwave-flash'];
                 }
-            }
+            },
+            1
         ],
-        ['Array.isArray()', !!Array.isArray],
-        ['Array.prototype.forEach', !! Array.prototype.forEach],
-        ['Array.prototype.some', !! Array.prototype.some],
-        ['Array.prototype.every', !! Array.prototype.every],
-        ['Array.prototype.reduce', !! Array.prototype.reduce],
-        ['Array.prototype.filter', !! Array.prototype.filter],
-        ['Array.prototype.indexOf', !! Array.prototype.indexOf],
-        ['String.prototype.trim', !! String.prototype.trim],
-        ['Object.freeze', !! Object.freeze],
-        ['Object.seal', !! Object.seal],
-        ['Object.keys', !! Object.keys],
-        ['window.Worker', !! window.Worker],
-        ['Laptop screen size', screen.width > 550],
-        ['Not handheld device', !/(android|ipad|iphone)/i.test(navigator.userAgent)]
+        ['Array.isArray()', !! Array.isArray, 1],
+        ['Array.prototype.forEach', !! Array.prototype.forEach, 1],
+        ['Array.prototype.some', !! Array.prototype.some, 1],
+        ['Array.prototype.every', !! Array.prototype.every, 1],
+        ['Array.prototype.reduce', !! Array.prototype.reduce, 1],
+        ['Array.prototype.filter', !! Array.prototype.filter, 1],
+        ['Array.prototype.indexOf', !! Array.prototype.indexOf, 1],
+        ['String.prototype.trim', !! String.prototype.trim, 1],
+        ['Object.freeze', !! Object.freeze, 1],
+        ['Object.seal', !! Object.seal, 1],
+        ['Object.keys', !! Object.keys, 1],
+        ['window.Worker', !! window.Worker, 1],
+        ['Laptop screen size', screen.width > 550, 1],
+        ['Not handheld device', !/(android|ipad|iphone)/i.test(navigator.userAgent), 1]
     ];
 
-    var totalLenth= expirments.length;
+    var totalLenth = expirments.length;
 
-    $login.click(function(e) {
-        $bg.hide();
-    });
+    $login.addEventListener('click', function(e) {
+        $bg.style.display = 'none';
+    }, false);
 
     var checkingInter, fault = 0;
 
     function startCheck(callbackfn) {
         var clistCache = LocalCache.load(KEY_CHECKLIST);
         //we need check again when updated or a week later,or when I change the version.
-        if (!~location.search.indexOf('check=force')&&clistCache && ua == clistCache.ua && (Date.now()-clistCache.timestamp<7*24*3600*1000) &&CHECKING_LIST_VERSION == clistCache.version) {
+        if (!~location.search.indexOf('check=force') && clistCache && ua == clistCache.ua && (+new Date - clistCache.timestamp < 7 * 24 * 3600 * 1000) && CHECKING_LIST_VERSION == clistCache.version) {
             //This version of current browser has been checked
-            $starting.text("点击进入").show();
-            $loginIcon.show();
+            $starting.innerText = "点击进入";
+            $starting.style.display = 'block';
+            $loginIcon.style.display = 'block';
             return ('function' === typeof callbackfn) && callbackfn(true);
         }
         //Need to check immediatly
-        $list.show();
+        $list.style.display = 'block';
         __console('正在为第一次运行做检查......')
 
         checkingInter = setInterval(function() {
@@ -130,21 +137,22 @@ define(['local'], function(LocalCache) {
             } else {
                 //checking complete.
 
-                __console('完成检查 '+totalLenth+' 项,发现 ' + fault + ' 个错误.');
+                __console('完成检查 ' + totalLenth + ' 项,发现 ' + fault + ' 个错误.');
 
                 if (0 === fault) {
                     //No faults,then show then entrence
-                    $list.fadeOut('slow', function(e) {
-                        $starting.text("点击进入").show();
-                        $loginIcon.show();
-                    });
+                    $list.style.display = 'none';
+                    $starting.innerText = "点击进入";
+                    $starting.style.display = 'block';
+                    $loginIcon.style.display = 'block';
+
                     //and save the result
                     LocalCache.update(KEY_CHECKLIST, {
                         version: CHECKING_LIST_VERSION,
                         ua: ua,
                         timestamp: +new Date
                     });
-                }else{
+                } else {
                     __console('<font color=red>宿主环境不满足启动条件.</font> 关闭隐私/无痕模式，或查看<a href="http://www.google.cn/intl/zh-CN/chrome/browser/"><font color=yellow>解决方案</font></a>');
                 }
                 //notify what ever
@@ -157,9 +165,9 @@ define(['local'], function(LocalCache) {
 
     return {
         start: function(callbackfn) {
-            $(document).ready(function() {
+            window.addEventListener('load' ,function() {
                 startCheck(callbackfn);
-            });
+            },false);
         }
     };
 });

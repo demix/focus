@@ -14,7 +14,7 @@ require.config({
         '*': {
             'jquery-ui': 'jquery-ui-1.10.4.custom.min',
             'jquery-ztree': 'jquery.ztree.all-3.5.min',
-            'jquery-fisheye':'jquery-fisheye'
+            'jquery-fisheye': 'jquery-fisheye'
         }
     }
 });
@@ -23,7 +23,7 @@ require(['TestCase', 'checklist', 'ping'], function(TestCase, Checklist, Ping) {
     window.onerror = function(e) {
         Ping.send(e);
     };
- Checklist.start(function(result) {
+    Checklist.start(function(result) {
         if (result) {
             require(['system'], function(System) {
                 System.startup()
