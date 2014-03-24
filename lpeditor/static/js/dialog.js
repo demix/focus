@@ -15,6 +15,35 @@ define(['local', 'jquery-ui'], function(LocalCache) {
     //global dialog z-index
     var gCurrentZindex = 1000;
 
+    var gDialogManager = {
+        mChildren:[],
+        cache:function(dialog){
+            this.mChildren.push(dialog);
+        },
+        reArrange:function(){
+            var w = $(window).width(),visibleCnt=0;;
+            this.mChildren.forEach(function(item,index){
+                visibleCnt+=(item.isVisible()?1:0);
+            });
+            this.mChildren.forEach(function(item,index){
+                var y = 50;
+                var x=(1+index)*(50);
+                item.moveTo(x,y+30*index);
+            });
+        },
+        findDialog:function(selector){
+            var found=null;
+            this.mChildren.every(function(dialog,index){
+                if($(dialog).is($(selector))){
+                    found= $(dialog);
+                    return false;
+                }
+                return true;
+            });
+
+            return found;
+        }
+    };
     /**
      * Dialog super construct function.
      * @param {String} container
@@ -55,8 +84,13 @@ define(['local', 'jquery-ui'], function(LocalCache) {
 
         this.__bindEvent();
 
+        gDialogManager.cache(this);
         return this;
     }
+    //Gloabl static function
+    Dialog.reArrange=function(){
+            return gDialogManager.reArrange();
+        };
 
     Dialog.prototype = {
         __eventBinded: false,
@@ -103,6 +137,22 @@ define(['local', 'jquery-ui'], function(LocalCache) {
             return this;
         },
         /**
+         * [moveTo description]
+         * @param  {[type]} x [description]
+         * @param  {[type]} y [description]
+         * @return {[type]}   [description]
+         */
+        moveTo:function(left,top){
+            this.m$container.css('left',left+'px');
+            this.m$container.css('top',top+'px');
+            this.__saveCache({
+                left:left,
+                top:top
+            });
+            this.tryTop();
+            return this;
+        },
+        /**
          * Set&get title of the dialog.
          * @param  {String} title
          * @return {String|this}
@@ -135,6 +185,13 @@ define(['local', 'jquery-ui'], function(LocalCache) {
             if (this.m$container.is(':visible')) {
                 this.m$container.css('z-index', ++gCurrentZindex);
             }
+        },
+        /**
+         * [isVisible description]
+         * @return {Boolean} [description]
+         */
+        isVisible:function(){
+            return this.m$container.is(':visible');
         },
         /**
          * [show description]

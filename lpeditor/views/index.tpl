@@ -65,11 +65,15 @@
                 <div class="bar"><span class="name">创建新元素</span><div class="closer" title="关闭"></div></div>
                 <div class="content">
                     <form action="/" id="from-create-element" onsubmit="return false;">
-                        <label for="_id">ID：</label><input type="text" id="_id" name="_id" required="required"/>
-                        <label>类型：</label>
-                        <input type="radio" name="_type" id="_type_img"/><label for="_type_img">图片</label>
-                        <input type="radio" name="_type" id="_type_text"/><label for="_type_text">文本</label>
-                        <input type="radio" name="_type" id="_type_link"/><label for="_type_link'">链接</label>
+                        <div>
+                            <label for="_id">ID：</label><input type="text" id="_id" name="_id" required="required"/>
+                        </div>
+                        <div>
+                            <label>类型：</label>
+                            <input type="radio" name="_type" id="_type_img" checked="checked"/><label for="_type_img">图片</label>
+                            <input type="radio" name="_type" id="_type_text"/><label for="_type_text">文本</label>
+                            <input type="radio" name="_type" id="_type_link"/><label for="_type_link'">链接</label>
+                        </div>
                         <button>创建</button>
                     </form>
                 </div>
@@ -78,6 +82,30 @@
             <div class="dialog" id="dialog-tools">
                 <div class="bar"><span class="name">工具</span><div class="closer" title="关闭"></div></div>
                 <div class="content ztree">
+                    Coming...
+                </div>
+            </div> 
+            <!--DISK Dialog-->
+            <div class="dialog" id="dialog-disk">
+                <div class="bar"><span class="name">存储</span><div class="closer" title="关闭"></div></div>
+                <div class="content">
+                </div>
+            </div>
+            <!--SAVE Dialog-->
+            <div class="dialog" id="dialog-save">
+                <div class="bar"><span class="name">存储</span><div class="closer" title="关闭"></div></div>
+                <div class="content">
+                    <form action="/" onsubmit="return false;">
+                        <div>
+                            <label for="profile-id">ID：</label>
+                            <input type="text" value="" readonly="readonly" id="profile-id" placeholder="新建为空"/>
+                        </div>
+                        <div>
+                            <label for="profile-id">备注：</label>
+                            <input type="text" value="" id="profile-desc" max-length="50" placeholder="档案描述"/>
+                        </div>
+                        <button type="submit">保存到服务器</button>
+                    </form>
                 </div>
             </div>
             <!--ABOUT Dialog-->

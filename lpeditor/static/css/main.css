@@ -96,7 +96,6 @@ font-family:'PFDin' ,'Microsoft Yahei',Arial ,sans-serif
 width:100%;
 font-size:12px;
 height:80px;
-background:url(/static/img/dock.png) center center no-repeat;
 position:fixed;
 bottom:20px;
 z-index:9999
@@ -105,7 +104,10 @@ z-index:9999
 .editor-content .dock .dock-container {
 position:absolute;
 height:50px;
-padding-left:20px
+background-size: cover;
+background-image:url(/static/img/dock.png);
+ background-position:center center;
+ background-repeat:no-repeat;
 }
 
 .editor-content .dock .dock-item {
@@ -424,7 +426,7 @@ text-align:center
         text-align: right;
 }
 
-#dialog-draft .content li{
+#dialog-draft .content li,#dialog-disk .content li{
     text-indent: 2em;
     height: 25px;
     line-height: 25px;
@@ -434,7 +436,7 @@ text-align:center
 user-select:none;
 }
 
-#dialog-draft .content li:hover{
+#dialog-draft .content li:hover,#dialog-disk .content li:hover{
     background: rgba(0,0,0,0.6);
     color: #fff;
 }

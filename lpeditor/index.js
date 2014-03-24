@@ -4,7 +4,7 @@ var swig = require('swig');
 var express = require('express');
 var path=require('path');
 var db = require('../common/utils/db');
-
+var index =require('./controllers/index');
 
 var app = express();
 
@@ -19,13 +19,16 @@ app.use(express.bodyParser());
 app.use( '/static', express.static(__dirname + '/static'));
 app.use( '/common', express.static(__dirname + '/../common'));
 
-//app.get('*' , require('../common/controllers/common').get);
-app.post('/preview', require('./controllers/index').preview);
-app.get('/', require('./controllers/index').get);
-//app.get(/api\/(\w+)\/(.*)/, require('./controllers/api').get);
+
+app.post('/preview', index.preview);
+app.all('/save', index.save);
+app.all('/list', index.list);
+app.all('/get', index.get);
+app.get('/', index.index);
 
 
 
+//WTF,it does not work!
 //if(process.env.NODE_ENV == 'development'){
     app.set('view cache', false);
     swig.setDefaults({cache: false});

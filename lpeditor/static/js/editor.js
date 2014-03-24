@@ -10,7 +10,7 @@
  * @version 0.0.2
  * @since 0.0.1
  */
-define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'/*draggable&resizable*/], function(Setting, Initializing, Element, Listener) {
+define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*draggable&resizable*/], function(Setting, Initializing, Element, Listener,DiskManager) {
 
     var $canvas = $('.canvas'),
         $previewStyle = $('#previewStyle');
@@ -88,6 +88,7 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'/*draggable
                 return this;
             }
 
+            DiskManager.listen(EVT_LOADED,this.onDiskLoaded,this);
             
             //This event has to register before first draw
             this.listen('drawcomplete', this.onDrawComplete, this);
@@ -115,6 +116,15 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'/*draggable
             loadDefaultElements.call(this,data);
             this.trigger('loaded');
             this.drawCanvas(REFRESH_HTML | REFRESH_CSS);
+        },
+        /**
+         * [onDiskLoaded description]
+         * @param  {[type]} evt    [description]
+         * @param  {[type]} evtObj [description]
+         * @param  {[type]} args   [description]
+         */
+        onDiskLoaded:function(evt,evtObj,args){
+            console.log(args);
         },
         /**
          * [initEvt description]
@@ -360,7 +370,7 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'/*draggable
          */
         onDrawComplete: function(evt, evtObj, args) {
             var self = this;
-            $canvas.find('a').click(function(e){e.preventDefault();return false;});
+            $canvas.find('a').not('[id^=tab]').click(function(e){e.preventDefault();return false;});
             //draggable,resizeable
             $canvas.find('span,label,div,a,img').draggable({
                 containment: "parent",

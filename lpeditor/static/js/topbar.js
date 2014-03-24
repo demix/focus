@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['draft'], function(DraftManager) {
+define(['draft','dialog','dialog-save'], function(DraftManager,Dialog,DialogSave) {
 
     //mark right
     function Mark() {}
@@ -282,10 +282,45 @@ define(['draft'], function(DraftManager) {
                 });
             }
         });
-
-
         draftMenu.init();
         MacTopbar.addMenu(draftMenu);
+    })();
+
+    //reorder dialogs menu
+    (function(){
+        var reOrderDialogsMenu = new Menu();
+        $.extend(reOrderDialogsMenu,{
+            init:function(){
+                this.m$div =$('<a href="javascript:;" class="item reorder-dialogs">整理对话框</a>');
+                this.initEvt();
+                return this;
+            },
+            initEvt:function(){
+                this.m$div.click(function(e){
+                    Dialog.reArrange();
+                });
+            }
+        });
+        reOrderDialogsMenu.init();
+        MacTopbar.addMenu(reOrderDialogsMenu);
+    })();
+ //save profile menu
+    (function(){
+        var saveProfileMenu = new Menu();
+        $.extend(saveProfileMenu,{
+            init:function(){
+                this.m$div =$('<a href="javascript:;" class="item save-profile">同步到服务器</a>');
+                this.initEvt();
+                return this;
+            },
+            initEvt:function(){
+                this.m$div.click(function(e){
+                    DialogSave.toggle();
+                });
+            }
+        });
+        saveProfileMenu.init();
+        MacTopbar.addMenu(saveProfileMenu);
     })();
 
     return MacTopbar;

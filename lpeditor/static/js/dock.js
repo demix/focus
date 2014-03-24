@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['preview','dialog-tree','dialog-tools', 'dialog-new', 'dialog-about', 'dialog-help', 'dialog-setting', 'dialog-prop', 'dialog-draft', 'background', 'jquery-fisheye'], function(preview,DialogTree,DialogTools,DialogNew, DialogAbout, DialogHelp, DialogSetting, DialogProp,DialogDraft, Background) {
+define(['preview','dialog-tree','dialog-disk','dialog-tools', 'dialog-new', 'dialog-about', 'dialog-help', 'dialog-setting', 'dialog-prop', 'dialog-draft', 'background', 'jquery-fisheye'], function(preview,DialogTree,DialogDisk,DialogTools,DialogNew, DialogAbout, DialogHelp, DialogSetting, DialogProp,DialogDraft, Background) {
   var Dock = {
     /**
      * [init description]
@@ -42,6 +42,10 @@ define(['preview','dialog-tree','dialog-tools', 'dialog-new', 'dialog-about', 'd
         icon: 'tools',
         title: '工具',
         action: 'tools'
+      }, {
+        icon: 'disk',
+        title: '存储',
+        action: 'disk'
       }, {
         icon: 'calendar',
         title: '草稿',
@@ -111,6 +115,9 @@ define(['preview','dialog-tree','dialog-tools', 'dialog-new', 'dialog-about', 'd
             break;          
           case 'new':
             DialogNew.toggle();
+            break;         
+          case 'disk':
+            DialogDisk.toggle();
             break;
           case 'tools':
             DialogTools.toggle();
