@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
     <head>
         <meta charset="utf-8" />
@@ -6,12 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="author" content="yinyong@sogou-inc.com"/>
         <meta name="follow" content="no"/>
-        <title>Landing Page Dialog Editor Studio ------ wan.sogou.com</title>
+        <title>Landing Page Dialog Editor Studio</title>
         <link rel="stylesheet" type="text/css" href="static/css/main.css" />
         <link rel="stylesheet" type="text/css" href="static/css/jquery-ui-1.10.4.custom.min.css" />
         <link rel="stylesheet" type="text/css" href="static/css/zTreeStyle.css" />
     </head>
-    <body>
+    <body onbeforeunload=";">
         <div class="w-fil h-fil editor-content">
             <div class="topbar" unselectable="on">
                 <div class="menu h-fil fl cf">
@@ -32,7 +32,7 @@
             <!--TREE Dialog-->
             <div class="dialog" id="dialog-tree">
                 <div class="bar"><span class="name">元素结构</span><div class="closer" title="关闭"></div></div>
-                <div class="content ztree"></div>
+                <div id="tree-structure" class="content ztree"></div>
             </div>
             <!--SETTING Dialog-->
             <div class="dialog" id="dialog-setting">
@@ -59,6 +59,26 @@
                 <div class="content">
                     
                 </div>
+            </div>           
+             <!--NEW Dialog-->
+            <div class="dialog" id="dialog-new">
+                <div class="bar"><span class="name">创建新元素</span><div class="closer" title="关闭"></div></div>
+                <div class="content">
+                    <form action="/" id="from-create-element" onsubmit="return false;">
+                        <label for="_id">ID：</label><input type="text" id="_id" name="_id" required="required"/>
+                        <label>类型：</label>
+                        <input type="radio" name="_type" id="_type_img"/><label for="_type_img">图片</label>
+                        <input type="radio" name="_type" id="_type_text"/><label for="_type_text">文本</label>
+                        <input type="radio" name="_type" id="_type_link"/><label for="_type_link'">链接</label>
+                        <button>创建</button>
+                    </form>
+                </div>
+            </div>
+            <!--TOOLS Dialog-->
+            <div class="dialog" id="dialog-tools">
+                <div class="bar"><span class="name">工具</span><div class="closer" title="关闭"></div></div>
+                <div class="content ztree">
+                </div>
             </div>
             <!--ABOUT Dialog-->
             <div class="dialog" id="dialog-about">
@@ -77,8 +97,7 @@
                 <div class="login"><div class="icon"></div><div class="starting">正在启动</div></div>
             </div>
         </div><!--end editor-content-->
-       
     </body>
-    <script src="http://lib.sinaapp.com/js/jquery/2.0.3/jquery-2.0.3.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.min.js"></script>
     <script data-main="static/js/main" src="static/js/require.js"></script>
 </html>

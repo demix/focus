@@ -13,7 +13,7 @@ require.config({
     map: {
         '*': {
             'jquery-ui': 'jquery-ui-1.10.4.custom.min',
-            'jquery-ztree': 'jquery.ztree.core-3.5.min',
+            'jquery-ztree': 'jquery.ztree.all-3.5.min',
             'jquery-fisheye':'jquery-fisheye'
         }
     }

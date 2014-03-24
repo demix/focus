@@ -10,7 +10,7 @@
  * @version 0.0.2
  * @since 0.0.1
  */
-define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function(Setting, Initializing, Element, Listener) {
+define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'/*draggable&resizable*/], function(Setting, Initializing, Element, Listener) {
 
     var $canvas = $('.canvas'),
         $previewStyle = $('#previewStyle');
@@ -18,7 +18,7 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
     function analyzeElement(ids, found, parent) {
         var self = this;
         var idArray = ids.split(',');
-        //  var ret = [];
+
         idArray.forEach(function(id, index, ids) {
             var innerText = ('function' === typeof found.text) ? found.text(id, index) : (found.text || "");
             var props = {
@@ -88,10 +88,11 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
                 return this;
             }
 
-            this.load();
+            
             //This event has to register before first draw
             this.listen('drawcomplete', this.onDrawComplete, this);
-           // this.drawCanvas(REFRESH_HTML | REFRESH_CSS);
+
+            this.load();
 
             //Just listen the following adding events.
             this.listen('elementadded', this.onElementAdded, this);
@@ -359,8 +360,9 @@ define(['setting', 'initializing', 'element', 'listener', 'jquery-ui'], function
          */
         onDrawComplete: function(evt, evtObj, args) {
             var self = this;
+            $canvas.find('a').click(function(e){e.preventDefault();return false;});
             //draggable,resizeable
-            $canvas.find('span,label,div,a').draggable({
+            $canvas.find('span,label,div,a,img').draggable({
                 containment: "parent",
                 stop: function(event, ui) {
                     var id = event.target.id;

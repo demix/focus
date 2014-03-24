@@ -75,7 +75,6 @@ define(['local', 'jquery-ui'], function(LocalCache) {
             }).draggable({
                 opacity:0.7,
                 handle: self.opt.bar, //drag a dialog by only its bar
-            //    containment: 'window',
                 stop: function(event, ui) {
                     if(ui.position.left<0){
                         self.m$container.css('left',ui.position.left=0);
@@ -104,9 +103,9 @@ define(['local', 'jquery-ui'], function(LocalCache) {
             return this;
         },
         /**
-         * [title description]
-         * @param  {[type]} title [description]
-         * @return {[type]}       [description]
+         * Set&get title of the dialog.
+         * @param  {String} title
+         * @return {String|this}
          */
         title:function(title){
             if(undefined===title){

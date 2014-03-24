@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['dialog', 'setting', 'text!tpl/setting.html'], function(Dialog, Setting, Tpl_Setting) {
+define(['dialog', 'setting', 'text!tpl/setting.html','Ursa'], function(Dialog, Setting, Tpl_Setting) {
   var settingDialog = new Dialog('#dialog-setting', {
     minHeight: 420,
     minWidth: 700

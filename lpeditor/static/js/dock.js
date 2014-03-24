@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['preview','dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting', 'dialog-prop', 'dialog-draft', 'background', 'jquery-fisheye'], function(preview,DialogTree, DialogAbout, DialogHelp, DialogSetting, DialogProp,DialogDraft, Background) {
+define(['preview','dialog-tree','dialog-tools', 'dialog-new', 'dialog-about', 'dialog-help', 'dialog-setting', 'dialog-prop', 'dialog-draft', 'background', 'jquery-fisheye'], function(preview,DialogTree,DialogTools,DialogNew, DialogAbout, DialogHelp, DialogSetting, DialogProp,DialogDraft, Background) {
   var Dock = {
     /**
      * [init description]
@@ -38,6 +38,10 @@ define(['preview','dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting'
         icon: 'systemsettings',
         title: '设置',
         action: 'setting'
+      }, {
+        icon: 'tools',
+        title: '工具',
+        action: 'tools'
       }, {
         icon: 'calendar',
         title: '草稿',
@@ -104,6 +108,12 @@ define(['preview','dialog-tree', 'dialog-about', 'dialog-help', 'dialog-setting'
             break;
           case 'help':
             DialogHelp.toggle();
+            break;          
+          case 'new':
+            DialogNew.toggle();
+            break;
+          case 'tools':
+            DialogTools.toggle();
             break;
           case 'property':
             DialogProp.toggle();
