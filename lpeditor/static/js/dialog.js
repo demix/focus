@@ -27,7 +27,7 @@ define(['local', 'jquery-ui'], function(LocalCache) {
             });
             this.mChildren.forEach(function(item,index){
                 var y = 50;
-                var x=(1+counter)*(50);
+                var x=(1+counter)*50;
                 item.isVisible()&&item.moveTo(x,y+30*counter++);
             });
         },

@@ -9,9 +9,11 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['dialog'], function(Dialog) {
+define(['dialog','text!tpl/help.html'], function(Dialog,Tpl_Help) {
     var helpDialog = new Dialog('#dialog-help',{
         resizable:false
     });
+
+    helpDialog.m$content.html(Tpl_Help);
     return helpDialog;
 });

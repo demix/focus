@@ -441,3 +441,8 @@ text-align:center
     background: rgba(0,0,0,0.6);
     color: #fff;
 }
+
+#dialog-help ol,#dialog-help li{
+    margin-left: 1em;
+    list-style-type:decimal;
+}
