@@ -13,6 +13,7 @@
  */
 (function(global) {
 
+    const MAX_ITEMS_COUNT = 20;
 
     function ctrlDB(success) {
         var _indexdbDB = (global.indexedDB || global.webkitIndexedDB || global.mozIndexedDB || global.msIndexedDB);
@@ -33,7 +34,7 @@
         };
     }
 
-    function get(timestamp){
+    function get(timestamp) {
         ctrlDB(function(evt) {
             var db = evt.target.result;
             var trans = db.transaction('draft');
@@ -48,9 +49,9 @@
                     });
                 }
             };
-        req.onerror = function(evt){
-            console.error(evt.target.error);
-        }
+            req.onerror = function(evt) {
+                console.error(evt.target.error);
+            }
         });
     }
 
@@ -67,14 +68,19 @@
     function list() {
         ctrlDB(function(evt) {
             var db = evt.target.result;
-            var trans = db.transaction('draft');
+            var trans = db.transaction('draft', 'readwrite');
             var store = trans.objectStore('draft');
             var req = store.openCursor(null, 'prev');
             var timestamps = [];
+            var index = 0;
             req.onsuccess = function() {
                 var cursor = req.result;
                 if (cursor) {
-                    timestamps.push(cursor.value.timestamp);
+                    if (index++ < MAX_ITEMS_COUNT) {
+                        timestamps.push(cursor.value.timestamp);
+                    } else {
+                        cursor.delete();
+                    }
                     cursor.
                     continue ();
                 } else {

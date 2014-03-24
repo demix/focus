@@ -21,14 +21,14 @@ define(['local', 'jquery-ui'], function(LocalCache) {
             this.mChildren.push(dialog);
         },
         reArrange:function(){
-            var w = $(window).width(),visibleCnt=0;;
+            var w = $(window).width(),visibleCnt=0,counter=0;
             this.mChildren.forEach(function(item,index){
                 visibleCnt+=(item.isVisible()?1:0);
             });
             this.mChildren.forEach(function(item,index){
                 var y = 50;
-                var x=(1+index)*(50);
-                item.moveTo(x,y+30*index);
+                var x=(1+counter)*(50);
+                item.isVisible()&&item.moveTo(x,y+30*counter++);
             });
         },
         findDialog:function(selector){
