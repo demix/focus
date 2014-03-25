@@ -94,6 +94,8 @@ define(['local', 'jquery-ui'], function(LocalCache) {
 
     Dialog.prototype = {
         __eventBinded: false,
+        __m$toast:null,
+        __mToastTimeout:null,
         /**
          * Inner binding event,just only once.
          * @return {[type]} [description]
@@ -164,6 +166,31 @@ define(['local', 'jquery-ui'], function(LocalCache) {
                 this.m$name.text(title);
                 return this;
             }
+        },
+        /**
+         * show toast message below the bar.
+         * @param  {String} msg    
+         * @param  {Boolean} normal 
+         * @param  {Integer} timeout 8s is default
+         * @return {this}
+         */
+        toast:function(msg,normal,timeout) {
+            var self = this;
+            if(!self.m$toast)
+            {
+                self.m$toast = $('<div class="toast"></div>').hide().click(function(e){
+                    $(this).hide();
+                });;
+                self.m$toast.insertAfter(self.m$bar);
+            }
+
+            self.m$toast.text(msg).toggleClass('fatal',!normal).show();
+            clearTimeout(self.__mToastTimeout);
+            self.__mToastTimeout = setTimeout(function(){
+                self.m$toast.hide();
+            },+timeout||8000);
+
+            return self;
         },
         /**
          * Inner save postion&size to local cache.

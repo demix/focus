@@ -245,20 +245,16 @@ define(['draft','dialog','dialog-save'], function(DraftManager,Dialog,DialogSave
             runNetwork: function() {
                 var self = this;
                 try {
-                    if (undefined !== navigator.onLine) {
-
                         function displayOnlineStats() {
-                            if (navigator.onLine) {
-                                self.m$div.removeClass('off');
+                            if (true===navigator.onLine) {
+                                self.m$div.removeClass('off').addClass('on').attr('title','在线');
                             } else {
-                                self.m$div.removeClass('on');
+                                self.m$div.removeClass('on').addClass('off').attr('title','离线');
                             }
                         }
                         displayOnlineStats();
                         window.addEventListener('online', displayOnlineStats);
                         window.addEventListener('offline', displayOnlineStats);
-                    }
-
                 } catch (e) {}
             }
         });
@@ -272,7 +268,7 @@ define(['draft','dialog','dialog-save'], function(DraftManager,Dialog,DialogSave
         var draftMenu = new Menu();
         $.extend(draftMenu,{
             init:function(){
-                this.m$div =$('<a href="javascript:;" class="item save-draft">保存草稿</a>');
+                this.m$div =$('<a href="javascript:;" class="item save-draft">保存为草稿</a>');
                 this.initEvt();
                 return this;
             },

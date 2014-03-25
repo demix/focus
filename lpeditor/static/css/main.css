@@ -201,6 +201,20 @@ background-size:16px auto;
 background-origin:content-box;
 font-size:0
 }
+.editor-content .dialog .toast{
+    background-color:rgba(255,255,255,0.9);
+    text-align: left;
+    color:green;
+    font: 12px/2 'simsun',arial,sans-serif;
+    border-bottom:1px solid green;
+    cursor: pointer;
+    text-indent: 1em;
+    font-weight: 900;
+}
+.editor-content .dialog .toast.fatal{
+    color:green;
+    border-bottom:1px solid green;
+}
 
 .editor-content .dialog .content {
 height:-webkit-calc(100% - 30px);
@@ -376,11 +390,11 @@ background-position:0 -200px
 }
 
 .editor-content .topbar .network {
-width:24px;
+width:20px;
 height:17px;
 position:relative;
 top:2px;
-background:url(/static/img/wifi.png) -32px 0 no-repeat
+background:url(/static/img/wifi.png) -32px 0 no-repeat;
 }
 
 .editor-content .topbar .network.off {
@@ -413,18 +427,26 @@ text-align:center
     width: 700px;
     height: 420px
 }
-#dialog-setting .content fieldset{
+.dialog .content fieldset{
     margin: 5px 15px;
     padding: 5px;
     border-radius: 10px
 }
-#dialog-setting .content fieldset .row{
+.dialog .content fieldset .row{
     margin: 2px 5px;
 }
-#dialog-setting .content fieldset .row .tit{
-    width: 35%;
+.dialog .content fieldset .row .tit{
+    width: 30%;
         display: inline-block;
         text-align: right;
+}
+
+.dialog input[type="text"]{
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+.dialog button{
+    padding: 2px 5px;
 }
 
 #dialog-draft .content li,#dialog-disk .content li{
@@ -445,4 +467,13 @@ text-align:center
 #dialog-help ol,#dialog-help li{
     margin-left: 1em;
     list-style-type:decimal;
+}
+#dialog-new{
+    width: 630px;
+    height: 150px;
+}
+
+#dialog-save{
+    width: 343px;
+    height: 150px;
 }

@@ -24,6 +24,7 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
             var props = {
                 id: id
             }, css = {
+                    'z-index':'',//every has to set z-index
                     position: 'absolute' //every element is absolute
                 };
             //Copy properties
@@ -280,6 +281,8 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
 
             !silence&&self.trigger('elementadded', ele);
 
+            this.selectElement(ele);
+
             return ele;
         },
         /**
@@ -385,7 +388,7 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
                         ele.setCss('top', ui.position.top + 'px', '', false, true);
                     }
                 }
-            }).resizable({
+            }).not('img').resizable({
                 stop: function(event, ui) {
                     var id = event.target.id;
                     var ele = self.getElementById(id);

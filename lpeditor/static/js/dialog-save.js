@@ -11,7 +11,9 @@
   */
 define(['dialog','disk','editor','setting'],function(Dialog,DiskManager,Editor,Setting){
 
-    var saveDialog = new Dialog('#dialog-save');
+    var saveDialog = new Dialog('#dialog-save',{
+        resizable:false
+    });
 
     $.extend(saveDialog,{
         init:function(){

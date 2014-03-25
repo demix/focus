@@ -26,11 +26,22 @@ define(['editor', 'dialog', 'draft', 'utils'], function(Editor, Dialog, DraftMan
       return this;
     },
     initEvt: function() {
-      this.m$content.delegate('li', 'dblclick', function(e) {
+      var self = this;
+      var timeout;
+      self.m$content.delegate('li', 'dblclick', function(e) {
+        clearTimeout(timeout);
         var $t = $(e.target);
         var timestamp = +$t.attr('data-stamp');
         DraftManager.getDraft(timestamp);
+      }).delegate('li', 'click', function(e) {
+        clearTimeout(timeout);
+        timeout = setTimeout((function(){
+          return function(){
+          self.toast('双击条目加载对应草稿', true, 4000);
+          };
+        })(),300);
       });
+      return self;
     },
     /**
      * Show status of loading
@@ -56,7 +67,7 @@ define(['editor', 'dialog', 'draft', 'utils'], function(Editor, Dialog, DraftMan
       var timestampList = args[0];
       self.m$content.empty();
       timestampList.forEach(function(time, index) {
-        self.m$content.append('<li data-stamp=' + time + '>'+(1+index)+'. ' + Utils.formatDate(new Date(time), 'yyyy年mm月dd日 aphh时ii分ss秒') + '</li>');
+        self.m$content.append('<li data-stamp=' + time + '>' + (1 + index) + '. ' + Utils.formatDate(new Date(time), 'yyyy年mm月dd日 aphh时ii分ss秒') + '</li>');
       });
     }
   });

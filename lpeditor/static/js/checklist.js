@@ -36,9 +36,10 @@ define(['local'], function(LocalCache) {
      * Check one item.
      * @param  {String}   name
      * @param  {Function} fn
+     * @param  {Integer} weight
      * @return {Boolean}
      */
-    function check(name, fn) {
+    function check(name, fn, weight) {
         var result = false;
         if (!name || undefined === fn) return;
         try {
@@ -52,7 +53,7 @@ define(['local'], function(LocalCache) {
         }
 
         __console(name + ' ------&gt; ' + (result ? '<font>pass</font>' : '<font color=blue>fail</font>'));
-        return result;
+        return weight?result:true;
     };
     //checking items
     var expirments = [
@@ -133,7 +134,7 @@ define(['local'], function(LocalCache) {
         checkingInter = setInterval(function() {
             var pair = expirments.shift();
             if (pair) {
-                fault += !check(pair[0], pair[1]);
+                fault += !check(pair[0], pair[1], pair[2]);
             } else {
                 //checking complete.
 

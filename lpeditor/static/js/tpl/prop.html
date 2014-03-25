@@ -43,7 +43,7 @@
                                         {%endfor%}
                             </select>
                         {%else%}
-                            <input type="input" class="c/{{selector}}/{{k}}" value="{{v}}" autocomplete="off" {%if k in disabledKey%}disabled="disabled"{%endif%}/>
+                            <input {%if 'z-index'==k%}type="number" min="0" max="1000"{%else%}type="input"{%endif%} class="c/{{selector}}/{{k}}" value="{{v}}" disableautocomplete autocomplete="off" {%if k in disabledKey%}disabled="disabled"{%endif%}/>
                         {%endif%}
                 </td>
                 </tr>

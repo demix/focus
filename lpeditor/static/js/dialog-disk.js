@@ -29,14 +29,21 @@ define(['dialog', 'disk'], function(Dialog, DiskManager) {
             return this;
         },
         initEvt: function() {
-            this.m$content.delegate('li', 'dblclick', function(e) {
-
+            var self = this ;
+            var timeout;
+            self.m$content.delegate('li', 'dblclick', function(e) {
+                clearTimeout(timeout);
                 var id = $(e.target).attr('data-id');
-                if (id) {
-                    DiskManager.load(id);
-                }
+               id&&DiskManager.load(id);
+            }).delegate('li','click',function(e){
+                clearTimeout(timeout);
+                timeout = setTimeout((function(){
+                    return function(){
+                          self.toast('双击条目加载对应存档',true,4000);
+                    };
+                })(),300);
             });
-            return this;
+            return self;
         },
         /**
          * [loadList description]
@@ -55,7 +62,7 @@ define(['dialog', 'disk'], function(Dialog, DiskManager) {
             self.m$content.empty();
             listArr && listArr.forEach(function(item, index) {
                 var id = item[0].replace(/\.json$/, '');
-                self.m$content.append('<li data-id="' + id + '">' + id + '/' + item[1] + '</li>');
+                self.m$content.append('<li data-id="' + id + '">'+(1+index)+'. ' + id + '/' + item[1] + '</li>');
             });
             return this;
         },

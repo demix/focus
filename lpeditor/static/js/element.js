@@ -24,7 +24,7 @@ define(['listener'], function(Listener) {
         if (arguments.length < 2) {
             throw Error('Construct an element need as least TWO parameters!');
         }
-        if (!/^[\w\-]+$/.test(props.id)) {
+        if (!/^[A-Za-z][\w\-]+$/.test(props.id)) {
             throw Error('Element need a legal ID property');
         }
         this.mTagName = String(tagname).toLowerCase();
