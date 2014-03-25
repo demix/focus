@@ -10,6 +10,7 @@
         <link rel="stylesheet" type="text/css" href="static/css/main.css" />
         <link rel="stylesheet" type="text/css" href="static/css/jquery-ui-1.10.4.custom.min.css" />
         <link rel="stylesheet" type="text/css" href="static/css/zTreeStyle.css" />
+        <link rel="stylesheet" type="text/css" href="static/css/spectrum.css" />
         <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.min.js"></script>
         <script data-main="static/js/main" src="static/js/require.js"></script>
     </head>
@@ -87,10 +88,12 @@
             </div>
             <!--TOOLS Dialog-->
             <div class="dialog" id="dialog-tools">
-                <div class="bar"><span class="name">工具</span><div class="closer" title="关闭"></div></div>
-                <div class="content ztree">
-                    Coming...
+                <div class="bar">
+                    <span class="name">工具</span>
+                    <div class="closer" title="关闭"></div>
+                    <button class="showall">全部显示</button>
                 </div>
+                <div class="content"></div>
             </div>
             <!--DISK Dialog-->
             <div class="dialog" id="dialog-disk">

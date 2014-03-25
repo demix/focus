@@ -477,3 +477,38 @@ text-align:center
     width: 343px;
     height: 150px;
 }
+
+#dialog-tools .bar{
+    height: 50px;
+}
+#dialog-tools .bar button.showall{
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+}
+#dialog-tools .tools-list{
+
+}
+#dialog-tools .tools-list li{
+    width: 100%;
+    display: none;
+}
+#dialog-tools .tools-list li:first-child{
+    display: block;
+}
+#dialog-tools .tools-list li .item{
+    float: left;
+    width: 72px;
+    text-decoration: none;
+    margin: 5px;
+}
+#dialog-tools .tools-list li .item img{
+    margin-left: 7px;
+}
+#dialog-tools .tools-list li .item span{
+    display: block;
+    width: 100%;
+    color:#333;
+    text-decoration: none;
+    font-size: 12px;
+}

@@ -12,6 +12,7 @@
 define(['editor', 'dialog', 'draft', 'utils'], function(Editor, Dialog, DraftManager, Utils) {
   var draftDialog = new Dialog('#dialog-draft', {
     resizable: false,
+    //show list when showed
     onShow: function() {
       DraftManager.getDraftList();
     }

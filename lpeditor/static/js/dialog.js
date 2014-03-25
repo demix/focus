@@ -15,27 +15,30 @@ define(['local', 'jquery-ui'], function(LocalCache) {
     //global dialog z-index
     var gCurrentZindex = 1000;
 
+    //FIXME,functional diff
     var gDialogManager = {
-        mChildren:[],
-        cache:function(dialog){
+        mChildren: [],
+        cache: function(dialog) {
             this.mChildren.push(dialog);
         },
-        reArrange:function(){
-            var w = $(window).width(),visibleCnt=0,counter=0;
-            this.mChildren.forEach(function(item,index){
-                visibleCnt+=(item.isVisible()?1:0);
+        reArrange: function() {
+            var w = $(window).width(),
+                visibleCnt = 0,
+                counter = 0;
+            this.mChildren.forEach(function(item, index) {
+                visibleCnt += (item.isVisible() ? 1 : 0);
             });
-            this.mChildren.forEach(function(item,index){
+            this.mChildren.forEach(function(item, index) {
                 var y = 50;
-                var x=(1+counter)*50;
-                item.isVisible()&&item.moveTo(x,y+30*counter++);
+                var x = (1 + counter) * 50;
+                item.isVisible() && item.moveTo(x, y + 30 * counter++);
             });
         },
-        findDialog:function(selector){
-            var found=null;
-            this.mChildren.every(function(dialog,index){
-                if($(dialog).is($(selector))){
-                    found= $(dialog);
+        findDialog: function(selector) {
+            var found = null;
+            this.mChildren.every(function(dialog, index) {
+                if ($(dialog).is($(selector))) {
+                    found = $(dialog);
                     return false;
                 }
                 return true;
@@ -56,11 +59,11 @@ define(['local', 'jquery-ui'], function(LocalCache) {
             name: '.name', //dialog title selector.
             content: '.content', //dialog content selector.
             saveStatus: true, //if status(position+size) needs to be saved.
-            resizable: true ,//if it could be resizable.
+            resizable: true, //if it could be resizable.
             minHeight: 150,
             minWidth: 150,
-            onShow:function(){},
-            onHide:function(){}
+            onShow: function() {},
+            onHide: function() {}
         };
 
         $.extend(opt, options || {});
@@ -78,8 +81,8 @@ define(['local', 'jquery-ui'], function(LocalCache) {
             var cacheJson = LocalCache.load(this.mCacheName) || {};
             (+cacheJson.left > 0) && this.m$container.css('left', cacheJson.left + 'px');
             (+cacheJson.top > 0) && this.m$container.css('top', cacheJson.top + 'px');
-            (+cacheJson.width > 0) && this.m$container.css('width', cacheJson.width + 'px');
-            (+cacheJson.height > 0) && this.m$container.css('height', cacheJson.height + 'px');
+            this.opt.resizable && (+cacheJson.width > this.opt.minWidth) && this.m$container.css('width', cacheJson.width + 'px');
+            this.opt.resizable && (+cacheJson.height > this.opt.minHeight) && this.m$container.css('height', cacheJson.height + 'px');
         }
 
         this.__bindEvent();
@@ -88,14 +91,15 @@ define(['local', 'jquery-ui'], function(LocalCache) {
         return this;
     }
     //Gloabl static function
-    Dialog.reArrange=function(){
-            return gDialogManager.reArrange();
-        };
+    //FIXME,stupid binding
+    Dialog.reArrange = function() {
+        return gDialogManager.reArrange();
+    };
 
     Dialog.prototype = {
         __eventBinded: false,
-        __m$toast:null,
-        __mToastTimeout:null,
+        __m$toast: null,
+        __mToastTimeout: null,
         /**
          * Inner binding event,just only once.
          * @return {[type]} [description]
@@ -109,13 +113,14 @@ define(['local', 'jquery-ui'], function(LocalCache) {
                 //mouse down means to top layer
                 self.tryTop();
             }).draggable({
-                opacity:0.7,
+                opacity: 0.7,
                 handle: self.opt.bar, //drag a dialog by only its bar
                 stop: function(event, ui) {
-                    if(ui.position.left<0){
-                        self.m$container.css('left',ui.position.left=0);
-                    } if(ui.position.top<20){
-                        self.m$container.css('top',ui.position.top=20);
+                    if (ui.position.left < 0) {
+                        self.m$container.css('left', ui.position.left = 0);
+                    }
+                    if (ui.position.top < 20) {
+                        self.m$container.css('top', ui.position.top = 20);
                     }
                     //save last postion
                     self.__saveCache(ui.position);
@@ -144,12 +149,12 @@ define(['local', 'jquery-ui'], function(LocalCache) {
          * @param  {[type]} y [description]
          * @return {[type]}   [description]
          */
-        moveTo:function(left,top){
-            this.m$container.css('left',left+'px');
-            this.m$container.css('top',top+'px');
+        moveTo: function(left, top) {
+            this.m$container.css('left', left + 'px');
+            this.m$container.css('top', top + 'px');
             this.__saveCache({
-                left:left,
-                top:top
+                left: left,
+                top: top
             });
             this.tryTop();
             return this;
@@ -159,36 +164,35 @@ define(['local', 'jquery-ui'], function(LocalCache) {
          * @param  {String} title
          * @return {String|this}
          */
-        title:function(title){
-            if(undefined===title){
+        title: function(title) {
+            if (undefined === title) {
                 return this.m$name.text();
-            }else{
+            } else {
                 this.m$name.text(title);
                 return this;
             }
         },
         /**
          * show toast message below the bar.
-         * @param  {String} msg    
-         * @param  {Boolean} normal 
+         * @param  {String} msg
+         * @param  {Boolean} normal
          * @param  {Integer} timeout 8s is default
          * @return {this}
          */
-        toast:function(msg,normal,timeout) {
+        toast: function(msg, normal, timeout) {
             var self = this;
-            if(!self.m$toast)
-            {
-                self.m$toast = $('<div class="toast"></div>').hide().click(function(e){
+            if (!self.m$toast) {
+                self.m$toast = $('<div class="toast"></div>').hide().click(function(e) {
                     $(this).hide();
                 });;
                 self.m$toast.insertAfter(self.m$bar);
             }
 
-            self.m$toast.text(msg).toggleClass('fatal',!normal).show();
+            self.m$toast.text(msg).toggleClass('fatal', !normal).show();
             clearTimeout(self.__mToastTimeout);
-            self.__mToastTimeout = setTimeout(function(){
+            self.__mToastTimeout = setTimeout(function() {
                 self.m$toast.hide();
-            },+timeout||8000);
+            }, +timeout || 8000);
 
             return self;
         },
@@ -217,7 +221,7 @@ define(['local', 'jquery-ui'], function(LocalCache) {
          * [isVisible description]
          * @return {Boolean} [description]
          */
-        isVisible:function(){
+        isVisible: function() {
             return this.m$container.is(':visible');
         },
         /**
@@ -227,7 +231,7 @@ define(['local', 'jquery-ui'], function(LocalCache) {
         show: function() {
             this.m$container.show();
             this.tryTop();
-            self.opt.onShow.call(this)
+            this.opt.onShow.call(this)
             return this;
         },
         /**
@@ -236,7 +240,7 @@ define(['local', 'jquery-ui'], function(LocalCache) {
          */
         hide: function() {
             this.m$container.hide();
-            self.opt.onHide.call(this)
+            this.opt.onHide.call(this)
             return this;
         },
         /**
@@ -244,11 +248,9 @@ define(['local', 'jquery-ui'], function(LocalCache) {
          * @return {[type]} [description]
          */
         toggle: function() {
-            var self = this;
-            //animate
-            self.m$container.toggle('fast', function() {
-                self.tryTop();
-            }).is(':visible')?self.opt.onHide.call(this):self.opt.onShow.call(this);
+            this.m$container.toggle();
+            this.m$container.is(':visible') ?  this.opt.onShow.call(this): this.opt.onHide.call(this);
+            this.tryTop();
             return this;
         }
     };
