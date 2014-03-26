@@ -12,6 +12,9 @@ margin:0
 ul,li {
 list-style:none
 }
+a:focus,button:focus{
+    outline: none;
+}
 
 .w-fil {
 width:100%
@@ -445,8 +448,15 @@ text-align:center
     padding: 2px 5px;
     border-radius: 5px;
 }
+
 .dialog button{
     padding: 2px 5px;
+    border:1px solid rgb(126,126,126);
+    font-size: 12px;
+    border-radius: 5px;
+    background:-webkit-gradient(linear,left top,left bottom,from(rgb(245,245,245)),to(rgb(162,162,162)));
+    background:-moz-linear-gradient(top,rgb(245,245,245),rgb(162,162,162));
+    cursor: pointer;
 }
 
 #dialog-draft .content li,#dialog-disk .content li{

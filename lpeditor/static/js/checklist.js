@@ -58,10 +58,18 @@ define(['local'], function(LocalCache) {
     //checking items
     var expirments = [
         ['jQuery', window.jQuery, 1],
+        ['const',function(){
+            try{
+                eval('const _a_=0;');
+                return true;
+            }catch(e){
+                return false;
+            }
+        },0],
         ['navigator.onLine', undefined !== navigator.onLine, 0],
-        ['window.localStorage', !! window.localStorage, 1],
-        ['window.XMLHttpRequest', !! window.XMLHttpRequest, 1],
-        ['window.console', !! (window.console && console.error && console.log && console.warn), 1],
+        ['localStorage', !! window.localStorage, 1],
+        ['XMLHttpRequest', !! window.XMLHttpRequest, 1],
+        ['console', !! (window.console && console.error && console.log && console.warn), 1],
         ['Date.now()', !! Date.now, 1],
         ['background-size:cover',
             function() {
@@ -104,7 +112,7 @@ define(['local'], function(LocalCache) {
         ['Object.freeze', !! Object.freeze, 1],
         ['Object.seal', !! Object.seal, 1],
         ['Object.keys', !! Object.keys, 1],
-        ['window.Worker', !! window.Worker, 1],
+        ['Worker', !! window.Worker, 1],
         ['Laptop screen size', screen.width > 550, 1],
         ['Not handheld device', !/(android|ipad|iphone)/i.test(navigator.userAgent), 1]
     ];
@@ -116,8 +124,10 @@ define(['local'], function(LocalCache) {
     }, false);
 
     var checkingInter, fault = 0;
-
+    var checking =false;
     function startCheck(callbackfn) {
+        if(checking)return;
+        checking =true;
         var clistCache = LocalCache.load(KEY_CHECKLIST);
         //we need check again when updated or a week later,or when I change the version.
         if (!~location.search.indexOf('check=force') && clistCache && ua == clistCache.ua && (+new Date - clistCache.timestamp < 7 * 24 * 3600 * 1000) && CHECKING_LIST_VERSION == clistCache.version) {
@@ -161,14 +171,29 @@ define(['local'], function(LocalCache) {
 
                 clearInterval(checkingInter);
             }
-        }, 1000);
+        }, 700);
     }
 
     return {
         start: function(callbackfn) {
-            window.addEventListener('load' ,function() {
-                startCheck(callbackfn);
+            document.onreadystatechange=function(e) {
+                if('complete'===document.readyState)
+                    startCheck(callbackfn);
+            };
+            document.addEventListener('DOMContentLoaded',function(){
+                 startCheck(callbackfn);
             },false);
+            window.onload=function(){
+                startCheck(callbackfn);
+            };
+
+            var inter = setInterval(function(){
+                if('complete' === document.readyState)
+                {
+                    clearInterval(inter);
+                    startCheck(callbackfn);
+                }
+            },200);
         }
     };
 });

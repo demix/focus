@@ -13,7 +13,7 @@
  */
 (function(global) {
 
-    const MAX_ITEMS_COUNT = 20;
+    var MAX_ITEMS_COUNT = 20;
 
     function ctrlDB(success) {
         var _indexdbDB = (global.indexedDB || global.webkitIndexedDB || global.mozIndexedDB || global.msIndexedDB);
@@ -22,7 +22,8 @@
 
         openRequest.onupgradeneeded = function(evt) {
             var db = evt.target.result;
-            db.deleteObjectStore('draft');
+            //delete if it exists
+            try{db.deleteObjectStore('draft');}catch(e){}
             var store = db.createObjectStore("draft", {
                 keyPath: 'timestamp'
             });

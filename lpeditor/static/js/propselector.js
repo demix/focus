@@ -13,7 +13,9 @@ define([],function(){
     return {
         checked:{'checked':'选中','':'不选中'},
         display:{'block':'显示','none':'隐藏'},
-        'text-decoration':{'':'无','underline':'下划线'},
+        target:{'_self':'当前页面打开','_blank':'新页面打开'},
+        'background-repeat':{'no-repeat':'不重复','repeat-x':"横向重复",'repeat-y':'纵向重复','repeat':'横纵向重复'},
+        'text-decoration':{'':'无','underline':'下划线','line-through':'删除线','overline':'上划线'},
         'text-align':{'left':'左对齐','center':'居中对齐','right':'右对齐'}
     };
 });

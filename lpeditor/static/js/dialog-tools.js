@@ -26,10 +26,12 @@ define(['dialog','text!tpl/tools.html','jquery-ztree','spectrum'],function(Dialo
            self.m$panels.eq(0).find('.item').click(function(e){
               var index = $(this).index();
               self.m$panels.hide().eq(index+1).show();
+              self.m$bar.find('.showall').prop('disabled',false);
            });
 
-           self.m$bar.find('.showall').click(function(e){
+           self.m$bar.find('.showall').prop('disabled',true).click(function(e){
              self.m$panels.hide().first().show();
+             $(this).prop('disabled',true);
            });
 
            return self;
@@ -38,9 +40,8 @@ define(['dialog','text!tpl/tools.html','jquery-ztree','spectrum'],function(Dialo
           $('.jpicker').spectrum({
             flat:true,
             showInput:true,
-            cancelText:'',
+            showPalette:true,
             preferredFormat:'hex',
-            chooseText:"保存至剪贴板"
           });
           return this;
         }

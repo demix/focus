@@ -10,16 +10,16 @@
  * @since 0.0.1
  */
 //looks stupid!!!
-const EVT_LOADING = 'loading';
-const EVT_LOADED = 'loaded';
-const EVT_LOAD_ERROR = 'loaderror';
-const EVT_LOADING_LIST = 'loadinglist';
-const EVT_LOADED_LIST = 'loadedlist';
-const EVT_LOAD_LIST_ERROR = 'loadlisterror';
-const EVT_SAVING = "saving";
-const EVT_SAVED = "saved";
-const EVT_SAVE_ERROR = "saveerror";
-const EVT_CREATED="created";
+var EVT_LOADING = 'loading';
+var EVT_LOADED = 'loaded';
+var EVT_LOAD_ERROR = 'loaderror';
+var EVT_LOADING_LIST = 'loadinglist';
+var EVT_LOADED_LIST = 'loadedlist';
+var EVT_LOAD_LIST_ERROR = 'loadlisterror';
+var EVT_SAVING = "saving";
+var EVT_SAVED = "saved";
+var EVT_SAVE_ERROR = "saveerror";
+var EVT_CREATED="created";
 define(['listener'], function(Listener) {
 
     var DiskManager = {
