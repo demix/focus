@@ -34,22 +34,22 @@
             <style id="previewStyle" type="text/css"></style>
             <!--TREE Dialog-->
             <div class="dialog" id="dialog-tree">
-                <div class="bar"><span class="name">元素结构</span><div class="closer" title="关闭"></div></div>
+                <div class="bar">
+                    <span class="name">元素结构</span>
+                    <div class="closer" title="关闭"></div>
+                     <button class="delete">删除</button>
+                </div>
                 <div id="tree-structure" class="content ztree"></div>
             </div>
             <!--SETTING Dialog-->
             <div class="dialog" id="dialog-setting">
                 <div class="bar"><span class="name">系统设置</span><div class="closer" title="关闭"></div></div>
-                <div class="content">
-                    <p>Coming soon...</p>
-                </div>
+                <div class="content"></div>
             </div>
             <!--HELP Dialog-->
             <div class="dialog" id="dialog-help">
                 <div class="bar"><span class="name">帮助</span><div class="closer" title="关闭"></div></div>
-                <div class="content">
-                    <p>Coming soon...</p>
-                </div>
+                <div class="content"></div>
             </div>
             <!--PROP Dialog-->
             <div class="dialog" id="dialog-prop">
@@ -59,9 +59,7 @@
             <!--DRAFT Dialog-->
             <div class="dialog" id="dialog-draft">
                 <div class="bar"><span class="name">草稿</span><div class="closer" title="关闭"></div></div>
-                <div class="content">
-                    
-                </div>
+                <div class="content"></div>
             </div>
             <!--NEW Dialog-->
             <div class="dialog" id="dialog-new">

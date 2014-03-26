@@ -17,6 +17,8 @@ define(['element'], function(Element) {
             switch (id) {
                 case 'lbl-reg-user':
                     return '用户名：';
+                case 'lbl-reg-captcha':
+                    return '验证码：';
                 case 'lbl-reg-pwd':
                     return '游戏密码：';
                 case 'lbl-reg-rpwd':
@@ -48,6 +50,8 @@ define(['element'], function(Element) {
                             return '64px';
                         case 'lbl-reg-rpwd':
                             return '104px';
+                        case 'lbl-reg-captcha':
+                            return '144px';
                         case 'lbl-login-user':
                             return '24px';
                         case 'lbl-login-pwd':
@@ -55,6 +59,9 @@ define(['element'], function(Element) {
                         case 'lbl-login-server':
                             return '104px';
                     }
+                },
+                display:function(id,index){
+                    return !!~id.indexOf('captcha')?'none':'block';
                 },
                 width:'73px',
                 height:'20px',
@@ -67,7 +74,7 @@ define(['element'], function(Element) {
     };
     var areaLoginLabelsDefine = {};
     $.extend(areaLoginLabelsDefine, areaRegLabelsDefine);
-    var allLableIds = 'lbl-reg-user,lbl-reg-pwd,lbl-reg-rpwd,lbl-login-user,lbl-login-pwd,lbl-login-server';
+    var allLableIds = 'lbl-reg-user,lbl-reg-pwd,lbl-reg-rpwd,lbl-reg-captcha,lbl-login-user,lbl-login-pwd,lbl-login-server';
     var areaLoginLabelId = (allLableIds.split(',').filter(function(v) {
         return !!~v.indexOf('-login-')
     }).join());
@@ -87,6 +94,7 @@ define(['element'], function(Element) {
             autocomplete: 'off',
             disableautocomplete: '',
             'class': 'input',
+            placeholder:'',
             type: function(id) {
                 return !!~id.indexOf('pwd') ? 'password' : ( !! ~id.indexOf('server') ? '' : 'text')
             }
@@ -94,7 +102,9 @@ define(['element'], function(Element) {
         css: {
             '': {
                 left: '120px',
-                width: '150px',
+                width: function(id,index){
+                    return 'input-reg-captcha'===id?'80px':'150px';
+                },
                 height: '20px',
                 top: function(id) {
                     switch (id) {
@@ -104,20 +114,26 @@ define(['element'], function(Element) {
                             return '60px';
                         case 'input-reg-rpwd':
                             return '100px';
+                        case 'input-reg-captcha':
+                            return '140px';
                         case 'input-login-user':
                             return '20px';
                         case 'input-login-pwd':
                             return '60px';
                         case 'input-login-server':
                             return '100px';
+                        default:;
                     }
+                },
+                display:function(id,index){
+                    return !!~id.indexOf('captcha')?'none':'block';
                 }
             }
         }
     };
     var areaLoginInputsDefine = {};
     $.extend(areaLoginInputsDefine, areaRegInputsDefine);
-    var allInputIds = 'input-reg-user,input-reg-pwd,input-reg-rpwd,input-login-user,input-login-pwd,input-login-server';
+    var allInputIds = 'input-reg-user,input-reg-pwd,input-reg-rpwd,input-reg-captcha,input-login-user,input-login-pwd,input-login-server';
     var areaLoginInputId = allInputIds.split(',').filter(function(v) {
         return !!~v.indexOf('-login-')
     }).join();
@@ -156,6 +172,8 @@ var areaRegTipsDefine={
                                 return '86px';
                             case 'tip-reg-rpwd':
                                 return '126px';
+                            case 'tip-reg-captcha':
+                                return '166px';
                             case 'tip-login-user':
                                 return '46px';
                             case 'tip-login-pwd':
@@ -169,7 +187,7 @@ var areaRegTipsDefine={
         };
 var areaLoginTipsDefine={};
 $.extend(areaLoginTipsDefine,areaRegTipsDefine);
-var allTipIds='tip-reg-user,tip-reg-pwd,tip-reg-rpwd,tip-login-user,tip-login-pwd,tip-login-server,tip-login,tip-reg';
+var allTipIds='tip-reg-user,tip-reg-pwd,tip-reg-rpwd,tip-reg-captcha,tip-login-user,tip-login-pwd,tip-login-server,tip-login,tip-reg';
 var areaLoginTipId = allTipIds.split(',').filter(function(v) {
     return !!~v.indexOf('-login')
 }).join();
@@ -198,13 +216,14 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                     width: '18px',
                     height: '18px',
                     'background-color': '',
-                    'background-image': 'url(http://img.wan.sogou.com/ufo/img/newnav/dialog3/yx.jpg)'
+                    'background-image': 'url(http://img.wan.sogou.com/ufo/img/newnav/dialog3/yx.jpg)',
+                    'background-repeat':'',
+                    'background-position':''
                 },
                 '>:hover': {
-                    hoverCss: {
                         'background-color': '',
-                        'background-image': ''
-                    }
+                        'background-image': '',
+                        'background-position':''
                 }
             }
 
@@ -280,6 +299,28 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                 $.extend(children, labels);
                 $.extend(children, inputs);
                 $.extend(children, tips);
+
+                //captcha in reg area
+                if('area-reg' ===id){
+                    children['img-captcha']={
+                        tag:'img',
+                        props:{
+                            border:0,
+                            title:'验证码',
+                            src:'/reg/captcha?rnd='+Date.now()
+                        },
+                        css:{
+                            '':{
+                                display:'none',
+                                width:'80px',
+                                height:'30px',
+                                top:'140px',
+                                left:'220px'
+                            }
+                        }
+                    };
+                }
+
                 return children;
             } //children
         },

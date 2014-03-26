@@ -20,6 +20,8 @@ define(['dialog','disk','editor','setting'],function(Dialog,DiskManager,Editor,S
             this.m$profileId=$('#profile-id');
             this.m$profileDesc=$('#profile-desc');
             DiskManager.listen(EVT_LOADED,this.onLoaded,this);
+            DiskManager.listen(EVT_SAVED,this.onSaveStatus,this);
+            DiskManager.listen(EVT_SAVE_ERROR,this.onSaveStatus,this);
             DiskManager.listen(EVT_CREATED,this.onCreated,this);
             this.initEvt();
             return this;
@@ -51,6 +53,18 @@ define(['dialog','disk','editor','setting'],function(Dialog,DiskManager,Editor,S
          */
         onCreated:function(evt,evtObj,args){
             this.m$profileId.val(args[0]);
+        },
+        /**
+         * [onSaved description]
+         * @param  {[type]} evt   
+         * @param  {[type]} evtObj
+         * @param  {[type]} args  
+         */
+        onSaveStatus:function(evt,evtObj,args){
+          if(EVT_SAVE_ERROR===evt)
+            this.toast('保存失败');
+          else if(EVT_SAVED===evt)
+            this.toast('保存成功',true);
         },
         /**
          * We need to show ID&description when a profile is loaded.

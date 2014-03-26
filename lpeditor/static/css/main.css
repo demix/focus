@@ -426,6 +426,10 @@ text-align:center
 #dialog-prop td:nth-child(2){
     word-break: break-word;
 }
+#dialog-prop .content input:disabled{
+    background: transparent;
+    border: 0;
+}
 #dialog-setting{
     width: 700px;
     height: 420px
@@ -488,13 +492,13 @@ text-align:center
     height: 150px;
 }
 
-#dialog-tools .bar{
+#dialog-tools .bar,#dialog-tree .bar{
     height: 50px;
 }
-#dialog-tools .bar button.showall{
+#dialog-tree .bar button.delete,#dialog-tools .bar button.showall{
     position: absolute;
-    bottom: 5px;
-    left: 5px;
+    bottom: 3px;
+    left: 30px;
 }
 #dialog-tools .tools-list{
 

@@ -27,10 +27,6 @@ define(['preview','dialog-tree','dialog-disk','dialog-tools', 'dialog-new', 'dia
         title: '属性',
         action: 'property'
       }, {
-        icon: 'preview',
-        title: '预览',
-        action: 'preview'
-      }, {
         icon: 'missioncontrol',
         title: '新增',
         action: 'new'
@@ -50,6 +46,10 @@ define(['preview','dialog-tree','dialog-disk','dialog-tools', 'dialog-new', 'dia
         icon: 'notes',
         title: '草稿',
         action: 'draft'
+      }, {
+        icon: 'preview',
+        title: '预览',
+        action: 'preview'
       }, {
         icon: 'fullscreen',
         title: '全屏',
