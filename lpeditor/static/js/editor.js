@@ -278,6 +278,7 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
 
             ele.listen('propchanged', self.onPropChanged, self);
             ele.listen('csschanged', self.onCssChanged, self);
+            ele.listen('textchanged', self.onTextChanged, self);
 
             !silence&&self.trigger('elementadded', ele);
 
@@ -321,9 +322,9 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
         },
         /**
          * [onPropChanged description]
-         * @param  {[type]} evt    [description]
-         * @param  {[type]} evtObj [description]
-         * @param  {[type]} args   [description]
+         * @param  {[type]} evt   
+         * @param  {[type]} evtObj
+         * @param  {[type]} args  
          */
         onPropChanged: function(evt, evtObj, args) {
             //Don't need to re-create all elements.
@@ -337,13 +338,23 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
         },
         /**
          * [onCssChanged description]
-         * @param  {[type]} evt    [description]
-         * @param  {[type]} evtObj [description]
-         * @param  {[type]} args   [description]
+         * @param  {[type]} evt   
+         * @param  {[type]} evtObj
+         * @param  {[type]} args  
          */
         onCssChanged: function(evt, evtObj, args) {
             //Here we re-render through generating new stylesheet.
             this.drawCanvas(REFRESH_CSS);
+        },
+        /**
+         * [onTextChanged description]
+         * @param  {[type]} evt   
+         * @param  {[type]} evtObj
+         * @param  {[type]} args  
+         */
+        onTextChanged:function(evt,evtObj,args){
+            var id = evtObj.getId();
+            $('#'+id).text(args[0].newVal);
         },
         /**
          * [onElementAdded description]

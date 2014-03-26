@@ -43,7 +43,7 @@ define(['dialog', 'editor', 'text!tpl/prop.html','propselector', 'Ursa'], functi
                 } else if ('c' === clazz[0]) {
                     tar.setCss(clazz.split('/')[2],$(e.target).val(),clazz.split('/')[1]);
                 } else if ('t' === clazz[0]) {
-                    console.debug('text setting');
+                    tar.setText($(e.target).val());
                 }
             });
 

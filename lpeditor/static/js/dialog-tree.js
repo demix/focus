@@ -70,7 +70,6 @@ define(['dialog', 'listener', 'editor', 'jquery-ztree'], function(Dialog, Listen
      * @return {[type]}        [description]
      */
     onElementAdded: function(evt, evtObj, args) {
-      console.debug('Add nodes to tree');
       this.createTree();
     },
     /**

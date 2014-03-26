@@ -234,6 +234,7 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                     width: '171px',
                     height: '33px',
                     color: '#fff',
+                    display:'block',
                     'text-decoration': 'none',
                     'font-size': '14px',
                     'font-family': '',
@@ -371,6 +372,7 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                 '': {
                     width: '404px',
                     height: '100px',
+                    display:'block',
                     left: '0',
                     top: '355px'
                 }

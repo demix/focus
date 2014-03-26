@@ -97,7 +97,7 @@
             </div>
             <!--DISK Dialog-->
             <div class="dialog" id="dialog-disk">
-                <div class="bar"><span class="name">服务器存储列表</span><div class="closer" title="关闭"></div></div>
+                <div class="bar"><span class="name">服务器档案列表</span><div class="closer" title="关闭"></div></div>
                 <div class="content">
                 </div>
             </div>

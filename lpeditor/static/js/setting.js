@@ -21,14 +21,23 @@ define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) 
     dialogBgImg: 'http://img.wan.sogou.com/ufo/img/newnav/dialog3/ybg2.png',
     dialogVerticalCenter: true,
     init: function() {
-      this.listen('settingchanged', this.onSettingChanged, this);
       DiskManager.listen(EVT_LOADED, this.onProfileLoaded, this);
       return this;
     },
+    /**
+     * [set description]
+     * @param {[type]} key  
+     * @param {[type]} value
+     */
     set: function(key, value) {
       if (undefined === this[key] || undefined === value || !key) {
-        return;
+        return false;
       }
+
+      if('dialogBgImg' ===key&&!value){
+        return false;
+      }
+
       var oldVal = this[key];
       if (oldVal == value) return;
       this[key] = value;
@@ -37,18 +46,8 @@ define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) 
         oldVal: oldVal,
         newVal: value
       });
-    },
-    /**
-     * [onSettingChanged description]
-     * @param  {[type]} evt   
-     * @param  {[type]} evtObj
-     * @param  {[type]} args  
-     */
-    onSettingChanged: function(evt, evtObj, args) {
-      //save to local
-      var updating = {};
-      updating[args[0].key] = args[0].newVal;
-      LocalCache.update(KEY_SETTING, updating);
+
+      return true;
     },
     /**
      * [onProfileLoaded description]
@@ -57,13 +56,13 @@ define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) 
      * @param  {[type]} args  
      */
     onProfileLoaded:function(evt, evtObj, args){
-        var profile = args[0];
+        var profile = args&&args[0];
         profile&&profile.setting&&this.load(profile.setting);
     },
     /**
      * [load description]
-     * @param  {[type]} settings [description]
-     * @return {[type]}          [description]
+     * @param  {[type]} settings
+     * @return {[type]}         
      */
     load:function(settings){
       var self = this;
@@ -75,7 +74,7 @@ define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) 
     },
     /**
      * [toJSON description]
-     * @return {[type]} [description]
+     * @return {Plain Object}
      */
     toJSON: function() {
       return {
@@ -90,7 +89,7 @@ define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) 
       };
     }
   };
+
   $.extend(Setting, new Listener());
-  $.extend(Setting, LocalCache.load(KEY_SETTING, {}));
   return Setting.init();
 });

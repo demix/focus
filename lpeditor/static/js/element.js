@@ -90,6 +90,22 @@ define(['listener'], function(Listener) {
             return true;
         },
         /**
+         * [setText description]
+         * @param {[type]} text    [description]
+         * @param {[type]} silence [description]
+         */
+        setText: function(text, silence) {
+            var oldVal = this.mInnerText;
+            if (text === oldVal) return false;
+            this.mInnerText = text;
+            (!silence) && this.trigger('textchanged', {
+                oldVal: oldVal,
+                newVal: text
+            });
+
+            return true;
+        },
+        /**
          * [setCss description]
          * @param {String}  key
          * @param {String}  value

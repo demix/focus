@@ -25,11 +25,14 @@ define(['dialog', 'setting', 'text!tpl/setting.html','Ursa'], function(Dialog, S
     },
     initEvt: function() {
       this.m$content.delegate('input,select', 'change', function(e) {
+        var ret;
         if ($(e.target).is(':radio,:checkbox')) {
-          Setting.set(e.target.name, $(e.target).prop('checked'));
+          ret = Setting.set(e.target.name, $(e.target).prop('checked'));
         } else {
-          Setting.set(e.target.name, $(e.target).val());
+          ret = Setting.set(e.target.name, $(e.target).val());
         }
+        if(!ret)
+          e.preventDefault();
       });
     },
     render: function() {
