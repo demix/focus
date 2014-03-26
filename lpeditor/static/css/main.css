@@ -12,8 +12,9 @@ margin:0
 ul,li {
 list-style:none
 }
-a:focus,button:focus{
-    outline: none;
+
+a:focus,button:focus {
+outline:none
 }
 
 .w-fil {
@@ -62,7 +63,11 @@ visibility:hidden;
 clear:both;
 font-size:0
 }
-input[readonly]{border:0;background: transparent;}
+
+input[readonly] {
+border:0;
+background:transparent
+}
 
 .editor-content {
 padding:0
@@ -88,8 +93,8 @@ margin:100px auto;
 background:url(http://img.wan.sogou.com/ufo/img/newnav/dialog3/ybg2.png) no-repeat
 }
 
-.editor-content .canvas .focus{
-    border:1px dashed red !important;
+.editor-content .canvas .focus {
+border:1px dashed red!important
 }
 
 .editor-content .dock,.editor-content .dialog {
@@ -108,10 +113,10 @@ z-index:9999
 .editor-content .dock .dock-container {
 position:absolute;
 height:50px;
-background-size: cover;
+background-size:cover;
 background-image:url(/static/img/dock.png);
- background-position:center center;
- background-repeat:no-repeat;
+background-position:center center;
+background-repeat:no-repeat
 }
 
 .editor-content .dock .dock-item {
@@ -204,19 +209,21 @@ background-size:16px auto;
 background-origin:content-box;
 font-size:0
 }
-.editor-content .dialog .toast{
-    background-color:rgba(255,255,255,0.9);
-    text-align: left;
-    color:green;
-    font: 12px/2 'simsun',arial,sans-serif;
-    border-bottom:1px solid green;
-    cursor: pointer;
-    text-indent: 1em;
-    font-weight: 900;
+
+.editor-content .dialog .toast {
+background-color:rgba(255,255,255,0.9);
+text-align:left;
+color:green;
+font:12px/2 simsun,arial,sans-serif;
+border-bottom:1px solid green;
+cursor:pointer;
+text-indent:1em;
+font-weight:900
 }
-.editor-content .dialog .toast.fatal{
-    color:red;
-    border-bottom:1px solid red;
+
+.editor-content .dialog .toast.fatal {
+color:red;
+border-bottom:1px solid red
 }
 
 .editor-content .dialog .content {
@@ -334,26 +341,26 @@ background:rgba(255,255,255,.6);
 -moz-user-select:none;
 -webkit-user-select:none;
 user-select:none;
-background:-webkit-gradient(linear,left top,left bottom,from(rgb(231,231,231)),to(rgb(170,170,170)));
-background:-moz-linear-gradient(top,rgb(231,231,231),rgb(170,170,170));
-
+background:-webkit-gradient(linear,left top,left bottom,from(#e7e7e7),to(#aaa));
+background:-moz-linear-gradient(top,#e7e7e7,#aaa)
 }
 
 .editor-content .topbar .item {
 margin:0 5px;
 float:left;
 color:#151617;
-text-decoration: none;
-padding: 0 5px;
+text-decoration:none;
+padding:0 5px
 }
 
-.editor-content .topbar .menu .appname{
-    font-family: 'Courier New',Courier,monospace,arial,serif;
-    font-weight: 900;
+.editor-content .topbar .menu .appname {
+font-family:'Courier New',Courier,monospace,arial,serif;
+font-weight:900
 }
-.editor-content .topbar .menu a.item:hover{    
-    background: rgba(0,0,0,0.6);
-    color:#fff;
+
+.editor-content .topbar .menu a.item:hover {
+background:rgba(0,0,0,0.6);
+color:#fff
 }
 
 .editor-content .topbar .battery {
@@ -397,7 +404,7 @@ width:20px;
 height:17px;
 position:relative;
 top:2px;
-background:url(/static/img/wifi.png) -32px 0 no-repeat;
+background:url(/static/img/wifi.png) -32px 0 no-repeat
 }
 
 .editor-content .topbar .network.off {
@@ -423,106 +430,141 @@ border-bottom:1px rgba(0,0,0,.2) solid;
 border-right:1px rgba(0,0,0,.2) solid;
 text-align:center
 }
-#dialog-prop td:nth-child(2){
-    word-break: break-word;
-}
-#dialog-prop .content input:disabled{
-    background: transparent;
-    border: 0;
-}
-#dialog-setting{
-    width: 700px;
-    height: 420px
-}
-.dialog .content fieldset{
-    margin: 5px 15px;
-    padding: 5px;
-    border-radius: 10px
-}
-.dialog .content fieldset .row{
-    margin: 2px 5px;
-}
-.dialog .content fieldset .row .tit{
-    width: 30%;
-        display: inline-block;
-        text-align: right;
+
+#dialog-prop td:nth-child(2) {
+word-break:break-word
 }
 
-.dialog input[type="text"]{
-    padding: 2px 5px;
-    border-radius: 5px;
+#dialog-prop .content input:disabled {
+background:transparent;
+border:0
 }
 
-.dialog button{
-    padding: 2px 5px;
-    border:1px solid rgb(126,126,126);
-    font-size: 12px;
-    border-radius: 5px;
-    background:-webkit-gradient(linear,left top,left bottom,from(rgb(245,245,245)),to(rgb(162,162,162)));
-    background:-moz-linear-gradient(top,rgb(245,245,245),rgb(162,162,162));
-    cursor: pointer;
+#dialog-setting {
+width:700px;
+height:450px
 }
 
-#dialog-draft .content li,#dialog-disk .content li{
-    text-indent: 2em;
-    height: 25px;
-    line-height: 25px;
-    cursor: pointer;
-    -moz-user-select:none;
-    -webkit-user-select:none;
-    user-select:none;
+.dialog .content fieldset {
+margin:5px 15px;
+padding:5px;
+border-radius:10px
 }
 
-#dialog-draft .content li:hover,#dialog-disk .content li:hover{
-    background: rgba(0,0,0,0.6);
-    color: #fff;
+.dialog .content fieldset .row {
+margin:2px 5px
 }
 
-#dialog-help ol,#dialog-help li{
-    margin-left: 1em;
-    list-style-type:decimal;
-}
-#dialog-new{
-    width: 630px;
-    height: 150px;
+.dialog .content fieldset .row .tit {
+width:30%;
+display:inline-block;
+text-align:right
 }
 
-#dialog-save{
-    width: 343px;
-    height: 180px;
+.dialog input[type="text"],.dialog input[type="url"] {
+padding:2px 5px;
+border-radius:5px
 }
 
-#dialog-tools .bar,#dialog-tree .bar{
-    height: 50px;
+.dialog button {
+padding:2px 5px;
+border:1px solid #7e7e7e;
+font-size:12px;
+border-radius:5px;
+background:-webkit-gradient(linear,left top,left bottom,from(#f5f5f5),to(#a2a2a2));
+background:-moz-linear-gradient(top,#f5f5f5,#a2a2a2);
+cursor:pointer
 }
-#dialog-tree .bar button.delete,#dialog-tools .bar button.showall{
-    position: absolute;
-    bottom: 3px;
-    left: 30px;
-}
-#dialog-tools .tools-list{
 
+#dialog-draft .content li,#dialog-disk .content li {
+text-indent:2em;
+height:25px;
+line-height:25px;
+cursor:pointer;
+-moz-user-select:none;
+-webkit-user-select:none;
+user-select:none
 }
-#dialog-tools .tools-list li{
-    width: 100%;
-    display: none;
+
+#dialog-draft .content li:hover,#dialog-disk .content li:hover {
+background:rgba(0,0,0,0.6);
+color:#fff
 }
-#dialog-tools .tools-list li:first-child{
-    display: block;
+
+#dialog-help ol,#dialog-help li {
+margin-left:1em;
+list-style-type:decimal
 }
-#dialog-tools .tools-list li .item{
-    float: left;
-    width: 72px;
+
+#dialog-new {
+width:630px;
+height:150px
+}
+
+#dialog-save {
+width:343px;
+height:180px
+}
+
+#dialog-tools .bar,#dialog-tree .bar {
+height:50px
+}
+
+#dialog-tree .bar button.delete,#dialog-tools .bar button.showall {
+position:absolute;
+bottom:3px;
+left:30px
+}
+
+#dialog-tools .tools-list li {
+width:100%;
+display:none
+}
+
+#dialog-tools .tools-list li:first-child {
+display:block
+}
+
+#dialog-tools .tools-list li .item {
+float:left;
+width:72px;
+text-decoration:none;
+margin:5px
+}
+
+#dialog-tools .tools-list li .item img {
+margin-left:7px
+}
+
+#dialog-tools .tools-list li .item span {
+display:block;
+width:100%;
+color:#333;
+text-decoration:none;
+font-size:12px
+}
+
+#dialog-setting .linklist {
+border:1px solid #ccc;
+border-radius:5px;
+background:rgba(255,255,255,0.5);
+margin-top:10px;
+border-spacing:0;
+width:100%
+}
+
+#dialog-setting .linklist tr td {
+padding:2px 10px;
+text-align:center
+}
+
+#dialog-setting .linklist tr td.x a{
+    color: #ccc;
     text-decoration: none;
-    margin: 5px;
 }
-#dialog-tools .tools-list li .item img{
-    margin-left: 7px;
+#dialog-setting .linklist tr td.x a:hover{
+    color:#bbb;
 }
-#dialog-tools .tools-list li .item span{
-    display: block;
-    width: 100%;
-    color:#333;
-    text-decoration: none;
-    font-size: 12px;
+#dialog-setting .linklist tr:nth-child(2n) {
+background:rgba(204,204,204,0.5)
 }

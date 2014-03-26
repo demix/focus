@@ -71,5 +71,5 @@ define(['setting'], function(Setting) {
       this.m$iframe[0].src = src;
     }
   };
-  return Background.init().load(Setting.landingPageUrl);
+  return Background.init().load(Setting.data.landingPageUrl);
 });

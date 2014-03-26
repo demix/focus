@@ -14,11 +14,11 @@ define(['setting'], function(Setting) {
 
     var Canvas = {
         init: function() {
-            this.setDialogWidth(Setting.dialogWidth);
-            this.setDialogHeight(Setting.dialogHeight);
-            this.setDialogBgColor(Setting.dialogBgColor);
-            this.setDialogBgImg(Setting.dialogBgImg);
-            this.setDialogVerticalCenter(Setting.dialogVerticalCenter);
+            this.setDialogWidth(Setting.data.dialogWidth);
+            this.setDialogHeight(Setting.data.dialogHeight);
+            this.setDialogBgColor(Setting.data.dialogBgColor);
+            this.setDialogBgImg(Setting.data.dialogBgImg);
+            this.setDialogVerticalCenter(Setting.data.dialogVerticalCenter);
             Setting.listen('settingchanged', this.onSettingChanged, this);
             return this;
         },
@@ -55,7 +55,7 @@ define(['setting'], function(Setting) {
             $canvas.css('background-image', img);
         },
         setDialogTop: function(top) {
-            if (!Setting.dialogVerticalCenter) {
+            if (!Setting.data.dialogVerticalCenter) {
                 $canvas.css('top', top);
             }
         },
@@ -72,7 +72,7 @@ define(['setting'], function(Setting) {
          */
         setDialogHeight: function(height) {
             $canvas.css('height', height);
-            if (Setting.dialogVerticalCenter) {
+            if (Setting.data.dialogVerticalCenter) {
                 $canvas.css('margin-top', '-' + $canvas.height() / 2 + 'px');
             }
         },

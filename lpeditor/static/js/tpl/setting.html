@@ -1,36 +1,89 @@
 <fieldset>
     <legend>对话框</legend>
     <div class="row"><span class="tit">位置：</span>
-        <input type="checkbox" name="dialogVerticalCenter" id="dialog-position-allcenter" {%if dialogVerticalCenter%}checked="checked"{%endif%}/>
+        <input type="checkbox" name="dialogVerticalCenter" id="dialog-position-allcenter" {%if setting.dialogVerticalCenter%}checked="checked"{%endif%}/>
         <label for="dialog-position-allcenter">垂直居中</label>
     </div>
 
     <div class="row">
         <span class="tit">上间距：</span>
-        <input type="text"  name="dialogTop" id="dialog-top" value="{{dialogTop}}"/>
+        <input type="text"  name="dialogTop" id="dialog-top" value="{{setting.dialogTop|default('')}}" placeholder="41px"/>
     </div>
 
     <div class="row">
         <span class="tit">背景：</span>
         <label for="dialog-bgcolor">颜色</label>
-        <input type="text" name="dialogBgColor" id="dialog-bgcolor" value="{{dialogBgColor}}"/>
+        <input type="text" name="dialogBgColor" id="dialog-bgcolor" value="{{setting.dialogBgColor|default('')}}"/>
         <label for="dialog-bgimg">图片</label>
-        <input type="text" name="dialogBgImg" id="dialog-bgimg" value="{{dialogBgImg}}"/>
+        <input type="text" name="dialogBgImg" id="dialog-bgimg" value="{{setting.dialogBgImg|default('')}}"/>
     </div>
 
     <div class="row"><span class="tit">尺寸：</span>
         <label for="dialog-width">宽度</label>
-        <input type="text" name="dialogWidth" id="dialog-width" value="{{dialogWidth}}"/>
+        <input type="text" name="dialogWidth" id="dialog-width" value="{{setting.dialogWidth|default('')}}"/>
         <label for="dialog-height">高度</label>
-        <input type="text" name="dialogHeight" id="dialog-height" value="{{dialogHeight}}"/>
+        <input type="text" name="dialogHeight" id="dialog-height" value="{{setting.dialogHeight|default('')}}"/>
     </div>
 </fieldset>
 
 <fieldset>
     <legend>Landing Page</legend>
     <div class="row">
-        <span class="tit">URL：</span>
-        <input type="url" id="bg-url" name="landingPageUrl" style="width:30em" value="{{landingPageUrl}}"/>
+        <span class="tit">Flash 尺寸：</span>
+        <input type="radio" id="flashSize-big" name="flashSize" {%if setting.flashSize=='0'%}checked="checked"{%endif%} value="0"/>
+        <label for="flashSize-big">大</label>
+        <input type="radio" id="flashSize-small" name="flashSize" {%if setting.flashSize=='1'%}checked="checked"{%endif%}  value="1"/>
+        <label for="flashSize-small">小</label>
+    </div>
+    <div class="row">
+        <span class="tit">显示导航栏：</span>
+        <input type="checkbox" id="navbar" name="navbar" {%if setting.navbar%}checked="checked"{%endif%}/>
+    </div>
+    <div class="row">
+        <span class="tit">显示遮罩：</span>
+        <input type="checkbox" id="mask" name="mask" {%if setting.mask%}checked="checked"{%endif%}/>
+    </div>
+
+    <div class="row">
+        <span class="tit">默认显示对话框：</span>
+        <input type="checkbox" id="showDialog" name="showDialog" {%if setting.showDialog%}checked="checked"{%endif%}/>
+    </div>
+
+    <div class="row">
+        <span class="tit">Flash地址：</span>
+        <input type="url" id="flashUrl" name="flashUrl" placeholder="http://" value="{{setting.flashUrl|default('')}}" style="width:30em"/>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>导航链接</legend>
+    <div class="row">
+<button class="add">新增</button>
+ <button class="save">保存</button>
+        <table class="linklist">
+            <tr>
+                <th>链接</th>
+                <th>颜色</th>
+                <th>标题</th>
+            </tr>
+        {%for link in setting.navLinks%}
+            <tr class="item">
+                <td><span class="href">{{link.href}}</span></td>
+                <td><span class="textColor">{{link.textColor}}</span></td>
+                <td><span class="title">{{link.title}}</span></td>
+                <td class="x"><a href="javascript:;">移除</a></td>
+            </tr>
+        {%endfor%}
+      
+        </table>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>预览</legend>
+    <div class="row">
+        <span class="tit">LP URL：</span>
+        <input type="url" id="bg-url" name="landingPageUrl" style="width:30em" value="{{setting.landingPageUrl|default('')}}" placeholder="http://"/>
     </div>
 </fieldset>
 
@@ -38,7 +91,7 @@
     <legend>其它</legend>
     <div class="row">
         <span class="tit">选中的元素：</span>
-        <input type="checkbox" id="show-focus-element" name="showFocusElement" {%if showFocusElement%}checked="checked"{%endif%}/>
+        <input type="checkbox" id="show-focus-element" name="showFocusElement" {%if setting.showFocusElement%}checked="checked"{%endif%}/>
         <label for="show-focus-element">以红框显示突出</label>
     </div>
 </fieldset>

@@ -155,10 +155,11 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
         },
         /**
          * [selectElement description]
-         * @param  {String|Element} focusElement
-         * @return {this}
+         * @param  {[type]} focusElement [description]
+         * @param  {[type]} silence      [description]
+         * @return {[type]}              [description]
          */
-        selectElement: function(focusElement) {
+        selectElement: function(focusElement,silence) {
             var ele;
             if (('string' === typeof focusElement) || focusElement instanceof String) {
                 ele = this.getElementById(focusElement);
@@ -167,7 +168,7 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
             }
 
             if (ele) {
-                this.trigger('focuschanged', this.__lastFocusElement, ele);
+                !silence&&this.trigger('focuschanged', this.__lastFocusElement, ele);
                 Setting.showFocusElement && this.__lastFocusElement && $(this.__lastFocusElement.mBaseSelector).removeClass('focus');
                 this.__lastFocusElement = ele;
                 Setting.showFocusElement && $(ele.mBaseSelector).addClass('focus');
@@ -282,7 +283,7 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
 
             !silence&&self.trigger('elementadded', ele);
 
-            this.selectElement(ele);
+            this.selectElement(ele,silence);
 
             return ele;
         },
