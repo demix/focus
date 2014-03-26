@@ -37,7 +37,7 @@
                 <div class="bar">
                     <span class="name">元素结构</span>
                     <div class="closer" title="关闭"></div>
-                     <button class="delete">删除</button>
+                     <button class="delete">删除选中元素</button>
                 </div>
                 <div id="tree-structure" class="content ztree"></div>
             </div>
@@ -112,6 +112,10 @@
                             <div class="row">
                                 <label for="profile-id" class="tit">备注：</label>
                                 <input type="text" value="" id="profile-desc" max-length="50" placeholder="档案描述"/>
+                            </div>
+                            <div class="row">
+                                <label for="profile-init" class="tit">另存为：</label>
+                                <input type="checkbox" id="profile-init"/>
                             </div>
                             <div class="row"><label class="tit"></label>  <button type="submit">保存到服务器</button></div>
                             

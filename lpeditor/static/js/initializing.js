@@ -279,7 +279,10 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
         },
         /*注册区域*/
         'area-reg,area-login': {
-            tag: 'div',
+            tag: 'form',
+            props:{
+
+            },
             css: {
                 '': {
                     display: function(id, index) {
@@ -436,7 +439,7 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                     }
                 },
 
-                'qq-3rd-login,renren-3rd-login,weibo-3rd-login': {
+                'trd-qq-login,trd-renren-login,trd-weibo-login': {
                     tag: 'a',
                     text: '',
                     props: {

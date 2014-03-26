@@ -215,8 +215,8 @@ font-size:0
     font-weight: 900;
 }
 .editor-content .dialog .toast.fatal{
-    color:green;
-    border-bottom:1px solid green;
+    color:red;
+    border-bottom:1px solid red;
 }
 
 .editor-content .dialog .content {
@@ -489,7 +489,7 @@ text-align:center
 
 #dialog-save{
     width: 343px;
-    height: 150px;
+    height: 180px;
 }
 
 #dialog-tools .bar,#dialog-tree .bar{

@@ -316,7 +316,7 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
         removeElement: function(ele) {
             var self = this;
             if (!(ele instanceof Element)) {
-                throw Error('Only Element could be added!');
+                throw Error('Only Element could be removed!');
             }
             return self.removeElementById[ele.getId()];
         },
@@ -387,7 +387,7 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
             var self = this;
             $canvas.find('a').not('[id^=tab]').click(function(e){e.preventDefault();return false;});
             //draggable,resizeable
-            $canvas.find('span,label,div,a,img').draggable({
+            $canvas.find('span,label,div,a,img,form').draggable({
                 containment: "parent",
                 stop: function(event, ui) {
                     var id = event.target.id;

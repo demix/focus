@@ -19,6 +19,7 @@ define(['dialog','disk','editor','setting'],function(Dialog,DiskManager,Editor,S
         init:function(){
             this.m$profileId=$('#profile-id');
             this.m$profileDesc=$('#profile-desc');
+            this.m$profileInit=$('#profile-init');
             DiskManager.listen(EVT_LOADED,this.onLoaded,this);
             DiskManager.listen(EVT_SAVED,this.onSaveStatus,this);
             DiskManager.listen(EVT_SAVE_ERROR,this.onSaveStatus,this);
@@ -30,7 +31,7 @@ define(['dialog','disk','editor','setting'],function(Dialog,DiskManager,Editor,S
             var self = this;
             //Save profile to server.
             this.m$content.find('form').submit(function(e){
-                var id =  self.m$profileId.val();
+                var id =  self.m$profileInit.prop('checked')?null:self.m$profileId.val();
                 var desc = self.m$profileDesc.val();
 
                 var payload={
@@ -41,6 +42,7 @@ define(['dialog','disk','editor','setting'],function(Dialog,DiskManager,Editor,S
 
                 DiskManager.save(id,JSON.stringify(payload));
 
+                 self.m$profileInit.prop('checked',false);
                 e.preventDefault();
             });
             return this;

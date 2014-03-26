@@ -11,8 +11,8 @@
  */
 define(['dialog', 'element', 'editor'], function(Dialog, Element, Editor) {
 
-    var newDialog = new Dialog('#dialog-new',{
-        resizable:false
+    var newDialog = new Dialog('#dialog-new', {
+        resizable: false
     });
 
     $.extend(newDialog, {
@@ -21,12 +21,12 @@ define(['dialog', 'element', 'editor'], function(Dialog, Element, Editor) {
             return this;
         },
         initEvt: function() {
-            var self =this;
+            var self = this;
             self.m$content.find('form').submit(function(e) {
 
                 var id = $.trim($('#_id').val());
 
-                if(!/^[a-zA-Z][\w\-]*$/.test(id)){
+                if (!/^[a-zA-Z][\w\-]*$/.test(id)) {
                     return self.toast('id 需要是字母开头的字母、数字、连字符与下划线的组合');
                 }
 
@@ -35,7 +35,8 @@ define(['dialog', 'element', 'editor'], function(Dialog, Element, Editor) {
                         var ele = new Element('a', {
                             href: 'http://www.sogou.com',
                             target: '_blank',
-                            id: id
+                            id: id,
+                            __ro: ''
                         }, {
                             width: '40px',
                             height: '20px',
@@ -48,7 +49,7 @@ define(['dialog', 'element', 'editor'], function(Dialog, Element, Editor) {
                             'background-image': '',
                             'background-position': '',
                             'background-repeat': '',
-                            'z-index':''
+                            'z-index': ''
                         }, '链接');
                         try {
                             Editor.addElement(ele);
@@ -58,7 +59,8 @@ define(['dialog', 'element', 'editor'], function(Dialog, Element, Editor) {
                         break;
                     case '_type_text':
                         var ele = new Element('div', {
-                            id: id
+                            id: id,
+                            __ro: ''
                         }, {
                             width: '40px',
                             height: '20px',
@@ -71,7 +73,7 @@ define(['dialog', 'element', 'editor'], function(Dialog, Element, Editor) {
                             'background-image': '',
                             'background-position': '',
                             'background-repeat': '',
-                            'z-index':''
+                            'z-index': ''
                         }, '文本');
                         try {
                             Editor.addElement(ele);
@@ -82,14 +84,15 @@ define(['dialog', 'element', 'editor'], function(Dialog, Element, Editor) {
                     case '_type_img':
                         var ele = new Element('img', {
                             src: "/static/img/sogou.png",
-                            id: id
+                            id: id,
+                            __ro: ''
                         }, {
                             width: '50px',
                             height: '50px',
                             left: '20px',
                             position: 'absolute',
                             top: '20px',
-                            'z-index':''
+                            'z-index': ''
                         });
                         try {
                             Editor.addElement(ele);

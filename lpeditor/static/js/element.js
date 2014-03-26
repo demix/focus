@@ -55,6 +55,13 @@ define(['listener'], function(Listener) {
             return this.mProps.id;
         },
         /**
+         * [readonly description]
+         * @return {Boolean}
+         */
+        readonly:function(){
+            return undefined === this.mProps['__ro'];
+        },
+        /**
          * [equals description]
          * @param  {Element} ele
          * @return {Boolean}
@@ -214,7 +221,7 @@ define(['listener'], function(Listener) {
             var propsText = [],
                 innerHtml = '';
             $.each(this.mProps, function(k, v) {
-                v && propsText.push(k + '=\"' + v + '"');
+                propsText.push(v?k + '=\"' + v + '"':k);
             });
             propsText = propsText.join(' ');
 
