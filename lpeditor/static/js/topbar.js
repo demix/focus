@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['draft','dialog','dialog-save','setting','editor','canvas'], function(DraftManager,Dialog,DialogSave,Setting,Editor,Canvas) {
+define(['draft','dialog','dialog-save','setting','release'], function(DraftManager,Dialog,DialogSave,Setting,release) {
 
     //mark right
     function Mark() {}
@@ -330,15 +330,7 @@ define(['draft','dialog','dialog-save','setting','editor','canvas'], function(Dr
             },
             initEvt:function(){
                 this.m$div.click(function(e){
-                    var code = Editor.generateCode();
-                    var payload ={
-                        css:code.styleText,
-                        html:Canvas.getCanvasHTML()+ code.innerHtml+"</div>"
-                    };
-
-                    $.extend(payload,Setting.toJSON());
-
-                    console.debug(payload);
+                    release();
                 });
             }
         });

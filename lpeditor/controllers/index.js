@@ -40,9 +40,10 @@ var app = {
     });
   }, //preview
   release: function(req, res){
+
       var debug= +req.query.debug;
 
-      var config = JSON.parse(fs.readFileSync(path.join( __dirname, '..' , 'mock' , 'landing.json' )));
+      var config=!debug?JSON.parse(req.body.config):JSON.parse(fs.readFileSync(path.join( __dirname, '..' , 'mock' , 'landing.json' )));
       require('./compile').compile( config , debug , function(file){
           res.send(file);
       });

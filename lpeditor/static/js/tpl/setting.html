@@ -29,6 +29,10 @@
 <fieldset>
     <legend>Landing Page</legend>
     <div class="row">
+        <span class="tit">标题：</span>
+        <input type="text" name="title" autocomplete="off" value="{{setting.title|default('')}}" placeholder="页面Title，一般为游戏名称" style="width:25em"/>
+    </div>
+    <div class="row">
         <span class="tit">Flash 尺寸：</span>
         <input type="radio" id="flashSize-big" name="flashSize" {%if setting.flashSize=='0'%}checked="checked"{%endif%} value="0"/>
         <label for="flashSize-big">大</label>

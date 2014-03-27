@@ -38,6 +38,6 @@ app.get('/', index.index);
 
 
 db.connect(function(){
-    app.listen(3222);
+    app.listen(3220);
 });
 
