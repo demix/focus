@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['draft','dialog','dialog-save'], function(DraftManager,Dialog,DialogSave) {
+define(['draft','dialog','dialog-save','setting','editor','canvas'], function(DraftManager,Dialog,DialogSave,Setting,Editor,Canvas) {
 
     //mark right
     function Mark() {}
@@ -317,6 +317,33 @@ define(['draft','dialog','dialog-save'], function(DraftManager,Dialog,DialogSave
         });
         saveProfileMenu.init();
         MacTopbar.addMenu(saveProfileMenu);
+    })();
+
+    //create page menu
+    (function(){
+        var createPageMenu = new Menu();
+        $.extend(createPageMenu,{
+            init:function(){
+                this.m$div =$('<a href="javascript:;" class="item create-page">生成页面</a>');
+                this.initEvt();
+                return this;
+            },
+            initEvt:function(){
+                this.m$div.click(function(e){
+                    var code = Editor.generateCode();
+                    var payload ={
+                        css:code.styleText,
+                        html:Canvas.getCanvasHTML()+ code.innerHtml+"</div>"
+                    };
+
+                    $.extend(payload,Setting.toJSON());
+
+                    console.debug(payload);
+                });
+            }
+        });
+        createPageMenu.init();
+        MacTopbar.addMenu(createPageMenu);
     })();
 
     return MacTopbar;
