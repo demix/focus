@@ -80,13 +80,11 @@ define(['setting'], function(Setting) {
          * [setDialogLocation description]
          * @param {[type]} loc [description]
          */
-        setDialogVerticalCenter: function(center) {
+        setDialogVerticalCenter: function(center) {console.log(center)
             if (center) {
-                $canvas.css('top', '50%');
-                $canvas.css('margin-top', '-' + $canvas.height() / 2 + 'px');
+                $canvas.css({'top': '50%','margin-top':'-' + $canvas.height() / 2 + 'px'});
             } else {
-                $canvas.css('top', Setting.dialogTop);
-                $canvas.css('margin-top', '0');
+                $canvas.css({'top':Setting.data.dialogTop,'margin-top':0});
             }
         },
         getCanvasHTML: function(preview) {

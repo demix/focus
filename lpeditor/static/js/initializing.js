@@ -150,7 +150,14 @@ define(['element'], function(Element) {
     //*******************tip definition*******************\\
     var areaRegTipsDefine = {
         tag: 'div',
-        text: '提示信息，修改文本无效',
+        text: function(id, index) {
+            if ('tip-login-user' === id) {
+                return '请填写用户名';
+            } else if ('tip-login-pwd' === id) {
+                return '请填写密码';
+            }
+            return '提示信息,JS修改';
+        },
         props: {
             'class': 'tip'
         },
@@ -298,21 +305,21 @@ define(['element'], function(Element) {
                 }
             },
             children: function(id, index) {
-                var children = 'area-reg' === id?{
-                    'tip-reg-protocol':{
-                        tag:'div',
-                        text:'您必须认真阅读并同意《搜狗服务协议》',
-                        props:{},
-                        css:{
-                            '':{
-                                width:'250px',
-                                height:'20px',
-                                left:'100px',
-                                top:'250px',
-                                display:'none',
-                                color:'#fff',
-                                'font-size':'12px',
-                                'font-family':''
+                var children = 'area-reg' === id ? {
+                    'tip-reg-protocol': {
+                        tag: 'div',
+                        text: '您必须认真阅读并同意《搜狗服务协议》',
+                        props: {},
+                        css: {
+                            '': {
+                                width: '250px',
+                                height: '20px',
+                                left: '100px',
+                                top: '250px',
+                                display: 'none',
+                                color: '#fff',
+                                'font-size': '12px',
+                                'font-family': ''
                             }
                         }
                     },
@@ -375,7 +382,7 @@ define(['element'], function(Element) {
                             }
                         }
                     },
-                    "img-captcha":{
+                    "img-captcha": {
                         tag: 'img',
                         props: {
                             border: 0,
@@ -392,7 +399,7 @@ define(['element'], function(Element) {
                             }
                         }
                     }
-                }:{};
+                } : {};
                 var labels = index ? areaLoginLabels : areaRegLabels;
                 var inputs = index ? areaLoginInputs : areaRegInputs;
                 var tips = index ? areaLoginTips : areaRegTips;

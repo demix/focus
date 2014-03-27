@@ -17,7 +17,7 @@ define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) 
         dialogWidth: '404px',
         dialogHeight: '455px',
         dialogBgColor: '',
-        dialogTop: '',
+        dialogTop: '41px',
         flashSize:false,
         navbar:true,
         mask:true,

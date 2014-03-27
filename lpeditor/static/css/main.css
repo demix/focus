@@ -568,3 +568,4 @@ text-align:center
 #dialog-setting .linklist tr:nth-child(2n) {
 background:rgba(204,204,204,0.5)
 }
+#dialog-setting .tip{color:#bbb;font-size: 12px;}
