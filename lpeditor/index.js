@@ -24,6 +24,7 @@ app.post('/preview', index.preview);
 app.all('/save', index.save);
 app.all('/list', index.list);
 app.all('/get', index.get);
+app.all('/release', index.release);
 app.get('/', index.index);
 
 
@@ -37,6 +38,6 @@ app.get('/', index.index);
 
 
 db.connect(function(){
-    app.listen(3220);
+    app.listen(3222);
 });
 

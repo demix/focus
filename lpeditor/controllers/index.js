@@ -10,7 +10,10 @@
  * @since 0.0.1
  */
 var fs = require('fs'),
-  async = require('async');
+  async = require('async'),
+    path = require('path');
+
+
 
 const JSON_DIR = "./json/";
 
@@ -36,6 +39,14 @@ var app = {
       html: html
     });
   }, //preview
+  release: function(req, res){
+      var debug= +req.query.debug;
+
+      var config = JSON.parse(fs.readFileSync(path.join( __dirname, '..' , 'mock' , 'landing.json' )));
+      require('./compile').compile( config , debug , function(file){
+          res.send(file);
+      });
+  },
   /**
    * This is just a file-system version of persistence,
    * U should use mongoDB instead.
