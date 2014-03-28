@@ -60,11 +60,11 @@ define(['element'], function(Element) {
                             return '104px';
                     }
                 },
-                display:function(id,index){
-                    return !!~id.indexOf('captcha')?'none':'block';
+                display: function(id, index) {
+                    return !!~id.indexOf('captcha') ? 'none' : 'block';
                 },
-                width:'73px',
-                height:'20px',
+                width: '73px',
+                height: '20px',
                 color: '#fff',
                 'font-size': '14px',
                 'font-family': ''
@@ -88,13 +88,15 @@ define(['element'], function(Element) {
 
     //*******************input definition*******************\\
     var areaRegInputsDefine = {
-        tag: function(id){return !!~id.indexOf('server')?'select':'input'},
+        tag: function(id) {
+            return !!~id.indexOf('server') ? 'select' : 'input'
+        },
         props: {
             value: '',
             autocomplete: 'off',
             disableautocomplete: '',
             'class': 'input',
-            placeholder:'',
+            placeholder: '',
             type: function(id) {
                 return !!~id.indexOf('pwd') ? 'password' : ( !! ~id.indexOf('server') ? '' : 'text')
             }
@@ -102,8 +104,8 @@ define(['element'], function(Element) {
         css: {
             '': {
                 left: '120px',
-                width: function(id,index){
-                    return 'input-reg-captcha'===id?'80px':'150px';
+                width: function(id, index) {
+                    return 'input-reg-captcha' === id ? '80px' : '150px';
                 },
                 height: '20px',
                 top: function(id) {
@@ -122,11 +124,12 @@ define(['element'], function(Element) {
                             return '60px';
                         case 'input-login-server':
                             return '100px';
-                        default:;
+                        default:
+                            ;
                     }
                 },
-                display:function(id,index){
-                    return !!~id.indexOf('captcha')?'none':'block';
+                display: function(id, index) {
+                    return !!~id.indexOf('captcha') ? 'none' : 'block';
                 }
             }
         }
@@ -145,59 +148,66 @@ define(['element'], function(Element) {
     var areaRegInputs = {};
     areaRegInputs[areaRegInputId] = areaRegInputsDefine;
     //*******************tip definition*******************\\
-var areaRegTipsDefine={
-            tag: 'div',
-            text: '提示信息，修改文本无效',
-            props: {
-                'class': 'tip'
-            },
-            css: {
-                '': {
-                    display: 'none',
-                    color: '#fff',
-                    width: '200px',
-                    height: '15px',
-                    left: '120px',
-                    'font-size': '12px',
-                    'font-family': '',
-                    top: function(id) {
-                        switch (id) {
-                            case 'tip-reg':
-                                return '150px';
-                            case 'tip-login':
-                                return '150px';
-                            case 'tip-reg-user':
-                                return '46px';
-                            case 'tip-reg-pwd':
-                                return '86px';
-                            case 'tip-reg-rpwd':
-                                return '126px';
-                            case 'tip-reg-captcha':
-                                return '166px';
-                            case 'tip-login-user':
-                                return '46px';
-                            case 'tip-login-pwd':
-                                return '86px';
-                            case 'tip-login-server':
-                                return '126px';
-                        }
+    var areaRegTipsDefine = {
+        tag: 'div',
+        text: function(id, index) {
+            if ('tip-login-user' === id) {
+                return '请填写用户名';
+            } else if ('tip-login-pwd' === id) {
+                return '请填写密码';
+            }
+            return '提示信息,JS修改';
+        },
+        props: {
+            'class': 'tip'
+        },
+        css: {
+            '': {
+                display: 'none',
+                color: '#fff',
+                width: '200px',
+                height: '15px',
+                left: '120px',
+                'font-size': '12px',
+                'font-family': '',
+                top: function(id) {
+                    switch (id) {
+                        case 'tip-reg':
+                            return '150px';
+                        case 'tip-login':
+                            return '150px';
+                        case 'tip-reg-user':
+                            return '46px';
+                        case 'tip-reg-pwd':
+                            return '86px';
+                        case 'tip-reg-rpwd':
+                            return '126px';
+                        case 'tip-reg-captcha':
+                            return '166px';
+                        case 'tip-login-user':
+                            return '46px';
+                        case 'tip-login-pwd':
+                            return '86px';
+                        case 'tip-login-server':
+                            return '126px';
                     }
                 }
             }
-        };
-var areaLoginTipsDefine={};
-$.extend(areaLoginTipsDefine,areaRegTipsDefine);
-var allTipIds='tip-reg-user,tip-reg-pwd,tip-reg-rpwd,tip-reg-captcha,tip-login-user,tip-login-pwd,tip-login-server,tip-login,tip-reg';
-var areaLoginTipId = allTipIds.split(',').filter(function(v) {
-    return !!~v.indexOf('-login')
-}).join();
-var areaRegTipId = allTipIds.split(',').filter(function(v) {
-    return !!~v.indexOf('-reg')
-}).join();
-var areaLoginTips = {};
-areaLoginTips[areaLoginTipId] = areaLoginTipsDefine;
-var areaRegTips = {};
-areaRegTips[areaRegTipId] = areaRegTipsDefine;
+        }
+    };
+    var areaLoginTipsDefine = {};
+    $.extend(areaLoginTipsDefine, areaRegTipsDefine);
+    var allTipIds = 'tip-reg-user,tip-reg-pwd,tip-reg-rpwd,tip-reg-captcha,tip-login-user,tip-login-pwd,tip-login-server,tip-login,tip-reg';
+    var areaLoginTipId = allTipIds.split(',').filter(function(v) {
+        return !!~v.indexOf('-login')
+    }).join();
+    var areaRegTipId = allTipIds.split(',').filter(function(v) {
+        return !!~v.indexOf('-reg')
+    }).join();
+    var areaLoginTips = {};
+    areaLoginTips[areaLoginTipId] = areaLoginTipsDefine;
+    var areaRegTips = {};
+    areaRegTips[areaRegTipId] = areaRegTipsDefine;
     //Every key is a ID of an element.
     //In css,every key is a selector,empty string means ID is used by default;
     //selector starts with '>' means suffix,or '<' means prefix;
@@ -207,7 +217,7 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
             tag: 'a',
             text: '',
             props: {
-                href: 'javascript:;'
+                href: '##'
             },
             css: {
                 '': {
@@ -217,13 +227,13 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                     height: '18px',
                     'background-color': '',
                     'background-image': 'url(http://img.wan.sogou.com/ufo/img/newnav/dialog3/yx.jpg)',
-                    'background-repeat':'',
-                    'background-position':''
+                    'background-repeat': '',
+                    'background-position': ''
                 },
                 '>:hover': {
-                        'background-color': '',
-                        'background-image': '',
-                        'background-position':''
+                    'background-color': '',
+                    'background-image': '',
+                    'background-position': ''
                 }
             }
 
@@ -235,7 +245,7 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                 return index ? '老用户登录' : '新用户注册';
             },
             props: {
-                href: 'javascript:;',
+                href: '##',
                 'class': function(id, index) {
                     return index ? 'tab' : 'tab on'
                 }
@@ -253,7 +263,7 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                     width: '171px',
                     height: '33px',
                     color: '#fff',
-                    display:'block',
+                    display: 'block',
                     'text-decoration': 'none',
                     'font-size': '14px',
                     'font-family': '',
@@ -280,7 +290,7 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
         /*注册区域*/
         'area-reg,area-login': {
             tag: 'form',
-            props:{
+            props: {
 
             },
             css: {
@@ -295,7 +305,101 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                 }
             },
             children: function(id, index) {
-                var children={};
+                var children = 'area-reg' === id ? {
+                    'tip-reg-protocol': {
+                        tag: 'div',
+                        text: '您必须认真阅读并同意《搜狗服务协议》',
+                        props: {},
+                        css: {
+                            '': {
+                                width: '250px',
+                                height: '20px',
+                                left: '100px',
+                                top: '250px',
+                                display: 'none',
+                                color: '#fff',
+                                'font-size': '12px',
+                                'font-family': ''
+                            }
+                        }
+                    },
+                    'ckb-protocol': {
+                        tag: 'input',
+                        props: {
+                            type: 'checkbox',
+                            checked: true,
+                            name: function(id) {
+                                return id;
+                            }
+                        },
+                        css: {
+                            '': {
+                                display: 'block',
+                                left: '100px',
+                                top: '230px'
+                            }
+                        }
+                    },
+                    'a-protocol': {
+                        tag: 'a',
+                        text: '《搜狗服务协议》',
+                        props: {
+                            href: 'https://account.sogou.com/static/agreement.html',
+                            target: '_blank'
+                        },
+                        css: {
+                            '': {
+                                width: '140px',
+                                height: '20px',
+                                left: '235px',
+                                top: '230px',
+                                color: '#005EC8',
+                                'font-size': '12px',
+                                'font-family': '',
+                                'text-decoration': 'underline'
+                            },
+                            '>:hover': {
+                                color: '',
+                                'text-decoration': ''
+                            }
+                        }
+                    },
+                    'txt-protocol': {
+                        tag: 'label',
+                        text: '我已仔细阅读并同意',
+                        props: {
+                            'for': 'ckb-protocol'
+                        },
+                        css: {
+                            '': {
+                                width: '110px',
+                                height: '20px',
+                                left: '120px',
+                                top: '230px',
+                                color: '#fff',
+                                'font-size': '12px',
+                                'font-family': ''
+                            }
+                        }
+                    },
+                    "img-captcha": {
+                        tag: 'img',
+                        props: {
+                            border: 0,
+                            title: '验证码',
+                            src: '/reg/captcha?rnd=' + Date.now()
+                        },
+                        css: {
+                            '': {
+                                display: 'none',
+                                width: '80px',
+                                height: '30px',
+                                top: '140px',
+                                left: '220px'
+                            }
+                        }
+                    }
+                } : {};
                 var labels = index ? areaLoginLabels : areaRegLabels;
                 var inputs = index ? areaLoginInputs : areaRegInputs;
                 var tips = index ? areaLoginTips : areaRegTips;
@@ -303,95 +407,15 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                 $.extend(children, inputs);
                 $.extend(children, tips);
 
-                //captcha in reg area
-                if('area-reg' ===id){
-                    children['img-captcha']={
-                        tag:'img',
-                        props:{
-                            border:0,
-                            title:'验证码',
-                            src:'/reg/captcha?rnd='+Date.now()
-                        },
-                        css:{
-                            '':{
-                                display:'none',
-                                width:'80px',
-                                height:'30px',
-                                top:'140px',
-                                left:'220px'
-                            }
-                        }
-                    };
-                }
-
                 return children;
             } //children
-        },
-        'ckb-protocol': {
-            tag: 'input',
-            props: {
-                type: 'checkbox',
-                checked: true,
-                name: function(id) {
-                    return id;
-                }
-            },
-            css: {
-                '': {
-                    display: 'block',
-                    left: '100px',
-                    top: '330px'
-                }
-            }
-        },
-        'a-protocol': {
-            tag: 'a',
-            text: '《搜狗服务协议》',
-            props: {
-                href: 'https://account.sogou.com/static/agreement.html',
-                target: '_blank'
-            },
-            css: {
-                '': {
-                    width: '140px',
-                    height: '20px',
-                    left: '235px',
-                    top: '330px',
-                    color: '#005EC8',
-                    'font-size': '12px',
-                    'font-family': '',
-                    'text-decoration': 'underline'
-                },
-                '>:hover': {
-                    color: '',
-                    'text-decoration': ''
-                }
-            }
-        },
-        'txt-protocol': {
-            tag: 'label',
-            text: '我已仔细阅读并同意',
-            props: {
-                'for': 'ckb-protocol'
-            },
-            css: {
-                '': {
-                    width: '110px',
-                    height: '20px',
-                    left: '120px',
-                    top: '330px',
-                    color: '#fff',
-                    'font-size': '12px',
-                    'font-family': ''
-                }
-            }
         },
         /*开始按钮*/
         'btn-start': {
             tag: 'a',
             text: '',
             props: {
-                href: 'javascript:;'
+                href: '##'
             },
             css: {
                 '': {
@@ -416,7 +440,7 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                 '': {
                     width: '404px',
                     height: '100px',
-                    display:'block',
+                    display: 'block',
                     left: '0',
                     top: '355px'
                 }
@@ -443,7 +467,7 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                     tag: 'a',
                     text: '',
                     props: {
-                        href: 'javascript:;',
+                        href: '##',
                         'class': 'login3rd'
                     },
                     css: {
@@ -455,17 +479,17 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
                             width: '70px',
                             height: '25px',
                             'background-image': 'url(http://wan.sogou.com/images/qq-rr-wb-8.png)',
-                            'background-position':function(id,index){
-                                var s= ['-17px -7px','-21px -36px','-23px -65px'];
+                            'background-position': function(id, index) {
+                                var s = ['-17px -7px', '-21px -36px', '-23px -65px'];
                                 return s[index];
                             },
-                            'background-repeat':'no-repeat',
+                            'background-repeat': 'no-repeat',
                             'background-color': ''
                         },
                         '>:hover': {
                             'background-image': '',
-                            'background-position':function(id,index){
-                                var s =['-5px -98px','-5px -129px','-5px -157px'];
+                            'background-position': function(id, index) {
+                                var s = ['-5px -98px', '-5px -129px', '-5px -157px'];
                                 return s[index];
                             },
                             'background-color': ''
@@ -476,6 +500,7 @@ areaRegTips[areaRegTipId] = areaRegTipsDefine;
         }
     };
     Object.freeze(initializingElementsConfig);
+    console.log(initializingElementsConfig)
     return initializingElementsConfig;
 
 });

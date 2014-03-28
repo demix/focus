@@ -41,12 +41,14 @@ define(['dialog', 'setting', 'text!tpl/setting.html', 'Ursa','yy.editable'], fun
         }
       });
 
+      var index =0;
+
       this.m$content.delegate('button.add','click',function(e){
         var $li =$('<tr class="item">\
-          <td><span class="href">http://</span></td>\
+          <td><span class="href">http://wan.sogou.com</span></td>\
           <td><span class="textColor">#ff7200</span></td>\
-          <td><span class="title">搜狗游戏</span></td>\
-           <td class="x"><a href="javascript:;">移除</a></td>\
+          <td><span class="title">搜狗游戏'+(++index)+'</span></td>\
+           <td class="x"><a href="##">移除</a></td>\
           </tr>');
         $li.find('.href,.textColor,.title').yeditable();
         self.m$content.find('.linklist').append($li);

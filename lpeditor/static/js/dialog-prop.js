@@ -21,6 +21,7 @@ define(['dialog', 'editor', 'text!tpl/prop.html','propselector', 'Ursa'], functi
          */
         init: function() {
             Ursa.compile(Tpl_Prop, 'Tpl_Prop');
+            Editor.listen('dblclick',this.onDblclick,this);
             return this.initEvt();
         },
         /**
@@ -48,6 +49,12 @@ define(['dialog', 'editor', 'text!tpl/prop.html','propselector', 'Ursa'], functi
             });
 
             return this;
+        },
+        onDblclick:function(evt,evtObj,args){
+            var id =args[0],ele;
+            if(id){
+                this.show();
+            }
         },
         onEditorLoaded:function(evt,evtObj,args){
             this.m$focusElement=null;

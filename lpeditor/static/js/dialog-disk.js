@@ -20,6 +20,13 @@ define(['dialog', 'disk'], function(Dialog, DiskManager) {
             this.m$content.text('加载中......');
 
             DiskManager.listen(EVT_LOADED_LIST, this.onListLoaded, this);
+            DiskManager.listen(EVT_LOADED, function(){
+                this.toast('加载成功',true,3000);
+            }, this);
+
+            DiskManager.listen(EVT_LOAD_ERROR, function(){
+                this.toast('加载失败',false,3000);
+            }, this);
 
             DiskManager.listen(EVT_CREATED, this.onModified, this);
             DiskManager.listen(EVT_SAVED, this.onModified, this);

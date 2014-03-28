@@ -14,7 +14,7 @@ define([], function() {
         fireEvent: function(element, event) {
             if (document.createEventObject) {
                 var evt = document.createEventObject();
-                return element.fireEvent('on' + event, evt)
+                return element.fireEvent('on' + event, evt);
             } else {
                 var evt = document.createEvent('HTMLEvents');
                 evt.initEvent(event, true, true);
@@ -27,9 +27,9 @@ define([], function() {
             }
 
             var a = document.createElement('a');
-            a.setAttribute('style', 'display:none');
-            a.setAttribute('target', '_blank');
-            a.setAttribute('href', url);
+            a.style.cssText= 'display:none';
+            a.target= '_blank';
+            a.href= url;
             document.body.appendChild(a);
 
             if (a.click) {
@@ -41,6 +41,12 @@ define([], function() {
 
             return this;
         },
+        /**
+         * [formatDate description]
+         * @param  {[type]} d   [description]
+         * @param  {[type]} fmt [description]
+         * @return {[type]}     [description]
+         */
         formatDate:function(d,fmt){
             fmt=fmt||"yyyy-mm-dd HH:ii:ss";
 

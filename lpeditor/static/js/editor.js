@@ -136,6 +136,8 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
             var self = this;
             $canvas.delegate('*', 'mousedown', function(e) {
                 self.selectElement(e.target.id);
+            }).delegate('*','dblclick',function(e){
+                self.trigger('dblclick',e.target.id);
             });
 
             //Tab switch
@@ -169,9 +171,9 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
 
             if (ele) {
                 !silence&&this.trigger('focuschanged', this.__lastFocusElement, ele);
-                Setting.showFocusElement && this.__lastFocusElement && $(this.__lastFocusElement.mBaseSelector).removeClass('focus');
+                Setting.get('showFocusElement') && this.__lastFocusElement && $(this.__lastFocusElement.mBaseSelector).removeClass('focus');
                 this.__lastFocusElement = ele;
-                Setting.showFocusElement && $(ele.mBaseSelector).addClass('focus');
+                Setting.get('showFocusElement') && $(ele.mBaseSelector).addClass('focus');
             }
 
             return ele;

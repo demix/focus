@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['dialog', 'listener', 'editor', 'jquery-ztree'], function(Dialog, Listener, Editor) {
+define(['dialog', 'listener', 'editor', 'dialog-prop','jquery-ztree'], function(Dialog, Listener, Editor,PropDialog) {
   var treeDialog = new Dialog('#dialog-tree');
 
   //I really why the tree cannot be dragged and dropped,even I set all the parameters.
@@ -31,6 +31,9 @@ define(['dialog', 'listener', 'editor', 'jquery-ztree'], function(Dialog, Listen
     callback: {
       onClick: function(event, treeId, treeNode) {
         Editor.selectElement(String(treeNode.id));
+      },
+      onDblClick:function(event, treeId, treeNode){
+        PropDialog.show();
       }
     }
   };

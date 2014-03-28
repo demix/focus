@@ -18,9 +18,24 @@ define(['setting'], function(Setting) {
             this.setDialogHeight(Setting.data.dialogHeight);
             this.setDialogBgColor(Setting.data.dialogBgColor);
             this.setDialogBgImg(Setting.data.dialogBgImg);
+            this.setDialogLeftOffset(Setting.data.dialogLeftOffset);
             this.setDialogVerticalCenter(Setting.data.dialogVerticalCenter);
             Setting.listen('settingchanged', this.onSettingChanged, this);
             return this;
+        },
+        computePosition:function(){
+             if (Setting.get('dialogVerticalCenter')) {
+                $canvas.css({'top': '50%','margin-top':'-' + (parseInt(Setting.get('dialogHeight'))|0) / 2 + 'px'});
+            } else {
+                $canvas.css({'top':Setting.get('dialogTop'),'margin-top':0});
+            }
+
+            var w = parseInt(Setting.get('dialogWidth'))||405;
+            var offset =parseInt(Setting.get('dialogLeftOffset'))||0;
+            $canvas.css({
+                'margin-left':'-'+(w/2+offset)+'px'
+            });
+
         },
         /**
          * [onSettingChanged description]
@@ -34,7 +49,7 @@ define(['setting'], function(Setting) {
                 var func = 'set' + args[0].key.replace(/^[a-z]/, function(n) {
                     return String(n).toUpperCase()
                 });
-                this[func].call(this, args[0].newVal);
+                this[func]&&this[func].call(this, args[0].newVal);
             }
         },
         /**
@@ -43,6 +58,10 @@ define(['setting'], function(Setting) {
          */
         setDialogBgColor: function(color) {
             $canvas.css('background-color', color || '');
+        },
+        setDialogLeftOffset:function(offset){
+            this.computePosition();
+            //$canvas.css('margin-left','50%');
         },
         /**
          * [setDialogBgImg description]
@@ -57,6 +76,7 @@ define(['setting'], function(Setting) {
         setDialogTop: function(top) {
             if (!Setting.data.dialogVerticalCenter) {
                 $canvas.css('top', top);
+                this.computePosition();
             }
         },
         /**
@@ -65,6 +85,7 @@ define(['setting'], function(Setting) {
          */
         setDialogWidth: function(width) {
             $canvas.css('width', width);
+            this.computePosition();
         },
         /**
          * [setDialogHeight description]
@@ -72,22 +93,22 @@ define(['setting'], function(Setting) {
          */
         setDialogHeight: function(height) {
             $canvas.css('height', height);
-            if (Setting.data.dialogVerticalCenter) {
+            this.computePosition();
+/*            if (Setting.data.dialogVerticalCenter) {
                 $canvas.css('margin-top', '-' + $canvas.height() / 2 + 'px');
             }
-        },
+*/        },
         /**
          * [setDialogLocation description]
-         * @param {[type]} loc [description]
+         * @param {Boolean} center
          */
         setDialogVerticalCenter: function(center) {
-            if (center) {
-                $canvas.css('top', '50%');
-                $canvas.css('margin-top', '-' + $canvas.height() / 2 + 'px');
+            this.computePosition();
+           /* if (center) {
+                $canvas.css({'top': '50%','margin-top':'-' + $canvas.height() / 2 + 'px'});
             } else {
-                $canvas.css('top', Setting.dialogTop);
-                $canvas.css('margin-top', '0');
-            }
+                $canvas.css({'top':Setting.data.dialogTop,'margin-top':0});
+            }*/
         },
         getCanvasHTML: function(preview) {
             var css = [preview ? '' : 'display:none', 'position:absolute', 'margin-left:50%','left:-'+($canvas.width()/2)+'px', 'top:' + $canvas.css('top'), 'margin-top:' + $canvas.css('margin-top'), 'background-image:' + $canvas.css('background-image'), 'background-color:' + $canvas.css('background-color'), 'width:' + $canvas.css('width'), 'height:' + $canvas.css('height')].join(';');
