@@ -89,7 +89,11 @@ opacity:.5
 position:relative;
 width:404px;
 height:455px;
-margin:100px auto;
+position: absolute;
+left: 50%;
+top:50%;
+margin-left: -202px;
+margin-right: -225px;
 background:url(http://img.wan.sogou.com/ufo/img/newnav/dialog3/ybg2.png) no-repeat
 }
 
