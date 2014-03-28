@@ -54,7 +54,7 @@ define(['dialog','disk','editor','setting'],function(Dialog,DiskManager,Editor,S
          * @param  {[type]} args  
          */
         onCreated:function(evt,evtObj,args){
-            this.m$profileId.val(args[0]);
+            this.m$profileId.val(args[1]);
         },
         /**
          * [onSaved description]

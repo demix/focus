@@ -45,7 +45,7 @@ define(['editor', 'canvas', 'setting','disk','dialog-save','utils'], function(Ed
             dataType:'json'
         }).done(function(data){
             if(!+data.status){
-                Utils.popwin('/profile?id='+data.id);
+                Utils.popwin('/static/profile/'+data.id+'.html');
             }else{
                 console.error(data);
                 alert('失败')

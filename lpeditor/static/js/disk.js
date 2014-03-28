@@ -33,7 +33,7 @@ define(['listener'], function(Listener) {
             return this;
         },
         onLoadedOrCreated:function(evt,evtObj,args){
-            this.__profileId = args[0];
+            this.__profileId = args[1];
         },  
         /**
          * [load description]
@@ -136,7 +136,7 @@ define(['listener'], function(Listener) {
             }).done(function(data) {
                 if (data&&!+data.status) {
                     if(data.created)
-                        self.trigger(EVT_CREATED, data.id);
+                        self.trigger(EVT_CREATED, data,data.id);
                     else
                         self.trigger(EVT_SAVED, data.id);
                 } else {
