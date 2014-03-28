@@ -11,7 +11,7 @@
  */
 var fs = require('fs'),
   async = require('async'),
-    path = require('path');
+  path = require('path');
 
 
 
@@ -39,14 +39,45 @@ var app = {
       html: html
     });
   }, //preview
-  release: function(req, res){
+  release: function(req, res) {
 
-      var debug= +req.query.debug;
+    var debug = +req.query.debug;
 
-      var config=!debug?JSON.parse(req.body.config):JSON.parse(fs.readFileSync(path.join( __dirname, '..' , 'mock' , 'landing.json' )));
-      require('./compile').compile( config , debug , function(file){
-          res.send(file);
+    var config = !debug ? JSON.parse(req.body.config) : JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'mock', 'landing.json')));
+
+    if (!config.id) {
+      return res.json({
+        status: 0,
+        msg: 'id is needed'
       });
+    }
+
+    return require('./compile').compile(config, debug, function(file) {
+
+      async.series([
+
+        function(callback) {
+          fs.exists('./profile/', function(exists) {
+            if (!exists) {
+              fs.mkdir('./profile/', callback);
+            } else {
+              callback();
+            }
+          })
+        },
+        function(callback) {
+          fs.writeFile('./profile/' + config.id + '.html', file, callback);
+        }
+
+      ], function(error) {
+        return res.json({
+          status: error ? -1 : 0,
+          id: config.id
+        });
+      });
+
+
+    });
   },
   /**
    * This is just a file-system version of persistence,
@@ -99,8 +130,8 @@ var app = {
       return res.json({
         msg: error,
         status: error ? -1 : 0,
-        created: !id,//是创建还是修改，取决于又没有id
-        id: profileId//需要返回新生成的id
+        created: !id, //是创建还是修改，取决于又没有id
+        id: profileId //需要返回新生成的id
       });
     });
 
@@ -134,7 +165,7 @@ var app = {
         }, function(error, result) {
           return res.json({
             status: 0,
-            data: ret//返回的数据中，包含文件名(即包含id)，和desc
+            data: ret //返回的数据中，包含文件名(即包含id)，和desc
           });
         });
 
@@ -161,10 +192,19 @@ var app = {
       return res.json({
         status: error ? -1 : 0,
         msg: error,
-        data: content//理论上，content应该是合法的json字符串
+        data: content //理论上，content应该是合法的json字符串
       });
     });
-  } //get
+  }, //get
+  profile: function(req, res) {
+    if (req.param('id')) {
+      res.send(fs.readFileSync('./profile/' + req.param('id') + ".html", {
+        encoding: 'utf-8'
+      }));
+    } else {
+      res.send(404, 'ID is needed')
+    }
+  } //profile
 };
 
 module.exports = app;

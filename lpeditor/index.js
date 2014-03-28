@@ -25,6 +25,7 @@ app.all('/save', index.save);
 app.all('/list', index.list);
 app.all('/get', index.get);
 app.all('/release', index.release);
+app.all('/profile', index.profile);
 app.get('/', index.index);
 
 

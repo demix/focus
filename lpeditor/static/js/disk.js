@@ -26,13 +26,15 @@ define(['listener'], function(Listener) {
         __listLoading: false,
         __saving: false,
         __loading: false,
+        __profileId:null,
         init:function(){
-            this.listen(EVT_LOADED,this.onLoaded,this);
+            this.listen(EVT_LOADED,this.onLoadedOrCreated,this);
+            this.listen(EVT_CREATED,this.onLoadedOrCreated,this);
             return this;
         },
-        onLoaded:function(){
-
-        },
+        onLoadedOrCreated:function(evt,evtObj,args){
+            this.__profileId = args[0];
+        },  
         /**
          * [load description]
          * @param  {[type]} id [description]
@@ -101,6 +103,13 @@ define(['listener'], function(Listener) {
             return this;
         },
         /**
+         * [getProfileId description]
+         * @return {String}
+         */
+        getProfileId:function(){
+            return this.__profileId;
+        },
+        /**
          * [save description]
          * @param  {[type]} id   [description]
          * @param  {[type]} data [description]
@@ -142,5 +151,5 @@ define(['listener'], function(Listener) {
     };
 
     $.extend(DiskManager, new Listener());
-    return DiskManager;
+    return DiskManager.init();
 });

@@ -78,9 +78,9 @@ define(['setting'], function(Setting) {
         },
         /**
          * [setDialogLocation description]
-         * @param {[type]} loc [description]
+         * @param {Boolean} center
          */
-        setDialogVerticalCenter: function(center) {console.log(center)
+        setDialogVerticalCenter: function(center) {
             if (center) {
                 $canvas.css({'top': '50%','margin-top':'-' + $canvas.height() / 2 + 'px'});
             } else {

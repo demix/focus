@@ -217,7 +217,7 @@ define(['element'], function(Element) {
             tag: 'a',
             text: '',
             props: {
-                href: 'javascript:;'
+                href: '##'
             },
             css: {
                 '': {
@@ -245,7 +245,7 @@ define(['element'], function(Element) {
                 return index ? '老用户登录' : '新用户注册';
             },
             props: {
-                href: 'javascript:;',
+                href: '##',
                 'class': function(id, index) {
                     return index ? 'tab' : 'tab on'
                 }
@@ -415,7 +415,7 @@ define(['element'], function(Element) {
             tag: 'a',
             text: '',
             props: {
-                href: 'javascript:;'
+                href: '##'
             },
             css: {
                 '': {
@@ -467,7 +467,7 @@ define(['element'], function(Element) {
                     tag: 'a',
                     text: '',
                     props: {
-                        href: 'javascript:;',
+                        href: '##',
                         'class': 'login3rd'
                     },
                     css: {

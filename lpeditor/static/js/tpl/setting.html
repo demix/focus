@@ -1,28 +1,31 @@
 <fieldset>
     <legend>对话框</legend>
-    <div class="row"><span class="tit">位置：</span>
-        <input type="checkbox" name="dialogVerticalCenter" id="dialog-position-allcenter" {%if setting.dialogVerticalCenter%}checked="checked"{%endif%}/>
+    <div class="row">
+        <span class="tit">位置：</span>
+        <input type="checkbox" name="dialogVerticalCenter" id="dialog-position-allcenter" {%if setting.dialogVerticalCenter%}checked="checked" {%endif%}/>
         <label for="dialog-position-allcenter">垂直居中</label>
     </div>
 
     <div class="row">
         <span class="tit">上间距：</span>
-        <input type="text"  name="dialogTop" id="dialog-top" value="{{setting.dialogTop|default('')}}" placeholder="41px"/><span class="tip">仅非垂直居中时有效</span>
+        <input type="text" name="dialogTop" id="dialog-top" value="{{setting.dialogTop|default('')}}" placeholder="41px" />
+        <span class="tip">仅非垂直居中时有效</span>
     </div>
 
     <div class="row">
         <span class="tit">背景：</span>
         <label for="dialog-bgcolor">颜色</label>
-        <input type="text" name="dialogBgColor" id="dialog-bgcolor" value="{{setting.dialogBgColor|default('')}}"/>
+        <input type="text" name="dialogBgColor" id="dialog-bgcolor" value="{{setting.dialogBgColor|default('')}}" />
         <label for="dialog-bgimg">图片</label>
-        <input type="text" name="dialogBgImg" id="dialog-bgimg" value="{{setting.dialogBgImg|default('')}}"/>
+        <input type="text" name="dialogBgImg" id="dialog-bgimg" value="{{setting.dialogBgImg|default('')}}" />
     </div>
 
-    <div class="row"><span class="tit">尺寸：</span>
+    <div class="row">
+        <span class="tit">尺寸：</span>
         <label for="dialog-width">宽度</label>
-        <input type="text" name="dialogWidth" id="dialog-width" value="{{setting.dialogWidth|default('')}}"/>
+        <input type="text" name="dialogWidth" id="dialog-width" value="{{setting.dialogWidth|default('')}}" />
         <label for="dialog-height">高度</label>
-        <input type="text" name="dialogHeight" id="dialog-height" value="{{setting.dialogHeight|default('')}}"/>
+        <input type="text" name="dialogHeight" id="dialog-height" value="{{setting.dialogHeight|default('')}}" />
     </div>
 </fieldset>
 
@@ -30,72 +33,85 @@
     <legend>Landing Page</legend>
     <div class="row">
         <span class="tit">标题：</span>
-        <input type="text" name="title" autocomplete="off" value="{{setting.title|default('')}}" placeholder="页面Title，一般为游戏名称" style="width:25em"/>
+        <input type="text" name="title" autocomplete="off" value="{{setting.title|default('')}}" placeholder="页面Title，一般为游戏名称" style="width:25em" />
     </div>
     <div class="row">
         <span class="tit">Flash 尺寸：</span>
-        <input type="radio" id="flashSize-big" name="flashSize" {%if setting.flashSize=='0'%}checked="checked"{%endif%} value="0"/>
+        <input type="radio" id="flashSize-big" name="flashSize" {%if setting.flashSize=='0' %}checked="checked" {%endif%} value="0" />
         <label for="flashSize-big">大</label>
-        <input type="radio" id="flashSize-small" name="flashSize" {%if setting.flashSize=='1'%}checked="checked"{%endif%}  value="1"/>
+        <input type="radio" id="flashSize-small" name="flashSize" {%if setting.flashSize=='1' %}checked="checked" {%endif%} value="1" />
         <label for="flashSize-small">小</label>
     </div>
     <div class="row">
         <span class="tit">显示导航栏：</span>
-        <input type="checkbox" id="navbar" name="navbar" {%if setting.navbar%}checked="checked"{%endif%}/>
+        <input type="checkbox" id="navbar" name="navbar" {%if setting.navbar%}checked="checked" {%endif%}/>
+        <span class="tip">顶部，一般为41px，需要手动设置对话框位置为非垂直居中</span>
     </div>
     <div class="row">
         <span class="tit">显示遮罩：</span>
-        <input type="checkbox" id="mask" name="mask" {%if setting.mask%}checked="checked"{%endif%}/>
+        <input type="checkbox" id="mask" name="mask" {%if setting.mask%}checked="checked" {%endif%}/>
+        <span class="tip">整屏的半透明背景</span>
     </div>
 
     <div class="row">
         <span class="tit">默认显示对话框：</span>
-        <input type="checkbox" id="showDialog" name="showDialog" {%if setting.showDialog%}checked="checked"{%endif%}/>
+        <input type="checkbox" id="showDialog" name="showDialog" {%if setting.showDialog%}checked="checked" {%endif%}/>
+        <span class="tip">LP加载即显示对话框</span>
+    </div>
+    <div class="row">
+        <span class="tit">登录注册2合1：</span>
+        <input type="checkbox" id="twoInOne" name="twoInOne" {%if setting.twoInOne%}checked="checked" {%endif%}/>
+        <span class="tip">需要手动隐藏Tab切换按钮和重复密码框</span>
     </div>
 
     <div class="row">
         <span class="tit">Flash地址：</span>
-        <input type="url" id="flashUrl" name="flashUrl" placeholder="http://" value="{{setting.flashUrl|default('')}}" style="width:30em"/>
+        <input type="url" id="flashUrl" name="flashUrl" placeholder="http://" value="{{setting.flashUrl|default('')}}" style="width:30em" />
     </div>
 </fieldset>
 
 <fieldset>
     <legend>导航链接</legend>
     <div class="row">
-<button class="add">新增</button>
- <button class="save">保存</button>
+        <button class="add">新增</button>
+        <button class="save">保存</button>
+        <span class="tip">显示在顶部栏的轮播链接，双击进行编辑</span>
         <table class="linklist">
             <tr>
                 <th>链接</th>
                 <th>颜色</th>
                 <th>标题</th>
             </tr>
-        {%for link in setting.navLinks%}
+            {%for link in setting.navLinks%}
             <tr class="item">
-                <td><span class="href">{{link.href}}</span></td>
-                <td><span class="textColor">{{link.textColor}}</span></td>
-                <td><span class="title">{{link.title}}</span></td>
-                <td class="x"><a href="javascript:;">移除</a></td>
+                <td>
+                    <span class="href">{{link.href}}</span>
+                </td>
+                <td>
+                    <span class="textColor">{{link.textColor}}</span>
+                </td>
+                <td>
+                    <span class="title">{{link.title}}</span>
+                </td>
+                <td class="x"><a href="javascript:;">移除</a>
+                </td>
             </tr>
-        {%endfor%}
-      
+            {%endfor%}
+
         </table>
     </div>
 </fieldset>
 
-<fieldset>
-    <legend>预览</legend>
-    <div class="row">
-        <span class="tit">LP URL：</span>
-        <input type="url" id="bg-url" name="landingPageUrl" style="width:30em" value="{{setting.landingPageUrl|default('')}}" placeholder="http://"/>
-    </div>
-</fieldset>
 
 <fieldset>
-    <legend>其它</legend>
+    <legend>编辑器</legend>
+    <div class="row">
+        <span class="tit">背景页面URL：</span>
+        <input type="url" id="bg-url" name="landingPageUrl" style="width:30em" value="{{setting.landingPageUrl|default('')}}" placeholder="http://" />
+    </div>
     <div class="row">
         <span class="tit">选中的元素：</span>
-        <input type="checkbox" id="show-focus-element" name="showFocusElement" {%if setting.showFocusElement%}checked="checked"{%endif%}/>
+        <input type="checkbox" id="show-focus-element" name="showFocusElement" {%if setting.showFocusElement%}checked="checked" {%endif%}/>
         <label for="show-focus-element">以红框显示突出</label>
     </div>
 </fieldset>
