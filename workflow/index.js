@@ -21,6 +21,8 @@ app.use( '/packages', express.static(__dirname + '/packages'));
 app.get('*' , require('../common/controllers/common').get);
 app.get('/', require('./controllers/index').get);
 app.get('/project/:action', require('./controllers/project').get);
+app.get(/quick\/?(.*)/,require('./controllers/index').get);
+app.get(/formal\/?(.*)/,require('./controllers/index').get);
 
 
 

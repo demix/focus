@@ -60,12 +60,12 @@ define(function(){
         }
     });
     
-
+    var projects;
 
     return {
         init: function(token , callback){
             TOKEN = token;
-            var projects = new ProjectsCollection();
+            !projects && ( projects = new ProjectsCollection());
             return projects;
         }
     };

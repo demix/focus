@@ -57,3 +57,30 @@
     background:green;
     color:#fff;
 }
+
+.choose{
+    display:-webkit-flex;
+    padding-top:50px;
+}
+
+.choose li{
+    -webkit-flex:1;
+}
+
+.choose li a{
+    display:block;
+    width:200px;
+    height:200px;
+    text-align:center;
+    line-height:200px;
+    margin:0 auto;
+    text-decoration:none;
+    background:#d3dade;
+    border-radius:5px;
+    -webkit-user-select:none;
+}
+
+.choose li a:hover{
+    background:#7bc3d1;
+    color:#fff;
+}

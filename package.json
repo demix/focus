@@ -26,6 +26,7 @@
     "async": "0.2.10",
     "html-minifier": "^0.5.6",
     "clean-css": "^2.1.7",
-    "uglify-js": "^2.4.13"
+    "uglify-js": "^2.4.13",
+    "request": "^2.34.0"
   }
 }

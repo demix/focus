@@ -3,13 +3,13 @@
     <head>
         <meta charset="utf-8" />
         <title>{% block title %}{% endblock %} | Focus</title>
-        <link rel="stylesheet" href="./common/static/css/main.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="/common/static/css/main.css" type="text/css" media="screen" />
         {% block styles %}
         {% endblock %}
     </head>
     <body>
         <header id="header">
-            <h1><a href="/"><img src="./common/static/img/logo.png" class="" alt="Focus" /></a></h1>
+            <h1><a href="/"><img src="/common/static/img/logo.png" class="" alt="Focus" /></a></h1>
             <div class="title-bar">
                 <h2>{%block title%}{%endblock%}</h2>
                 <div class="apps">
@@ -35,7 +35,7 @@
                     {% if current_user.portrait %}
                     <img src="{{current_user.portrait}}" class="" alt="{{current_user.uname}}" />
                     {% else %}
-                    <img src="./common/static/img/portrait.png" class="" alt="{{current_user.uname || current_user.sid}}" />
+                    <img src="/common/static/img/portrait.png" class="" alt="{{current_user.uname || current_user.sid}}" />
                     {% endif %}
                 </p>
                 <ul class="func">
@@ -50,7 +50,7 @@
 
             {% endblock %}
         </div>
-        <script type="text/javascript" src="./common/static/js/global.js"></script>
+        <script type="text/javascript" src="/common/static/js/global.js"></script>
         <script type="text/javascript">
          
          require(['/common/static/js/header.js' , '/common/static/js/main.js'] , function(header , main){

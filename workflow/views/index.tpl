@@ -5,13 +5,7 @@
 
 {% block content %}
 
-<div  >
-    <h3>
-        Select Gitlab Project you want to <b>flow</b>
-    </h3>
-    <div id="Content" class="fc-form">
-        
-    </div>
+<div id="Content"  data-overridelink="1">
 </div>
 
 {% endblock %}
@@ -23,9 +17,10 @@
  var token = "{{token}}";
 
  require.config({
-     baseUrl:'./static/js',
+     baseUrl:'/workflow/static/js',
      paths:{
          bbmixin:'/common/static/js/bbmixin',
+         bbhelper:'/common/static/js/bbhelper',
          react: '/common/static/3rd/react',
          JSXTransformer:'/common/static/3rd/JSXTransformer',
          jsx:'/common/static/3rd/jsx',
@@ -34,6 +29,7 @@
  });
 
  require(['main'] , function(main){
+ 
      main.init();
  } );
  

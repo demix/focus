@@ -1,5 +1,6 @@
 'use strict';
 
+var request = require('request');
 var swig = require('swig');
 var express = require('express');
 var path=require('path');
@@ -27,6 +28,57 @@ app.all('/get', index.get);
 app.all('/release', index.release);
 app.get('/', index.index);
 
+app.get(/\/(.*\.do.*)$/ , function(req,res){
+
+    var querykey = Object.keys(req.query);
+    var query = [];
+    querykey.forEach(function(item){
+        query.push(item + '=' + req.query[item]);
+    });
+
+    request({
+        url: 'http://wan.sogou.com/'+req.params[0] + '?' + query.join('&'), 
+        headers:{
+            'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.76 Safari/537.36'
+        }
+    } , function(error,response,body){
+        res.send(body);
+    });
+});
+
+app.post(/\/(.*\.do.*)$/ , function(req,res){
+
+    var querykey = Object.keys(req.body);
+    var query = [];
+    querykey.forEach(function(item){
+        query.push(item + '=' + req.body[item]);
+    });
+    request({
+        method:'POST',
+        url: 'http://wan.sogou.com/'+req.params[0], 
+        body: query.join('&'),
+        headers:{
+            'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.76 Safari/537.36',
+            'Referer':'http://wan.sogou.com',
+            'Content-type':'application/x-www-form-urlencoded'
+        }
+    } , function(error,response,body){
+        res.send(body);
+    });
+});
+
+app.get('/static/jump.html' , function(req,res){
+    var querykey = Object.keys(req.query);
+    var query = [];
+    querykey.forEach(function(item){
+        query.push(item + '=' + req.query[item]);
+    });
+    request({
+        url:'http://wan.sogou.com/static/jump.html?' + query.join('&')
+    } , function(err,response,body){
+        res.send(body);
+    });
+});
 
 
 //WTF,it does not work!
