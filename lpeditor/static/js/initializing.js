@@ -43,9 +43,7 @@ define(['element'], function(Element) {
             '': {
                 left: '50px',
                 top: '5px',
-                display: function(id, index) {
-                    return !!~id.indexOf('captcha') ? 'none' : 'block';
-                },
+                display: 'block',
                 width: '73px',
                 height: '20px',
                 color: '#fff',
@@ -79,9 +77,7 @@ define(['element'], function(Element) {
                 },
                 height: '20px',
                 top: '5px',
-                display: function(id, index) {
-                    return !!~id.indexOf('captcha') ? 'none' : 'block';
-                }
+                display: 'block'
             }
         }
     };
@@ -257,7 +253,8 @@ define(['element'], function(Element) {
                                 left: '0px',
                                 top: '100px',
                                 width: '300px',
-                                height: '50px'
+                                height: '50px',
+                                display:'block'
                             }
                         },
                         children: {
@@ -275,7 +272,8 @@ define(['element'], function(Element) {
                                 left: '0px',
                                 top: '150px',
                                 width: '300px',
-                                height: '50px'
+                                height: '50px',
+                                display:'none'
                             }
                         },
                         children: {
@@ -291,7 +289,7 @@ define(['element'], function(Element) {
                                 },
                                 css: {
                                     '': {
-                                        display: 'none',
+                                        display: 'block',
                                         width: '80px',
                                         height: '30px',
                                         top: '5px',
