@@ -42,24 +42,7 @@ define(['element'], function(Element) {
         css: {
             '': {
                 left: '50px',
-                top: function(id) {
-                    switch (id) {
-                        case 'lbl-reg-user':
-                            return '24px';
-                        case 'lbl-reg-pwd':
-                            return '64px';
-                        case 'lbl-reg-rpwd':
-                            return '104px';
-                        case 'lbl-reg-captcha':
-                            return '144px';
-                        case 'lbl-login-user':
-                            return '24px';
-                        case 'lbl-login-pwd':
-                            return '64px';
-                        case 'lbl-login-server':
-                            return '104px';
-                    }
-                },
+                top: '5px',
                 display: function(id, index) {
                     return !!~id.indexOf('captcha') ? 'none' : 'block';
                 },
@@ -72,19 +55,6 @@ define(['element'], function(Element) {
         }
 
     };
-    var areaLoginLabelsDefine = {};
-    $.extend(areaLoginLabelsDefine, areaRegLabelsDefine);
-    var allLableIds = 'lbl-reg-user,lbl-reg-pwd,lbl-reg-rpwd,lbl-reg-captcha,lbl-login-user,lbl-login-pwd,lbl-login-server';
-    var areaLoginLabelId = (allLableIds.split(',').filter(function(v) {
-        return !!~v.indexOf('-login-')
-    }).join());
-    var areaRegLabelId = (allLableIds.split(',').filter(function(v) {
-        return !!~v.indexOf('-reg-')
-    }).join());
-    var areaLoginLabels = {};
-    areaLoginLabels[areaLoginLabelId] = areaLoginLabelsDefine;
-    var areaRegLabels = {};
-    areaRegLabels[areaRegLabelId] = areaRegLabelsDefine;
 
     //*******************input definition*******************\\
     var areaRegInputsDefine = {
@@ -108,45 +78,14 @@ define(['element'], function(Element) {
                     return 'input-reg-captcha' === id ? '80px' : '150px';
                 },
                 height: '20px',
-                top: function(id) {
-                    switch (id) {
-                        case 'input-reg-user':
-                            return '20px';
-                        case 'input-reg-pwd':
-                            return '60px';
-                        case 'input-reg-rpwd':
-                            return '100px';
-                        case 'input-reg-captcha':
-                            return '140px';
-                        case 'input-login-user':
-                            return '20px';
-                        case 'input-login-pwd':
-                            return '60px';
-                        case 'input-login-server':
-                            return '100px';
-                        default:
-                            ;
-                    }
-                },
+                top: '5px',
                 display: function(id, index) {
                     return !!~id.indexOf('captcha') ? 'none' : 'block';
                 }
             }
         }
     };
-    var areaLoginInputsDefine = {};
-    $.extend(areaLoginInputsDefine, areaRegInputsDefine);
-    var allInputIds = 'input-reg-user,input-reg-pwd,input-reg-rpwd,input-reg-captcha,input-login-user,input-login-pwd,input-login-server';
-    var areaLoginInputId = allInputIds.split(',').filter(function(v) {
-        return !!~v.indexOf('-login-')
-    }).join();
-    var areaRegInputId = allInputIds.split(',').filter(function(v) {
-        return !!~v.indexOf('-reg-')
-    }).join();
-    var areaLoginInputs = {};
-    areaLoginInputs[areaLoginInputId] = areaLoginInputsDefine;
-    var areaRegInputs = {};
-    areaRegInputs[areaRegInputId] = areaRegInputsDefine;
+
     //*******************tip definition*******************\\
     var areaRegTipsDefine = {
         tag: 'div',
@@ -170,44 +109,11 @@ define(['element'], function(Element) {
                 left: '120px',
                 'font-size': '12px',
                 'font-family': '',
-                top: function(id) {
-                    switch (id) {
-                        case 'tip-reg':
-                            return '150px';
-                        case 'tip-login':
-                            return '150px';
-                        case 'tip-reg-user':
-                            return '46px';
-                        case 'tip-reg-pwd':
-                            return '86px';
-                        case 'tip-reg-rpwd':
-                            return '126px';
-                        case 'tip-reg-captcha':
-                            return '166px';
-                        case 'tip-login-user':
-                            return '46px';
-                        case 'tip-login-pwd':
-                            return '86px';
-                        case 'tip-login-server':
-                            return '126px';
-                    }
-                }
+                top: '35px'
             }
         }
     };
-    var areaLoginTipsDefine = {};
-    $.extend(areaLoginTipsDefine, areaRegTipsDefine);
-    var allTipIds = 'tip-reg-user,tip-reg-pwd,tip-reg-rpwd,tip-reg-captcha,tip-login-user,tip-login-pwd,tip-login-server,tip-login,tip-reg';
-    var areaLoginTipId = allTipIds.split(',').filter(function(v) {
-        return !!~v.indexOf('-login')
-    }).join();
-    var areaRegTipId = allTipIds.split(',').filter(function(v) {
-        return !!~v.indexOf('-reg')
-    }).join();
-    var areaLoginTips = {};
-    areaLoginTips[areaLoginTipId] = areaLoginTipsDefine;
-    var areaRegTips = {};
-    areaRegTips[areaRegTipId] = areaRegTipsDefine;
+
     //Every key is a ID of an element.
     //In css,every key is a selector,empty string means ID is used by default;
     //selector starts with '>' means suffix,or '<' means prefix;
@@ -306,6 +212,95 @@ define(['element'], function(Element) {
             },
             children: function(id, index) {
                 var children = 'area-reg' === id ? {
+                    'line-reg-user': {
+                        tag: 'div',
+                        text: '',
+                        props: {},
+                        css: {
+                            '': {
+                                left: '0px',
+                                top: '0px',
+                                width: '300px',
+                                height: '50px'
+                            }
+                        },
+                        children: {
+                            'lbl-reg-user': areaRegLabelsDefine,
+                            'input-reg-user': areaRegInputsDefine,
+                            'tip-reg-user': areaRegTipsDefine
+                        }
+                    }, //line-reg-user
+                    'line-reg-pwd': {
+                        tag: 'div',
+                        text: '',
+                        props: {},
+                        css: {
+                            '': {
+                                left: '0px',
+                                top: '50px',
+                                width: '300px',
+                                height: '50px'
+                            }
+                        },
+                        children: {
+                            'lbl-reg-pwd': areaRegLabelsDefine,
+                            'input-reg-pwd': areaRegInputsDefine,
+                            'tip-reg-pwd': areaRegTipsDefine
+                        }
+                    }, //line-reg-pwd
+                    'line-reg-rpwd': {
+                        tag: 'div',
+                        text: '',
+                        props: {},
+                        css: {
+                            '': {
+                                left: '0px',
+                                top: '100px',
+                                width: '300px',
+                                height: '50px'
+                            }
+                        },
+                        children: {
+                            'lbl-reg-rpwd': areaRegLabelsDefine,
+                            'input-reg-rpwd': areaRegInputsDefine,
+                            'tip-reg-rpwd': areaRegTipsDefine
+                        }
+                    }, //line-reg-repwd
+                    'line-reg-captcha': {
+                        tag: 'div',
+                        text: '',
+                        props: {},
+                        css: {
+                            '': {
+                                left: '0px',
+                                top: '150px',
+                                width: '300px',
+                                height: '50px'
+                            }
+                        },
+                        children: {
+                            'lbl-reg-captcha': areaRegLabelsDefine,
+                            'input-reg-captcha': areaRegInputsDefine,
+                            'tip-reg-captcha': areaRegTipsDefine,
+                            "img-captcha": {
+                                tag: 'img',
+                                props: {
+                                    border: 0,
+                                    title: '验证码',
+                                    src: '/reg/captcha?rnd=' + Date.now()
+                                },
+                                css: {
+                                    '': {
+                                        display: 'none',
+                                        width: '80px',
+                                        height: '30px',
+                                        top: '5px',
+                                        left: '220px'
+                                    }
+                                }
+                            }
+                        }
+                    },
                     'tip-reg-protocol': {
                         tag: 'div',
                         text: '您必须认真阅读并同意《搜狗服务协议》',
@@ -381,31 +376,69 @@ define(['element'], function(Element) {
                                 'font-family': ''
                             }
                         }
-                    },
-                    "img-captcha": {
-                        tag: 'img',
-                        props: {
-                            border: 0,
-                            title: '验证码',
-                            src: '/reg/captcha?rnd=' + Date.now()
-                        },
+                    }
+                } : {
+                    'line-login-user': {
+                        tag: 'div',
+                        text: '',
+                        props: {},
                         css: {
                             '': {
-                                display: 'none',
-                                width: '80px',
-                                height: '30px',
-                                top: '140px',
-                                left: '220px'
+                                left: '0px',
+                                top: '0px',
+                                width: '300px',
+                                height: '50px'
                             }
+                        },
+                        children: {
+                            'lbl-login-user': areaRegLabelsDefine,
+                            'input-login-user': areaRegInputsDefine,
+                            'tip-login-user': areaRegTipsDefine
                         }
-                    }
-                } : {};
-                var labels = index ? areaLoginLabels : areaRegLabels;
+                    }, //line-login-user
+                    'line-login-pwd': {
+                        tag: 'div',
+                        text: '',
+                        props: {},
+                        css: {
+                            '': {
+                                left: '0px',
+                                top: '50px',
+                                width: '300px',
+                                height: '50px'
+                            }
+                        },
+                        children: {
+                            'lbl-login-pwd': areaRegLabelsDefine,
+                            'input-login-pwd': areaRegInputsDefine,
+                            'tip-login-pwd': areaRegTipsDefine
+                        }
+                    }, //line-login-pwd
+                    'line-login-server': {
+                        tag: 'div',
+                        text: '',
+                        props: {},
+                        css: {
+                            '': {
+                                left: '0px',
+                                top: '100px',
+                                width: '300px',
+                                height: '50px'
+                            }
+                        },
+                        children: {
+                            'lbl-login-server': areaRegLabelsDefine,
+                            'input-login-server': areaRegInputsDefine,
+                            'tip-reg-server': areaRegTipsDefine
+                        }
+                    } //line-login-server
+                };
+                /* var labels = index ? areaLoginLabels : areaRegLabels;
                 var inputs = index ? areaLoginInputs : areaRegInputs;
                 var tips = index ? areaLoginTips : areaRegTips;
                 $.extend(children, labels);
                 $.extend(children, inputs);
-                $.extend(children, tips);
+                $.extend(children, tips);*/
 
                 return children;
             } //children

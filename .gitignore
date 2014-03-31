@@ -3,5 +3,5 @@ tmp
 workflow/packages
 *DS_Store
 lpeditor/json/*.json
-lpeditor/profile/*.html
+lpeditor/static/profile/*.html
 

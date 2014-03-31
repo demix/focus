@@ -37,7 +37,7 @@ define(['draft','dialog','dialog-save','setting','release'], function(DraftManag
         m$menu:null,
         /**
          * [init description]
-         * @return {[type]}
+         * @return {this}
          */
         init: function() {
             if (this.__mInitialized) {
