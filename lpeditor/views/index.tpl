@@ -15,6 +15,10 @@
         <script data-main="static/js/main" src="static/js/require.js"></script>
     </head>
     <body onbeforeunload=";">
+    
+    <div class="emu-bar" style="background: url(http://s3.wan.sogou.com/cdn/image/2014/02/18/20140218163552_499.png) repeat-x;height:41px;z-index: 10000;width: 100%;"></div>
+    <div id="flashbg"></div>
+
         <div class="w-fil h-fil editor-content">
             <div class="topbar" unselectable="on">
                 <div class="menu h-fil fl cf">
@@ -22,7 +26,7 @@
                 </div>
                 <div class="mark h-fil fr cf"></div>
             </div>
-            <iframe src="about:blank" frameborder="0" class="w-fil h-fil" id="bg_iframe"></iframe>
+         <div class="home"></div>
             <div class="w-fil h-fil ab bench">
                 <div class="w-fil h-fil ab bg"></div>
                 <div class="canvas">

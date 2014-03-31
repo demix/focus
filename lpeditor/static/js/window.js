@@ -11,17 +11,6 @@
   */
 define(['dock','canvas'],function(Dock,Canvas){
 
-    var dockShow=false;
-    $('.home').click(function(){
-        if(dockShow){
-            Dock.hide();
-            dockShow=false;
-        }else{
-             Dock.show();
-             dockShow=true;
-        }
-    });
-
     return {
         start:function(){
 

@@ -50,8 +50,14 @@ define([], function() {
         formatDate:function(d,fmt){
             fmt=fmt||"yyyy-mm-dd HH:ii:ss";
 
-            function  o(d){
-                return d<10?'0'+d:d;
+            if(!isNaN(+d)){
+                d=new Date(+d);
+            }else if(!d instanceof Date){
+                throw Error('d should be a Date!');
+            }
+
+            function  o(n){
+                return n<10?'0'+n:n;
             }
 
             return fmt.replace(/yyyy|mm|dd|HH|ii|ss|hh|ap/g,function(n){

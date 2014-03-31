@@ -1,7 +1,8 @@
 html,body {
 width:100%;
 height:100%;
-overflow:hidden
+overflow:hidden;
+background: #000;
 }
 
 * {
@@ -68,11 +69,67 @@ input[readonly] {
 border:0;
 background:transparent
 }
+#flashbg{
+    text-align: center;
+    background: #000;
+}
+.bigFlash {
+width: 1400px;
+height: 700px;
+position: absolute;
+left: 50%;
+margin-left: -700px;
+top: 50%;
+margin-top: -350px;
+}
+.smallFlash {
+width: 100%;
+height: 600px;
+position: absolute;
+left: 0;
+top: 50%;
+margin-top: -300px;
+}
+.navSmall {
+width: 100%;
+height: 600px;
+position: absolute;
+left: 0;
+top: 41px;
+}
+.navBig {
+width: 1400px;
+height: 700px;
+position: absolute;
+left: 50%;
+margin-left: -700px;
+top: 41px;
+}
 
 .editor-content {
 padding:0
 }
+.editor-content .home {
+background:url(/static/img/home.png) no-repeat;
+background-size:72px 72px;
+width:72px;
+height:72px;
+position:fixed;
+bottom:20px;
+left:20px;
+z-index:10000;
+cursor:pointer;
+-webkit-transition:all .4s;
+transition:all .4s;
+display: none;
+}
 
+.editor-content .home:hover {
+-webkit-transition:all .7s linear;
+-webkit-transform:rotate(6.28rad);
+transition:all .7s;
+transform:rotate(6.28rad)
+}
 .editor-content .bench {
 left:0;
 top:0
@@ -82,7 +139,7 @@ top:0
 left:0;
 top:0;
 background:#000;
-opacity:.5
+opacity:.8
 }
 
 .editor-content .canvas {

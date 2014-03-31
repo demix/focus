@@ -41,10 +41,10 @@
     </div>
     <div class="row">
         <span class="tit">Flash 尺寸：</span>
-        <input type="radio" id="flashSize-big" name="flashSize" {%if setting.flashSize=='0' %}checked="checked" {%endif%} value="0" />
-        <label for="flashSize-big">大</label>
-        <input type="radio" id="flashSize-small" name="flashSize" {%if setting.flashSize=='1' %}checked="checked" {%endif%} value="1" />
-        <label for="flashSize-small">小</label>
+        <input type="radio" id="bigFlash-big" name="bigFlash" {%if setting.bigFlash%}checked="checked" {%endif%} value="0" />
+        <label for="bigFlash-big">大</label>
+        <input type="radio" id="bigFlash-small" name="bigFlash" {%if not setting.bigFlash%}checked="checked" {%endif%} value="1" />
+        <label for="bigFlash-small">小</label>
     </div>
     <div class="row">
         <span class="tit">显示导航栏：</span>
@@ -109,10 +109,6 @@
 
 <fieldset>
     <legend>编辑器</legend>
-    <div class="row">
-        <span class="tit">背景页面URL：</span>
-        <input type="url" id="bg-url" name="landingPageUrl" style="width:30em" value="{{setting.landingPageUrl|default('')}}" placeholder="http://" />
-    </div>
     <div class="row">
         <span class="tit">选中的元素：</span>
         <input type="checkbox" id="show-focus-element" name="showFocusElement" {%if setting.showFocusElement%}checked="checked" {%endif%}/>

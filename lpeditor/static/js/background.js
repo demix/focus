@@ -17,7 +17,9 @@ define(['setting'], function(Setting) {
      */
     init: function() {
       var self = this;
-      self.m$iframe = $('#bg_iframe');
+      self.m$flashbg = $('#flashbg');
+      self.toggleFlash();
+      $('.bench .bg').toggle(Setting.get('mask'));
 
       document.addEventListener('webkitfullscreenchange', function() {
         setTimeout(function() {
@@ -35,31 +37,44 @@ define(['setting'], function(Setting) {
         }, 3000);
       }, false);
 
-      Setting.listen('settingchanged',this.onSettingChanged,this)
+      Setting.listen('settingchanged', this.onSettingChanged, this)
       return self;
     },
     /**
      * [onSettingChanged description]
-     * @param  {[type]} evt    [description]
-     * @param  {[type]} evtObj [description]
-     * @param  {[type]} args   [description]
-     * @return {[type]}        [description]
+     * @param  {[type]} evt
+     * @param  {[type]} evtObj
+     * @param  {[type]} args
      */
-    onSettingChanged:function(evt,evtObj,args){
+    onSettingChanged: function(evt, evtObj, args) {
       var arg = args[0];
-      if(arg&&'landingPageUrl' === arg.key){
-        this.load(arg.newVal);
+      if(!!~"flashUrl,navbar,bigFlash".split(',').indexOf(arg.key)){
+         this.toggleFlash();
+      }else if('mask' === arg.key){
+        $('.bench .bg').toggle(Setting.get('mask'));
       }
     },
     /**
-     * [load description]
-     * @param  {[type]} src [description]
-     * @return {[type]}     [description]
+     * [toggleFlash description]
+     * @return {[type]} [description]
      */
-    load: function(src) {
-      if (/^https?:\/\//.test(src)) {
-        this.m$iframe.attr('src', src);
+    toggleFlash: function() {
+      var c = 'navSmall,navBig,smallFlash,bigFlash'.split(',');
+
+      var embed = '<embed height="600" flashvars="" pluginspage="http://www.adobe.com/go/getflashplayer"\
+       src="'+Setting.get('flashUrl')+'"\
+        type="application/x-shockwave-flash" width="1000" wmode="opaque" quality="high" allowscriptaccess="always" id="flash_id">';
+
+      this.m$flashbg.html(embed);
+
+      if (Setting.get('navbar')) {
+        $('.emu-bar').show();
+        clazz = Setting.get('bigFlash') ? 'navBig' : 'navSmall';
+      } else {
+        $('.emu-bar').hide();
+        clazz = Setting.get('bigFlash') ? 'bigFlash' : 'smallFlash';
       }
+      this.m$flashbg.removeClass().addClass(clazz);
       return this;
     },
     /**
@@ -67,9 +82,10 @@ define(['setting'], function(Setting) {
      * @return {[type]} [description]
      */
     reload: function() {
-      var src = this.m$iframe.attr('src');
-      this.m$iframe[0].src = src;
-    }
+      this.toggleFlash();
+/*      var src = this.m$flashbg.find('embed').attr('src');
+       this.m$flashbg.find('embed')[0].src = src;
+*/    }
   };
-  return Background.init().load(Setting.data.landingPageUrl);
+  return Background.init();
 });
