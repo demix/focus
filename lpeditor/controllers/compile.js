@@ -49,8 +49,8 @@ exports.compile = function(config , debug , callback){
             collapseWhitespace: true
         });
     }
-    html = html.replace('</style><style>' , '');
-    html = html.replace('</script><script>' , '');
+    html = html.replace(/<\/style><style>/ig , '');
+    html = html.replace(/<\/script><script>/ig , '');
     callback && callback(html);
 
 };
