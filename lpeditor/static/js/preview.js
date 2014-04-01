@@ -35,7 +35,7 @@ define(['editor', 'canvas','utils'], function(Editor, Canvas,Utils) {
   return function() {
     var code = Editor.generateCode();
     $('#preview_css').val(code.styleText);
-    $('#preview_html').val(Canvas.getCanvasHTML(true)+ code.innerHtml+"</div>");
+    $('#preview_html').val(Canvas.getCanvasHTML(true)+ code.innerHtml+"</div></div>");
     $('#preview_form')[0].submit();
   };
 });

@@ -285,7 +285,7 @@ define(['element'], function(Element) {
                                 props: {
                                     border: 0,
                                     title: '验证码',
-                                    src: '/reg/captcha?rnd=' + Date.now()
+                                    'data-src': '/reg/captcha?rnd=' + Date.now()
                                 },
                                 css: {
                                     '': {
@@ -494,7 +494,7 @@ define(['element'], function(Element) {
                     }
                 },
 
-                'trd-qq-login,trd-renren-login,trd-weibo-login': {
+                'trd-login-qq,trd-login-renren,trd-login-weibo': {
                     tag: 'a',
                     text: '',
                     props: {

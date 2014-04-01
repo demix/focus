@@ -30,7 +30,7 @@ define(['editor', 'canvas', 'setting','disk','dialog-save','utils'], function(Ed
         var payload = {
             id:id,
             css: code.styleText,
-            html: Canvas.getCanvasHTML() + code.innerHtml + "</div>"
+            html: Canvas.getCanvasHTML() + code.innerHtml + "</div></div>"
         };
 
         $.extend(payload, Setting.toJSON());

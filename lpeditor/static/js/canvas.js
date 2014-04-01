@@ -111,8 +111,9 @@ define(['setting'], function(Setting) {
             }*/
         },
         getCanvasHTML: function(preview) {
-            var css = [preview ? '' : 'display:none', 'position:absolute', 'margin-left:50%','left:-'+($canvas.width()/2)+'px', 'top:' + $canvas.css('top'), 'margin-top:' + $canvas.css('margin-top'), 'background-image:' + $canvas.css('background-image'), 'background-color:' + $canvas.css('background-color'), 'width:' + $canvas.css('width'), 'height:' + $canvas.css('height')].join(';');
-            return '<div id="lp-dialog" style="' + css + '">';
+            var css = [preview ? '' : 'display:none', 'position:absolute', 'margin-left:50%','left:-'+($canvas.width()/2)+'px', 'top:' + $canvas.css('top'), 'margin-top:' + $canvas.css('margin-top'),'width:' + $canvas.css('width'), 'height:' + $canvas.css('height')].join(';');
+            var bgcss = ['position:absolute;left:0;top:0','background-image:' + $canvas.css('background-image'), 'background-color:' + $canvas.css('background-color'), 'width:' + $canvas.css('width'), 'height:' + $canvas.css('height')].join(';');
+            return '<div id="lp-dialog" style="' + css + '"><div class="dialog-bg" id="dialog-bg" style="'+bgcss+'">';
         },
     };
 
