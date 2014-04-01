@@ -61,7 +61,6 @@ define(['setting'], function(Setting) {
         },
         setDialogLeftOffset:function(offset){
             this.computePosition();
-            //$canvas.css('margin-left','50%');
         },
         /**
          * [setDialogBgImg description]
@@ -73,6 +72,10 @@ define(['setting'], function(Setting) {
             }
             $canvas.css('background-image', img);
         },
+        /**
+         * [setDialogTop description]
+         * @param {[type]} top [description]
+         */
         setDialogTop: function(top) {
             if (!Setting.data.dialogVerticalCenter) {
                 $canvas.css('top', top);
@@ -94,25 +97,30 @@ define(['setting'], function(Setting) {
         setDialogHeight: function(height) {
             $canvas.css('height', height);
             this.computePosition();
-/*            if (Setting.data.dialogVerticalCenter) {
-                $canvas.css('margin-top', '-' + $canvas.height() / 2 + 'px');
-            }
-*/        },
+        },
         /**
          * [setDialogLocation description]
          * @param {Boolean} center
          */
         setDialogVerticalCenter: function(center) {
             this.computePosition();
-           /* if (center) {
-                $canvas.css({'top': '50%','margin-top':'-' + $canvas.height() / 2 + 'px'});
-            } else {
-                $canvas.css({'top':Setting.data.dialogTop,'margin-top':0});
-            }*/
+
         },
         getCanvasHTML: function(preview) {
-            var css = [preview ? '' : 'display:none', 'position:absolute', 'margin-left:50%','left:-'+($canvas.width()/2)+'px', 'top:' + $canvas.css('top'), 'margin-top:' + $canvas.css('margin-top'),'width:' + $canvas.css('width'), 'height:' + $canvas.css('height')].join(';');
-            var bgcss = ['position:absolute;left:0;top:0','background-image:' + $canvas.css('background-image'), 'background-color:' + $canvas.css('background-color'), 'width:' + $canvas.css('width'), 'height:' + $canvas.css('height')].join(';');
+            var css = [preview ? '' : 'display:none',
+             'position:absolute',
+              'margin-left:50%',
+              'left:-'+($canvas.width()/2)+'px', 
+              'top:' + (Setting.get('dialogVerticalCenter')?'50%':Setting.get('dialogTop')),
+              'margin-top:' + (Setting.get('dialogVerticalCenter')?('-' + (parseInt(Setting.get('dialogHeight'))|0) / 2 + 'px'):0),
+              'width:' + Setting.get('dialogWidth'), 
+              'height:' + Setting.get('dialogWidth')].join(';');
+            var bgcss = ['position:absolute;left:0;top:0',
+            'background-image:url(' +  Setting.get('dialogBgImg')+')', 
+            'background-color:' + Setting.get('dialogBgColor'), 
+            'width:' + Setting.get('dialogWidth'), 
+            'height:' + Setting.get('dialogHeight')].join(';');
+            console.debug(css)
             return '<div id="lp-dialog" style="' + css + '"><div class="dialog-bg" id="dialog-bg" style="'+bgcss+'">';
         },
     };

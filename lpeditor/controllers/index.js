@@ -16,7 +16,7 @@ var fs = require('fs'),
 
 
 
-const JSON_DIR = "./json/";
+const JSON_DIR = __dirname+"/../json/";
 
 var app = {
   /**
@@ -65,16 +65,16 @@ var app = {
       async.series([
 
         function(callback) {
-          fs.exists('./static/profile/', function(exists) {
+          fs.exists(__dirname+'/../static/profile/', function(exists) {
             if (!exists) {
-              fs.mkdir('./static/profile/', callback);
+              fs.mkdir(__dirname+'/../static/profile/', callback);
             } else {
               callback();
             }
           })
         },
         function(callback) {
-          fs.writeFile('./static/profile/' + config.id + '.html', file, callback);
+          fs.writeFile(__dirname+'/../static/profile/' + config.id + '.html', file, callback);
         }/*,
         function(callback){
           exec('sshpass -p SafetyFirst@426 scp -rq '+'./profile/' + config.id + '.html' + ' root@10.11.201.212:/search/wan/webapp/static/nav/',callback);

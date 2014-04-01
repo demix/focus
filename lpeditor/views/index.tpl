@@ -14,7 +14,7 @@
         <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.min.js"></script>
         <script data-main="static/js/main" src="static/js/require.js"></script>
     </head>
-    <body onbeforeunload=";">
+    <body onbeforeunload="return '不要忘记同步到服务器';">
     
     <div class="emu-bar" style="background: url(http://s3.wan.sogou.com/cdn/image/2014/02/18/20140218163552_499.png) repeat-x;height:41px;z-index: 10000;width: 100%;"></div>
     <div id="flashbg"></div>

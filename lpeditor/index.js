@@ -82,11 +82,11 @@ app.get('/static/jump.html' , function(req,res){
 
 
 //WTF,it does not work!
-//if(process.env.NODE_ENV == 'development'){
+if(process.env.NODE_ENV == 'development'){
     app.set('view cache', false);
     swig.setDefaults({cache: false});
     let livereload = require('livereload');
-//}
+}
 
 
 db.connect(function(){
