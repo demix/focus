@@ -23,12 +23,22 @@
         <style>
          {{css|raw}}
         </style>
+        
+        <!--[if IE 6]>
+            <script src="http://img.wan.sogou.com/ufo/helper/DD_belatedPNG.js"></script>
+            <script>
+                DD_belatedPNG.fix('.daohang-logo, .daohang-icon, .dialog-bg');
+                
+            </script>
+        <![endif]-->
+
+
     </head>
-    <body>
+    <body {%if twoInOne%}data-type="1"{%endif%}>
         <!-- flash -->
-        <div id="Flash_Wrp" class="flash-wrp flash-{%if navbar%}nav{%else%}unnav{%endif%}-{%if flashSize==1%}big{%else%}small{%endif%}">
+        <div id="Flash_Wrp" class="flash-wrp flash-{%if navbar%}nav{%else%}unnav{%endif%}-{%if bigFlash==1%}big{%else%}small{%endif%}">
 		    <script>
-			 document.write('<embed height="{%if flashSize==1%}700{%else%}600{%endif%}" flashvars="" pluginspage="http://www.adobe.com/go/getflashplayer" src="{{flashUrl}}" type="application/x-shockwave-flash" width="{%if flashSize==1%}1400{%else%}1000{%endif%}" wmode="opaque" quality="high" allowscriptaccess="always" id="Flash_Target">');
+			 document.write('<embed height="{%if bigFlash==1%}700{%else%}600{%endif%}" flashvars="" pluginspage="http://www.adobe.com/go/getflashplayer" src="{{flashUrl}}" type="application/x-shockwave-flash" width="{%if bigFlash==1%}1400{%else%}1000{%endif%}" wmode="opaque" quality="high" allowscriptaccess="always" id="Flash_Target">');
 		    </script>
             
         </div>

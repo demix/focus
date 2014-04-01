@@ -38,6 +38,7 @@ exports.compile = function(config , debug , callback){
 
         config.sys.css= new cleancss({keepSpecialComments:0}).minify(config.sys.css);
         config.sys.navcss= new cleancss({keepSpecialComments:0}).minify(config.sys.navcss);
+        config.css = new cleancss({keepSpecialComments:0}).minify(config.css);
     }
 
     var html = swig.renderFile( path.join(filefolder , 'views' , 'release.tpl'),config);

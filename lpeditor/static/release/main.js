@@ -161,12 +161,12 @@
                 removeEventListener: function(name , cb){
                     var subs = subscribers[name];
                     if(!subs) return;
-                    
-                    subs.forEach(function(sub , i){
-                        if(sub == cb){
+
+                    for( var i=0,l=subs.length; i<l; i++ ){
+                        if(subs[i] == cb){
                             subs[i] = null;
                         }
-                    } );
+                    }
                 },
                 disposeEvent :  function(name){
                     delete subscribers[name];
@@ -174,14 +174,15 @@
                 dispatchEvent: function(){
                     var args = Array.prototype.slice.call(arguments);
                     var name = args.shift();
+                    var subs = subscribers[name];
                     
-                    if( !subscribers[name] ) return;
+                    if( !subs ) return;
                     
-                    subscribers[name].forEach( function(sub) {
-                        if (sub) {
-                            sub.apply(this, args);
+                    for( var i=0,l=subs.length; i<l; i++ ){
+                        if (subs[i]) {
+                            subs[i].apply(this, args);
                         }
-                    });
+                    }
                     
                 }
                 
@@ -191,6 +192,8 @@
     window['utils'] = utils;
     
     var LP_CONFIG = utils.queryToJson(location.search);
+
+    LP_CONFIG.lp_type = +document.body.getAttribute('data-type');//0:normal;1:two in one
     
 
     var Mask = function(){
@@ -241,6 +244,31 @@
             Dialog.togglePanel(target.id);
         });
 
+        utils.event.addEventListener('click:trd.login' , function(target){
+            var type = target.id.split('-').pop();
+            var url,height,width,
+                source = LP_CONFIG['source'] , gid=LP_CONFIG['gid'] , sid=LP_CONFIG['sid']||'';
+		    switch(type) {
+			case "qq": 
+				url = '/oauth/thirdLogin.do?thirdParty=qq&ru=http://wan.sogou.com/oauth/recieveru.do&cb=' + encodeURIComponent('http://wan.sogou.com/play.do?source=' + source + '&gid=' + gid + '&sid=' + sid);
+				height = "350px";
+				width = "450px";			
+				break;
+			case "renren":
+				url = '/oauth/thirdLogin.do?thirdParty=renren&ru=http://wan.sogou.com/oauth/recieveru.do&cb=' + encodeURIComponent('http://wan.sogou.com/play.do?source=' + source + '&gid=' + gid + '&sid=' + sid);
+				height = "400px";
+				width = "450px";					
+				break;
+			case "weibo":
+				url = '/oauth/thirdLogin.do?thirdParty=sina&ru=http://wan.sogou.com/oauth/recieveru.do&cb=' + encodeURIComponent('http://wan.sogou.com/play.do?source=' + source + '&gid=' + gid + '&sid=' + sid);
+				height = "400px";
+				width = "450px";			
+                break;
+		    }
+		    window.open(url, '', 'width=' + width + ',height=' + height + ''); 	
+            
+        });
+
 
         return {
             current_panel: 'tab-new-reg',
@@ -279,6 +307,8 @@
     var RegForm = function(){
 
         var root = utils.get('area-reg');
+        var current_user_type = 'new';
+        var captcha_inited = false;
 
         var checknameexist = function(val , target , callback){
             if( typeof val == 'function' ){
@@ -294,9 +324,12 @@
                     if( !+data ){
                         utils.dom.hide(area);
                         issuccess = true;
+                        current_user_type = 'new';
                     }else if( data == 20294 ){
-                        area.innerHTML = '该邮箱已被注册';
+                        current_user_type = 'reged';
+                        area.innerHTML = LP_CONFIG['lp_type'] ?  '已注册，账号使用者输入密码后可直接进入' : '该邮箱已被注册';
                         utils.dom.show(area);
+                        LP_CONFIG['lp_type'] && (issuccess=true);
                     }else{
                         area.innerHTML = '邮箱检查失败，请稍后再试';
                         utils.dom.show(area);
@@ -313,6 +346,8 @@
         };
 
         var checkitem = function(target , asyncs){
+            if( !target.offsetHeight )return true;
+
             var type = target.id.split('-').pop();
             var value = target.value;
             if(check_methods[type]){
@@ -363,6 +398,9 @@
                     if( utils.get('input-reg-pwd').value != utils.get('input-reg-rpwd').value )
                         return true;
                 } , '两次输入不一致']
+            ],
+            captcha:[
+                ['!val.length' , '请输入验证码']
             ]
         };
 
@@ -376,6 +414,15 @@
             }else{
                 utils.dom.hide('tip-reg-protocol');
                 return true;
+            }
+        };
+
+        var showCaptcha = function(){
+            utils.dom.show('line-reg-captcha');
+            if( !captcha_inited ){
+                var img = utils.get('line-reg-captcha').getElementsByTagName('img')[0];
+                img.src = img.getAttribute('data-src');
+                captcha_inited = true;
             }
         };
 
@@ -405,6 +452,18 @@
             });
         });
         
+        utils.event.addEventListener('dialog:show', function(){
+            if( +LP_CONFIG['ab'] ){
+                showCaptcha();
+            }
+        });
+
+        utils.event.addEventListener('click:img.captcha', function(target){
+            var src = target.src;
+            src = src.split('?')[0] + '?rnd=' + (+new Date());
+            target.src = src;
+        });
+
         return{
             check: function(callback){
                 var inputs = root.getElementsByTagName('input');
@@ -439,8 +498,17 @@
                     'psw': utils.get('input-reg-pwd').value,
                     'source': LP_CONFIG.source || ''
                 };
+                var isloginaction = LP_CONFIG['lp_type'] && current_user_type == 'reged';
+
+                var tip = isloginaction ? '登录中...' : '注册中...';
+                Dialog.tip('reg', tip );
+
+                if( isloginaction ){
+                    LandingPage.login(query.userid , query.psw , function(){ Dialog.tip('reg','用户名或密码错误'); } );
+                    return;
+                }
+
                 query = utils.jsonToQuery(query);
-                Dialog.tip('reg', '注册中...');
 
                 utils.ajax({
                     method:'POST',
@@ -471,6 +539,7 @@
 
 
         function checkitem(target){
+            if( !target.offsetHeight )return true;
             var tipname = 'tip-login-' + target.id.split('-').pop();
             if( !target.value ){
                 utils.dom.show(tipname);
@@ -512,11 +581,11 @@
         });
 
         utils.event.addEventListener('dialog:show', function(){
-            if( !serverlistinited ){
+            if( !serverlistinited && LP_CONFIG['gid'] ){
                 utils.ajax({
                     url:'show/server.do?gid='+ LP_CONFIG['gid'],
                     onsuccess: function(data){
-
+                        
                         renderserverlist(data);
 
                         serverlistinited = true;
@@ -560,6 +629,9 @@
 				var url = LP_CONFIG.sid > 0 ? ('/play.do?gid=' + LP_CONFIG.gid + '&sid=' + LP_CONFIG.sid + '&source=' + LP_CONFIG.source) : ('/serverlist.do?gid=' + LP_CONFIG.gid);
 				utils.cookie.set('email', uname + '@sogou.com' , {
                     expires: 365*24*60*60*1000
+                });
+                LP_CONFIG.ref && utils.cookie.set('_sem_ref', LP_CONFIG.ref,{
+                    expires:24*60*60*1000
                 });
 				//actions.refStatic();
                 

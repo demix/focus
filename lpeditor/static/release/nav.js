@@ -58,29 +58,45 @@
     var clonea = gginner.getElementsByTagName('a')[0].cloneNode();
     clonea.innerHTML = gginner.getElementsByTagName('a')[0].innerHTML;
     gginner.appendChild(clonea);
-
     var steptm = 4000;
-    
-    var move = function(){
-        setTimeout(function(){
-            if( currentmove*currentstep < ggheight * currentstep ){
-                currentmove++;
-                gginner.style.top = -currentmove-( ggheight* (currentstep-1) )  + 'px'; 
-                move();
-            }else{
-                currentstep++;
-                currentmove=0;
-                if( currentstep <= step ){
-                    setTimeout(move , steptm);
-                }else{
-                    currentstep = 1;
-                    gginner.style.top = 0;
-                    setTimeout(move , steptm);
-                }
+    var moveGG;
+
+    if( navigator.userAgent.toLowerCase().indexOf('msie') != -1 ){
+        moveGG = function(){
+            gginner.style.top = -ggheight*currentstep + 'px';
+            currentstep++;
+            if(currentstep>step){
+                currentstep=1;
+                gginner.style.top = 0;
             }
-        },20);
-    };
-    setTimeout(move,steptm);
+            setTimeout(moveGG,steptm);
+        };
+        
+    }else{
+    
+        moveGG = function(){
+            window.setTimeout(function(){
+                if( currentmove*currentstep < ggheight * currentstep ){
+                    currentmove++;
+                    gginner.style.top = -currentmove-( ggheight* (currentstep-1) )  + 'px'; 
+                    moveGG();
+                }else{
+                    currentstep++;
+                    currentmove=0;
+                    if( currentstep > step ){
+                        currentstep = 1;
+                        gginner.style.top = 0;
+                    }
+                    setTimeout(moveGG , steptm);
+                }
+            },20);
+        };
+    }
+    setTimeout(moveGG,steptm);
+
 
 
 })();
+
+
+

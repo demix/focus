@@ -45,7 +45,7 @@ var app = {
 
     var config = !debug ? JSON.parse(req.body.config) : JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'mock', 'landing.json')));
 
-    if (!config.id) {
+    if (!config.id && !debug) {
       return res.json({
         status: 0,
         msg: 'id is needed'
@@ -53,6 +53,13 @@ var app = {
     }
 
     return require('./compile').compile(config, debug, function(file) {
+
+        if( debug ){
+            res.send(file);
+            return;
+        }
+
+
 
       async.series([
 
