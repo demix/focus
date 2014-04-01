@@ -19,14 +19,13 @@ define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) 
         dialogBgColor: '',
         dialogTop: '41px',
         dialogLeftOffset:'0px',
-        flashSize:false,
+        bigFlash:true,
         navbar:true,
         mask:true,
         title:'',
         twoInOne:false,//reg&login
         showDialog:true,
         flashUrl: "http://img.wan.sogou.com/cdn/nav/bg/chan.swf",
-        landingPageUrl: 'http://wan.sogou.com/nav.do?fl=sxd_fl_18&fid=100&tf=0&ab=0&source=0001000100002&gid=2&sid=40&pid=1663732439',
         dialogBgImg: 'http://img.wan.sogou.com/ufo/img/newnav/dialog3/ybg2.png',
         dialogVerticalCenter: true,
         navLinks:[]

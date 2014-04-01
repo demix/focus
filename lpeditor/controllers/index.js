@@ -11,7 +11,8 @@
  */
 var fs = require('fs'),
   async = require('async'),
-  path = require('path');
+  path = require('path'),
+  exec = require('child_process').exec;
 
 
 
@@ -48,7 +49,7 @@ var app = {
     if (!config.id && !debug) {
       return res.json({
         status: 0,
-        msg: 'id is needed'
+        msg: 'ID is needed'
       });
     }
 
@@ -64,22 +65,26 @@ var app = {
       async.series([
 
         function(callback) {
-          fs.exists('./profile/', function(exists) {
+          fs.exists('./static/profile/', function(exists) {
             if (!exists) {
-              fs.mkdir('./profile/', callback);
+              fs.mkdir('./static/profile/', callback);
             } else {
               callback();
             }
           })
         },
         function(callback) {
-          fs.writeFile('./profile/' + config.id + '.html', file, callback);
-        }
+          fs.writeFile('./static/profile/' + config.id + '.html', file, callback);
+        }/*,
+        function(callback){
+          exec('sshpass -p SafetyFirst@426 scp -rq '+'./profile/' + config.id + '.html' + ' root@10.11.201.212:/search/wan/webapp/static/nav/',callback);
+        }*/
 
       ], function(error) {
         return res.json({
           status: error ? -1 : 0,
-          id: config.id
+          id: config.id,
+          msg:error
         });
       });
 
@@ -202,16 +207,7 @@ var app = {
         data: content //理论上，content应该是合法的json字符串
       });
     });
-  }, //get
-  profile: function(req, res) {
-    if (req.param('id')) {
-      res.send(fs.readFileSync('./profile/' + req.param('id') + ".html", {
-        encoding: 'utf-8'
-      }));
-    } else {
-      res.send(404, 'ID is needed')
-    }
-  } //profile
+  }//get
 };
 
 module.exports = app;

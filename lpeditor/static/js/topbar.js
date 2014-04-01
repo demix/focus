@@ -37,7 +37,7 @@ define(['draft','dialog','dialog-save','setting','release'], function(DraftManag
         m$menu:null,
         /**
          * [init description]
-         * @return {[type]}
+         * @return {this}
          */
         init: function() {
             if (this.__mInitialized) {
@@ -61,7 +61,14 @@ define(['draft','dialog','dialog-save','setting','release'], function(DraftManag
 
             var self = this;
 
-            return this;
+             $('.home').click(function(e){
+                self.m$bar.show();
+                setTimeout(function(){
+                    $(e.target).hide();
+                },500);
+             });
+
+            return self;
         },
         /**
          * [addMark description]
@@ -96,6 +103,9 @@ define(['draft','dialog','dialog-save','setting','release'], function(DraftManag
          */
         playMenu: function(menus) {
 
+        },
+        toggle:function(){
+            this.m$bar.toggle(arguments);
         }
     };
 
@@ -106,8 +116,16 @@ define(['draft','dialog','dialog-save','setting','release'], function(DraftManag
         var notifyMark = new Mark();
         $.extend(notifyMark, {
             init: function() {
-                this.m$div = $('<div/>', {
-                    'class': 'item notify'
+                var $notify = this.m$div = $('<div/>', {
+                    'class': 'item notify',
+                    'title':'隐藏菜单栏'
+                });
+
+                $notify.click(function(e) {
+                    $('.home').show();
+                    setTimeout(function() {
+                       MacTopbar.toggle(false);
+                    },300);
                 });
             }
         });

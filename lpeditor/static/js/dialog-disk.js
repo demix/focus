@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['dialog', 'disk'], function(Dialog, DiskManager) {
+define(['dialog', 'disk','utils'], function(Dialog, DiskManager,Utils) {
 
     var diskDialog = new Dialog('#dialog-disk', {
 
@@ -69,7 +69,7 @@ define(['dialog', 'disk'], function(Dialog, DiskManager) {
             self.m$content.empty();
             listArr && listArr.forEach(function(item, index) {
                 var id = item[0].replace(/\.json$/, '');
-                self.m$content.append('<li data-id="' + id + '">'+(1+index)+'. ' + id + '/' + item[1] + '</li>');
+                self.m$content.append('<li data-id="' + id + '">'+(1+index)+'. ' + Utils.formatDate(id) + '/' + item[1] + '</li>');
             });
             return this;
         },
