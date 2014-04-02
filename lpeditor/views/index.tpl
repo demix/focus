@@ -116,6 +116,9 @@
                             <div class="row">
                                 <label for="profile-id" class="tit">备注：</label>
                                 <input type="text" value="" id="profile-desc" max-length="50" placeholder="档案描述"/>
+                            </div><div class="row">
+                                <label for="profile-id" class="tit">线上地址：</label>
+                                <a href="#" target="_blank" id="onlineUrl"></a>
                             </div>
                             <div class="row">
                                 <label for="profile-init" class="tit">另存为：</label>

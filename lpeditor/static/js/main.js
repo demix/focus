@@ -25,8 +25,8 @@ require(['TestCase', 'checklist', 'ping'], function(TestCase, Checklist, Ping) {
     };
     Checklist.start(function(result) {
         if (result) {
-            require(['system'], function(System) {
-                System.startup()
+            require([/mode=test/.test(location.search)?'system':'systemS'], function(System) {
+               // System.startup()
             });
         }
     });

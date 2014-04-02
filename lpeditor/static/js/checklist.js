@@ -171,7 +171,7 @@ define(['local'], function(LocalCache) {
 
                 clearInterval(checkingInter);
             }
-        }, 700);
+        }, 200);
     }
 
     return {

@@ -12,7 +12,8 @@
 define(['dialog','disk','editor','setting'],function(Dialog,DiskManager,Editor,Setting){
 
     var saveDialog = new Dialog('#dialog-save',{
-        resizable:false
+        resizable:false,
+        minWidth:715
     });
 
     $.extend(saveDialog,{
@@ -20,6 +21,7 @@ define(['dialog','disk','editor','setting'],function(Dialog,DiskManager,Editor,S
             this.m$profileId=$('#profile-id');
             this.m$profileDesc=$('#profile-desc');
             this.m$profileInit=$('#profile-init');
+            this.m$onlineUrl=$('#onlineUrl');
             DiskManager.listen(EVT_LOADED,this.onLoaded,this);
             DiskManager.listen(EVT_SAVED,this.onSaveStatus,this);
             DiskManager.listen(EVT_SAVE_ERROR,this.onSaveStatus,this);
@@ -55,6 +57,8 @@ define(['dialog','disk','editor','setting'],function(Dialog,DiskManager,Editor,S
          */
         onCreated:function(evt,evtObj,args){
             this.m$profileId.val(args[1]);
+            var url ="http://wan.sogou.com/static/nav/"+args[1]+".html";
+            this.m$onlineUrl.attr('href',url).text(url);
         },
         /**
          * [onSaved description]
@@ -78,6 +82,8 @@ define(['dialog','disk','editor','setting'],function(Dialog,DiskManager,Editor,S
             var data = args[0],id=args[1];
             this.m$profileId.val(id);
             this.m$profileDesc.val(data.desc);
+            var url ="http://wan.sogou.com/static/nav/"+id+".html";
+            this.m$onlineUrl.attr('href',url).text(url);
         }
     });
 

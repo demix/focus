@@ -10,11 +10,7 @@
   * @since 0.0.1
   */
 define(['topbar','window','draft'],function(Topbar,gwindow) {
-
-return {
-    startup:function(){
-      Topbar.init();
-        gwindow.start();
-    }
-};
+Topbar.init();
+gwindow.start();
+return {};
 });
