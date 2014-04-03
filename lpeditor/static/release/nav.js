@@ -54,6 +54,8 @@
 
     var t=0;
     var ggheight = 14 , currentmove = 0 , step = gginner.getElementsByTagName('a').length , currentstep = 1;
+    
+    if( !step ) return;
 
     var clonea = gginner.getElementsByTagName('a')[0].cloneNode();
     clonea.innerHTML = gginner.getElementsByTagName('a')[0].innerHTML;
