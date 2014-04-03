@@ -27,6 +27,10 @@
         <!--[if IE 6]>
             <script src="http://img.wan.sogou.com/ufo/helper/DD_belatedPNG.js"></script><script>DD_belatedPNG.fix('.daohang-logo, .daohang-icon, .dialog-bg');</script>
         <![endif]-->
+
+        <script>
+         {{sys.pbjs|raw}}
+        </script>
     </head>
     <body {%if twoInOne%}data-type="1"{%endif%}>
         <!-- flash -->

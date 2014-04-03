@@ -15,6 +15,7 @@ exports.compile = function(config , debug , callback){
         jsurl : './static/release/main.js',
         navjsurl : './static/release/nav.js',
         flashjsurl: './static/release/flash.js',
+        pbjsurl:'./static/release/pb.js',
         debug: debug
     };
     
@@ -29,10 +30,12 @@ exports.compile = function(config , debug , callback){
     var navcss = fs.readFileSync(path.join(filefolder,config.sys.navcssurl) );
     var navjs = fs.readFileSync(path.join(filefolder,config.sys.navjsurl));
     var flashjs = fs.readFileSync(path.join(filefolder,config.sys.flashjsurl));
+    var pbjs = fs.readFileSync(path.join(filefolder,config.sys.pbjsurl));
     config.sys.css = css.toString();
     config.sys.js = js.toString();
     config.sys.navcss = navcss.toString();
     config.sys.navjs = navjs.toString();
+    config.sys.pbjs = pbjs.toString();
 
     config.sys.flashjs = swig.render(flashjs.toString() , {locals:config});
 

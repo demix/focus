@@ -396,6 +396,12 @@
         var current_user_type = 'new';
         var captcha_inited = false;
 
+        var showsuccess = function(area){
+            area = utils.get(area);
+            area.innerHTML = '<img src="http://p3.wan.sogoucdn.com/cdn/image/2014/04/03/20140403183805_54.png"/>';
+            utils.dom.show(area);
+        };
+
         var checknameexist = function(val , target , callback){
             if( typeof val == 'function' ){
                 callback = val;
@@ -408,7 +414,7 @@
                 onsuccess: function(data){
                     var issuccess = false ;
                     if( !+data ){
-                        utils.dom.hide(area);
+                        showsuccess(area);
                         issuccess = true;
                         current_user_type = 'new';
                     }else if( data == 20294 ){
@@ -459,7 +465,7 @@
                         break;
                     }
                 }
-                flag && (tip.style.display = 'none');
+                flag && (showsuccess(tip));
 
                 utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'regcheck' , 'tag':type+ ( flag? 'ok' :'notok')}));
 
@@ -591,6 +597,7 @@
 
                 var tip = isloginaction ? '登录中...' : '注册中...';
                 utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'doreg'}));
+				uigsPB('m2_stat_reg_2_' + LP_CONFIG['source'] + '_' + encodeURIComponent(document.referer) + '_');
                 
                 Dialog.tip('reg', tip );
 
