@@ -4,6 +4,24 @@
         get: function(node){
             return typeof node == 'string' ? document.getElementById(node): node;
         },
+        clone: function(obj){
+            var result = {};
+            for(var i in obj){
+                if( obj.hasOwnProperty(i) ){
+                    result[i] = obj[i];
+                }
+            }
+            return result;
+        },
+        merge: function(source,obj){ 
+            for(var i in obj){
+                if( obj.hasOwnProperty(i) ){
+                    source[i] = obj[i];
+                }
+            }
+            return source;
+           
+        },
         cookie: {
             set: function(key,value,options){
                 options = options || {};
@@ -148,6 +166,44 @@
                 node.addEventListener(type , callback , false);
             }
         },
+        pb: {
+            _send: function(url){
+                var t = +(new Date());
+                var img = window['pb_' + t] = new Image();
+                img.onload = img.onerror = img.onabort = function(){
+                    img.onload = img.onerror = img.onabort = null;
+                    img = null;
+                    window['pb_' + t] = null;
+                };
+
+                img.src = url + '&rdk=' + t ;
+                
+            },
+            pv: function( params , towan){
+                var PBIMG = 'http://pb.sogou.com/pv.gif';
+                var productid = 'wan';
+                if( !towan ){
+                    productid = 'ufo';
+                    params.ufoid = 'wan';
+                }
+                params = utils.jsonToQuery(params);
+                this._send( PBIMG + "?uigs_productid=" + productid + '&img=pv.gif&' + params);
+                
+            },
+            cl: function(params , towan){
+                var PBIMG = 'http://pb.sogou.com/';
+                var productid = 'wan';
+                if( !towan ){
+                    productid = 'ufo';
+                    params.ufoid = 'wan';
+                    PBIMG += 'pv.gif?img=ct.gif&';
+                }else{
+                    PBIMG += 'cl.gif?';
+                }
+                params = utils.jsonToQuery(params);
+                this._send( PBIMG + "uigs_productid=" + productid + '&' + params);
+            }
+        },
         event: function(){
             var subscribers = {};
             return {
@@ -195,6 +251,25 @@
 
     LP_CONFIG.lp_type = +document.body.getAttribute('data-type');//0:normal;1:two in one
     
+    var STATS_CONFIG = {
+        ptype:'landingpage',
+        pcode:'new',
+        gid:LP_CONFIG['gid'] || '',
+        fid: LP_CONFIG['fid'] || '',
+        sid: LP_CONFIG['sid'] || '',
+        source: LP_CONFIG['source'] || '',
+        pid: LP_CONFIG['pid'] || '',
+        yyid: utils.cookie.get('yyid') || '',
+        hostid: utils.cookie.get('hostid') || '',
+        landing_ref : encodeURIComponent(document.referrer),
+        lastdomain: utils.cookie.get('lastdomain') || '',
+        suid: utils.cookie.get("SUID") ||'',
+        lastdomain: utils.cookie.get('lastdomain')  || '',
+        suv: utils.cookie.get('SUV')  || '',
+        cemail: utils.cookie.get('email') || ''
+    };
+    window['STATS_CONFIG'] = STATS_CONFIG;
+    
 
     var Mask = function(){
         var node = utils.get('Mask');
@@ -237,7 +312,7 @@
         var dialog = utils.get('lp-dialog');
 
 
-        utils.event.addEventListener('click:close', function(){
+        utils.event.addEventListener('click:close', function(){            
             Dialog.hide();
         });
         utils.event.addEventListener('click:tab', function(target){
@@ -253,16 +328,20 @@
 				url = '/oauth/thirdLogin.do?thirdParty=qq&ru=http://wan.sogou.com/oauth/recieveru.do&cb=' + encodeURIComponent('http://wan.sogou.com/play.do?source=' + source + '&gid=' + gid + '&sid=' + sid);
 				height = "350px";
 				width = "450px";			
+                utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'3rdqq' }));
+                
 				break;
 			case "renren":
 				url = '/oauth/thirdLogin.do?thirdParty=renren&ru=http://wan.sogou.com/oauth/recieveru.do&cb=' + encodeURIComponent('http://wan.sogou.com/play.do?source=' + source + '&gid=' + gid + '&sid=' + sid);
 				height = "400px";
 				width = "450px";					
+                utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'3rdrenren' }));
 				break;
 			case "weibo":
 				url = '/oauth/thirdLogin.do?thirdParty=sina&ru=http://wan.sogou.com/oauth/recieveru.do&cb=' + encodeURIComponent('http://wan.sogou.com/play.do?source=' + source + '&gid=' + gid + '&sid=' + sid);
 				height = "400px";
 				width = "450px";			
+                utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'3rdweibo' }));
                 break;
 		    }
 		    window.open(url, '', 'width=' + width + ',height=' + height + ''); 	
@@ -275,9 +354,13 @@
             show: function(){
                 utils.dom.show(dialog);
                 utils.event.dispatchEvent('dialog:show');
+                utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'regshow'}));
+
             },
             hide: function(){
                 utils.dom.hide(dialog);
+                utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'close'}));
+
             },
             togglePanel: function(id){
                 if( id==this.current_panel ) return;
@@ -289,6 +372,9 @@
                 utils.dom.show('area-'+id.split('-').pop());
                 
                 this.current_panel = id;
+                if( id.split('-').pop() == 'login' ){
+                    utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'loginshow'}));
+                }
                 
             },
             tip: function(type,txt){
@@ -342,7 +428,7 @@
                      callback && callback(false);
                 }
             });
-            return true;
+            return false;
         };
 
         var checkitem = function(target , asyncs){
@@ -374,6 +460,9 @@
                     }
                 }
                 flag && (tip.style.display = 'none');
+
+                utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'regcheck' , 'tag':type+ ( flag? 'ok' :'notok')}));
+
                 return flag;
             }
             return true;
@@ -501,6 +590,8 @@
                 var isloginaction = LP_CONFIG['lp_type'] && current_user_type == 'reged';
 
                 var tip = isloginaction ? '登录中...' : '注册中...';
+                utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'doreg'}));
+                
                 Dialog.tip('reg', tip );
 
                 if( isloginaction ){
@@ -516,12 +607,16 @@
                     data: query,
                     onsuccess: function(status){
                         if( !+status ){
+                            utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'doregsuccess' }));
+
                             LandingPage.login(utils.get('input-reg-user').value , utils.get('input-reg-pwd').value , function(){ Dialog.tip('reg','系统繁忙'); } );
                         }else{
+                            utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'doregfail' }));
                             Dialog.tip('reg' , '系统繁忙，请稍后重试');
                         }
                     },
                     onfailure: function(){
+                        utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'doregfail' }));
                         Dialog.tip('reg' , '系统繁忙，请稍后重试');
                     }
                 });
@@ -540,12 +635,16 @@
 
         function checkitem(target){
             if( !target.offsetHeight )return true;
-            var tipname = 'tip-login-' + target.id.split('-').pop();
+            var type = target.id.split('-').pop();
+            var tipname = 'tip-login-' + type;
             if( !target.value ){
+                utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'logincheck' , 'tag':type+ 'notok'}));
+
                 utils.dom.show(tipname);
                 return false;
             }
             utils.dom.hide(tipname);
+            utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'logincheck' , 'tag':type+ 'tok'}));
             return true;
         }
 
@@ -607,6 +706,7 @@
                     Dialog.tip('login','系统繁忙，请稍后重试');
                     return;
                 }
+                utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'dologin'}));
                 Dialog.tip('login','登录中...');
                 LandingPage.login(utils.get('input-login-user').value , utils.get('input-login-pwd').value , function(){ Dialog.tip('login','用户名或密码错误'); } );
             }
@@ -627,10 +727,10 @@
             },
             enter: function(){
 				var url = LP_CONFIG.sid > 0 ? ('/play.do?gid=' + LP_CONFIG.gid + '&sid=' + LP_CONFIG.sid + '&source=' + LP_CONFIG.source) : ('/serverlist.do?gid=' + LP_CONFIG.gid);
-				utils.cookie.set('email', uname + '@sogou.com' , {
+				utils.cookie.set('email', encodeURIComponent(uname + '@sogou.com') , {
                     expires: 365*24*60*60*1000
                 });
-                LP_CONFIG.ref && utils.cookie.set('_sem_ref', LP_CONFIG.ref,{
+                LP_CONFIG.ref && utils.cookie.set('_sem_ref', encodeURIComponent(LP_CONFIG.ref),{
                     expires:24*60*60*1000
                 });
 				//actions.refStatic();
@@ -690,6 +790,7 @@
         },true);
     }
 
+
 })(); 
 
 (function(){
@@ -708,4 +809,12 @@
     document.body.appendChild(div);
 
 
+})();
+
+(function(){
+    
+    var script = document.createElement('script');
+    script.src = '/static/online/external.js';
+    document.body.appendChild(script);
+    
 })();

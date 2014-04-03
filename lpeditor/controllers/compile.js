@@ -14,6 +14,7 @@ exports.compile = function(config , debug , callback){
         navcssurl : './static/release/nav.css',
         jsurl : './static/release/main.js',
         navjsurl : './static/release/nav.js',
+        flashjsurl: './static/release/flash.js',
         debug: debug
     };
     
@@ -27,14 +28,18 @@ exports.compile = function(config , debug , callback){
     var js = fs.readFileSync(path.join(filefolder, config.sys.jsurl));
     var navcss = fs.readFileSync(path.join(filefolder,config.sys.navcssurl) );
     var navjs = fs.readFileSync(path.join(filefolder,config.sys.navjsurl));
+    var flashjs = fs.readFileSync(path.join(filefolder,config.sys.flashjsurl));
     config.sys.css = css.toString();
     config.sys.js = js.toString();
     config.sys.navcss = navcss.toString();
     config.sys.navjs = navjs.toString();
 
+    config.sys.flashjs = swig.render(flashjs.toString() , {locals:config});
+
     if(!debug){
         config.sys.js = uglify.minify(config.sys.js , {fromString:true}).code;
         config.sys.navjs = uglify.minify(config.sys.navjs,{fromString:true}).code;
+        config.sys.flashjs = uglify.minify(config.sys.flashjs,{fromString:true}).code;
 
         config.sys.css= new cleancss({keepSpecialComments:0}).minify(config.sys.css);
         config.sys.navcss= new cleancss({keepSpecialComments:0}).minify(config.sys.navcss);
