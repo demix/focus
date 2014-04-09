@@ -636,7 +636,7 @@
         var serverlistinited = false;
 
         if( utils.cookie.get('email') ){
-            utils.get('input-login-user').value = utils.cookie.get('email');
+            utils.get('input-login-user').value = decodeURIComponent(utils.cookie.get('email'));
         }
 
 
@@ -756,7 +756,7 @@
 
 
     utils.addEvent(document, 'click' , function(e){
-        if( e.target.tagName.toLowerCase() != 'input' ){
+        if( e.target.tagName.toLowerCase() != 'input' && !( e.target.tagName.toLowerCase() == 'a' && e.target.getAttribute('href') && e.target.getAttribute('href').indexOf('#') != 0 ) ){
             e.preventDefault();
         }
         var id = e.target.id;
