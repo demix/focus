@@ -21,10 +21,7 @@ define(['react' ,'bbhelper' , 'jsx!views/index','jsx!views/quick' ,'models'],fun
                 }
             });
 
-            React.renderComponent(
-                QuickView({model:collection}), 
-                viewRoot
-            );
+            QuickView.init(viewRoot , collection);
         },
         full: function(){
             //React.unmountComponentAtNode(viewRoot);

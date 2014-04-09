@@ -44,9 +44,9 @@ exports.compile = function(config , debug , callback){
         config.sys.navjs = uglify.minify(config.sys.navjs,{fromString:true}).code;
         config.sys.flashjs = uglify.minify(config.sys.flashjs,{fromString:true}).code;
 
-        config.sys.css= new cleancss({keepSpecialComments:0}).minify(config.sys.css);
-        config.sys.navcss= new cleancss({keepSpecialComments:0}).minify(config.sys.navcss);
-        config.css = new cleancss({keepSpecialComments:0}).minify(config.css);
+        config.sys.css= new cleancss({keepSpecialComments:0,noAdvanced:1}).minify(config.sys.css);
+        config.sys.navcss= new cleancss({keepSpecialComments:0,noAdvanced:1}).minify(config.sys.navcss);
+        config.css = new cleancss({keepSpecialComments:0,noAdvanced:1}).minify(config.css);
     }
 
     var html = swig.renderFile( path.join(filefolder , 'views' , 'release.tpl'),config);

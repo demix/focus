@@ -514,7 +514,7 @@
 
         var showCaptcha = function(){
             utils.dom.show('line-reg-captcha');
-            if( !captcha_inited ){
+            if( !captcha_inited && utils.get('line-reg-captcha') ){
                 var img = utils.get('line-reg-captcha').getElementsByTagName('img')[0];
                 img.src = img.getAttribute('data-src');
                 captcha_inited = true;
@@ -525,8 +525,22 @@
             
         };
 
+        var regDesc = {
+            user:'4-16位字母数字或下划线，只能以字母开头。',
+            pwd:'6-16位',
+            rpwd:'请确认密码'
+        };
+
         utils.event.addEventListener('blur:input.reg' , function(target){
             checkitem(target);
+        });
+
+        utils.event.addEventListener('focus:input.reg' , function(target){
+            if( !target.offsetHeight )return ;
+            var type = target.id.split('-').pop(); 
+            var tip = utils.get('tip-reg-' + type);
+            tip && (tip.innerHTML = regDesc[type] || '');
+            utils.dom.show(tip);
         });
 
         utils.event.addEventListener('press.enter:input.reg' , function(){
@@ -689,7 +703,7 @@
         utils.event.addEventListener('dialog:show', function(){
             if( !serverlistinited && LP_CONFIG['gid'] ){
                 utils.ajax({
-                    url:'show/server.do?gid='+ LP_CONFIG['gid'],
+                    url:'/show/server.do?gid='+ LP_CONFIG['gid'],
                     onsuccess: function(data){
                         
                         renderserverlist(data);
@@ -725,6 +739,7 @@
         
         var uname;
 
+
         return{
             login: function(username , pwd , onfailure){
                 uname = username;
@@ -734,7 +749,7 @@
             },
             enter: function(){
 				var url = LP_CONFIG.sid > 0 ? ('/play.do?gid=' + LP_CONFIG.gid + '&sid=' + LP_CONFIG.sid + '&source=' + LP_CONFIG.source) : ('/serverlist.do?gid=' + LP_CONFIG.gid);
-				utils.cookie.set('email', encodeURIComponent(uname + '@sogou.com') , {
+				uname && utils.cookie.set('email', encodeURIComponent(uname + '@sogou.com') , {
                     expires: 365*24*60*60*1000
                 });
                 LP_CONFIG.ref && utils.cookie.set('_sem_ref', encodeURIComponent(LP_CONFIG.ref),{
@@ -743,9 +758,22 @@
 				//actions.refStatic();
                 
 				location.href = url;
+            },
+            checkLogin: function(){
+                if(utils.cookie.get('ppinf')){//maybe logined
+                    utils.ajax({
+                        url:'ajax/i2.do?t=' + (+new Date()),
+                        onsuccess: function(data){
+                            if( data != 'notLogin'  ){
+                                LandingPage.enter();
+                            }
+                        }
+                    });
+                }
             }
         };
     }();
+    LandingPage.checkLogin();
 
 
     window['showreg'] = function(){
@@ -785,17 +813,36 @@
     });
 
 
-    if( window.addEventListener ) {
-        document.addEventListener('blur', function(e){
-            var id = e.target.id;
+
+    (function(){
+        var onevent = function(e , ename){
+            e = e || window.event;
+            var target = e.target || e.srcElement;
+            var id = target.id;
             id = id.split('-');
             while(id.length ){
-                utils.event.dispatchEvent('blur:' + id.join('.') , e.target);
+                utils.event.dispatchEvent( ename + ':' + id.join('.') , target);
                 id.pop();
             }
 
+        };
+        
+    if( window.addEventListener ) {
+        document.addEventListener('blur', function(e){
+            onevent(e , 'blur');
         },true);
+        document.addEventListener('focus', function(e){
+            onevent(e , 'focus');
+        },true);
+    }else{
+        document.attachEvent('onfocusout', function(e){
+            onevent(e,'blur');
+        });
+        document.attachEvent('onfocusin', function(e){
+            onevent(e,'focus');
+        });
     }
+    })();
 
 
 })(); 

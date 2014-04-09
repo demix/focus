@@ -36,8 +36,8 @@
             return false;
         } else {
             try{ 
-                this.style.behavior='url(#default#homepage)';
-                this.setHomePage(location.href);
+                event.target.style.behavior='url(#default#homepage)';
+                event.target.setHomePage(location.href);
             } catch(e){}
         }
     });

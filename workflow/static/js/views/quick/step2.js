@@ -1,96 +1,169 @@
-define(function(){
-    
-    var root;
+define(['react' , 'bbmixin' ] , function(React , BackboneMixin){
 
-    var doBuild = function(data){
-        $.getJSON('/workflow/project/build' , data , function(data){
-            if( +data.status ){
-                showError(data);
-            }else{
-                showBuildedNotice(data);
-            }
-        });
-    };
 
-    var showAddition = function(data){
-        if( data.stdout || data.stderr ){
-            root.append('<div class="addition-info"><p>Addition info:</p>' + data.stdout + '<br/>' + data.stderr + '</div>');
-        }
-    };
 
-    var showError = function(data){
-        var msg = data.msg || 'Unknown Error.';
-        root.append('<p class="error">'+ msg +'</p>');
-        showAddition(data.data);
-        root.append('<p class="reselect"><button class="submit">Back to Project List</button></p>');
-        root.find('.build button').attr('disabled' , null).text('Rebuild!');
 
-        root.find('.reselect button').click(function(){
-            require(['main'] , function(main){
-                main.reset('temp');
-            });
-        });
-    };
 
-    var showBuildNotice = function(data){
-        root.append('<p>Init success. Continue to build?</p>');
-        
-        var formhtml = '<p class="btn build"><button class="submit">Yes, Build!</button>';
-        if( data.params ){
-            formhtml += '<select class="params"><option value="">-- Select param --</option>';
-            formhtml += data.params.map(function(item){
-                return '<option value="'+ item +'">'+ item +'</option>';
-            }).join('');
-            formhtml += '</select>';
-        }
-        formhtml += '</p>';
-        root.append(formhtml);
-
-        delete data.params;
-        
-
-        root.find('.build button').click(function(){
-            $(this).attr('disabled' , 1);
-            var node = $('.build').next();
-            while(node && node.length){
-                node.remove();
-                node = $('.build').next();
-            }
-
-            data.shell_param = root.find('select.params').val() || '';
-            root.append('<p clas="desc">Building...</p>');
-            doBuild(data);
-        });
-    };
-
-    var showBuildedNotice = function(data){
-        root.append('<p class="success">Build Success.</p>');
-        root.append('<p class="success"><a href="'+ data.data.pwd +'">Download Package.</a></p>');
-        
-        showAddition(data.data);
-    };
-
-    return {
-        init: function(data){
-            root = $('#ContentInner');
-            $('.content h3').html('Building progress start');
-
-            root.html('<p>Init project, Please wait.</p>');
-
+    var View = React.createClass({
+        mixins:[BackboneMixin],
+        getBackboneModels:function(){
+            return [this.props.project];
+        },
+        getInitialState: function(){
+            return { progress: 'init' };
+        },
+        initProject: function(){
+            var project = this.props.project;
             $.getJSON('/workflow/project/init' , {
-                type:data.type,
-                tvalue: data.tvalue,
-                projid: data.project.get('id'),
-                projpn: data.project.get('path_with_namespace'),
-                projpath: data.project.get('path'),
+                type:this.props.type,
+                tvalue: this.props.tvalue,
+                projid: project.get('id'),
+                projpn: project.get('path_with_namespace'),
+                projpath: project.get('path'),
                 tm: +new Date()
             } , function(data){
                 if( +data.status ){
-                    showError(data);
+                    this.errorData = data;
+                    this.setState({progress:'error'});
+                 }else{
+                     this.buildData = data.data;
+                     //showBuildNotice(data.data);
+                     this.setState({progress:'inited'});
+                 }
+
+            }.bind(this));
+        },
+        componentDidMount: function(){
+            if( this.state.progress == 'init' ){
+                this.initProject();
+            }
+        },
+        
+        handleBuild: function(){
+            this.refs.buildBtn.getDOMNode().disabled = true;
+
+            this.buildData.shell_param = this.refs.buildParams.getDOMNode().value || '';
+            
+
+            this.setState({progress: 'building'});
+
+            
+            var gdata = _.clone(this.buildData);
+            gdata.params = '';
+
+            $.getJSON('/workflow/project/build' , gdata , function(data){
+                this.errorData = data;
+                if( +data.status ){
+                    this.setState({progress:'builderror'});
+                    $(this.refs.buildBtn.getDOMNode()).html('Rebuild!').attr('disabled' , null);;
+                    
                 }else{
-                    showBuildNotice(data.data);
+                    this.buildedInfo = data.data;
+                    this.setState({progress:'builded'});
+
                 }
-            });
+                
+
+            }.bind(this));
+
+        },
+        
+        render: function(){
+            var additionError = function(){
+                return(
+                    <span></span>
+                );
+            };
+
+            var showerror = function(){
+                return (
+                        <div>
+                            <p class="error">{this.errorData.msg}</p>
+                            { additionError }
+                            <p class="reselect"><button onClick={this.props.onBack} className="submit">Back to Project List</button></p>
+                        </div>
+                );
+            };
+
+            var showAddition = function(){
+                var error = this.errorData.data;
+                if( error.stdout || error.stderr ){
+                    return(
+                            <div className="addition-info"><p>Addition info:</p> {error.stdout} <br/>{ error.stderr} </div>
+                    );
+                }
+            };
+
+            var progress = function(){
+                if( this.state.progress == 'init' ){
+                    return (
+                            <p>Init project, Please wait.{this.initProject}</p>
+                    );
+                }else if(this.state.progress != 'error'){
+                    return(
+                        <div>
+                            <p>Init success. Continue to build?</p>
+                            <p className="btn build">
+                                <button ref="buildBtn" onClick={this.handleBuild.bind(this)} className="submit">Yes, Build!</button>
+                                <select ref="buildParams" className="params"><option value="">-- Select param --</option>
+                                { this.buildData.params.map(function(item){
+                                    return (<option value={item}>{item}</option>);
+                                }) }
+                                </select>
+                            </p>
+                        </div>
+                    );
+                }else{
+                    return (
+                        <div>{showerror.bind(this)()}{showAddition.bind(this)()}</div>
+                    );
+                }
+            }.bind(this)();
+
+            var buildresult = function(){
+                if( this.state.progress == 'building' ){
+                    return <p>Building...</p>;
+                }else if(this.state.progress == 'builded'){
+                    return(
+                        <div>
+                            <p className="success">Build Success.</p>
+                            <p className="success"><a href={this.buildedInfo.pwd}>Download Package.</a></p>
+                            {showAddition.bind(this)()}
+                        </div>
+                    );
+                }else if(this.state.progress == 'builderror'){
+                    return (
+                        <div>{showerror.bind(this)()}{showAddition.bind(this)()}</div>
+                    );
+                }else {
+                    return '';
+                }
+            }.bind(this)();
+            
+
+            return (
+                <div>
+                    <h3>
+                    Building progress start
+                    </h3>
+                    <div id="ContentInner" className="fc-form">
+                        <div className="fc-form label-block">
+                            { progress }
+                            { buildresult }
+                        </div>
+                    
+                    </div>
+                </div>
+            );
         }
-    };
+    });
+
+    
+
+    
+    return View ;
+
+    
+    
 });
+
