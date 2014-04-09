@@ -129,7 +129,7 @@ define(['element'], function(Element) {
                     height: '18px',
                     'background-color': '',
                     'background-image': 'url(http://img.wan.sogou.com/ufo/img/newnav/dialog3/yx.jpg)',
-                    'background-repeat': '',
+                    'background-repeat': 'no-repeat',
                     'background-position': ''
                 },
                 '>:hover': {
@@ -329,7 +329,9 @@ define(['element'], function(Element) {
                             '': {
                                 display: 'block',
                                 left: '100px',
-                                top: '230px'
+                                top: '230px',
+                                width:'13px',
+                                height:'13px'
                             }
                         }
                     },

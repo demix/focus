@@ -251,6 +251,7 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
             var code = this.generateCode(level);
             if (code.styleText) {
                 $previewStyle.text(code.styleText);
+                this.trigger('cssrefreshed');
             }
             if (code.innerHtml) {
                 $canvas.html(code.innerHtml);
@@ -348,6 +349,10 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
         onCssChanged: function(evt, evtObj, args) {
             //Here we re-render through generating new stylesheet.
             this.drawCanvas(REFRESH_CSS);
+
+            $canvas.find('*').removeAttr('style');
+
+            this.trigger('csschanged',evtObj);
         },
         /**
          * [onTextChanged description]
@@ -398,8 +403,8 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
                     if (!ele) {
                         console.warn('cannot find ID[' + id + '] which is dragging');
                     } else {
-                        ele.setCss('left', ui.position.left + 'px', '', false, true);
-                        ele.setCss('top', ui.position.top + 'px', '', false, true);
+                        ele.setCss('left', ui.position.left + 'px', '', false, false);
+                        ele.setCss('top', ui.position.top + 'px', '', false, false);
                     }
                 }
             }).not('img').resizable({
@@ -409,8 +414,8 @@ define(['setting', 'initializing', 'element', 'listener','disk', 'jquery-ui'/*dr
                     if (!ele) {
                         console.warn('cannot find ID[' + id + '] which is resizing');
                     } else {
-                        ele.setCss('width', ui.size.width + 'px', '', false, true);
-                        ele.setCss('height', ui.size.height + 'px', '', false, true);
+                        ele.setCss('width', ui.size.width + 'px', '', false, false);
+                        ele.setCss('height', ui.size.height + 'px', '', false, false);
                     }
                 }
             });
