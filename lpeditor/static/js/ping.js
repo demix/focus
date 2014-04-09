@@ -60,6 +60,7 @@ define([], function() {
   //send pv
   $(document).ready(function(e) {
     var pvinfo = {
+      stamp:+new Date,
       ua: navigator.userAgent,
       search: location.search,
       fullscreen: +(document.webkitFullscreenEnabled || document.mozFullscreenEnabled || document.oFullscreenEnabled || document.msFullscreenEnabled || document.fullscreenEnabled),
@@ -72,7 +73,7 @@ define([], function() {
       notification: + !! window.webkitNotifications,
       drag: +('ondrag' in window),
       worker: + !! window.Worker,
-      flex: +(window.CSS && CSS.supports && (CSS.supports('display', '-webkit-flex') || CSS.supports('display', '-webkit-box') || CSS.supports('display', 'flex')))
+      flex: +!!(window.CSS && CSS.supports && (CSS.supports('display', '-webkit-flex') || CSS.supports('display', '-webkit-box') || CSS.supports('display', 'flex')))
     };
     try {
       $.extend(pvinfo, {

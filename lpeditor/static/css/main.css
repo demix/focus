@@ -143,6 +143,9 @@ opacity:.8
 }
 
 .editor-content .canvas {
+    -moz-user-select:none;
+-webkit-user-select:none;
+user-select:none;
 position:relative;
 width:404px;
 height:455px;

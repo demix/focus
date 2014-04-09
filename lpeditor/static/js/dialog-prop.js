@@ -32,6 +32,7 @@ define(['dialog', 'editor', 'text!tpl/prop.html','propselector', 'Ursa'], functi
             var self = this;
             Editor.listen('focuschanged', this.onFocusChanged, this);
             Editor.listen('loaded', this.onEditorLoaded, this);
+            Editor.listen('csschanged', this.onCssChanged, this);
 
             this.m$content.delegate('input,select','change',function(e){
                 var clazz = e.target.className,tar;
@@ -50,10 +51,25 @@ define(['dialog', 'editor', 'text!tpl/prop.html','propselector', 'Ursa'], functi
 
             return this;
         },
+        showEleProp:function(ele){
+            ele = ele || this.m$focusElement;
+            this.m$content.html(Ursa.render('Tpl_Prop', {
+                ele: ele,
+                propSelector: PropSelector
+            }, Tpl_Prop));
+            this.title('属性 -- #' + ele.getId());
+            this.m$focusElement = ele;
+            return this;
+        },
         onDblclick:function(evt,evtObj,args){
             var id =args[0],ele;
             if(id){
                 this.show();
+            }
+        },
+        onCssChanged:function(evt,evtObj,args){
+            if(args[0]===this.m$focusElement){
+                this.showEleProp()
             }
         },
         onEditorLoaded:function(evt,evtObj,args){
@@ -70,13 +86,14 @@ define(['dialog', 'editor', 'text!tpl/prop.html','propselector', 'Ursa'], functi
         onFocusChanged: function(evt, evtObj, args) {
             var focusEle = args[1];
             if (focusEle) {
-                this.m$content.html(Ursa.render('Tpl_Prop', {
+                this.showEleProp(focusEle)
+/*                this.m$content.html(Ursa.render('Tpl_Prop', {
                     ele: focusEle,
                     propSelector:PropSelector
                 }, Tpl_Prop));
                 this.title('属性 -- #' + focusEle.getId());
                 this.m$focusElement = focusEle;
-            }
+*/            }
         }
     });
 

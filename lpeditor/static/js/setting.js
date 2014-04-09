@@ -43,7 +43,7 @@ define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) 
      * @param {[type]} value
      */
     set: function(key, value) {
-      if (undefined === this.data[key] || undefined === value || !key) {
+      if (/*undefined === this.data[key] || */undefined === value || !key) {
         return false;
       }
 
@@ -80,9 +80,9 @@ define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) 
     load:function(settings){
       var self = this;
 
-      self.data={};
+      /*self.data={};
 
-      $.extend(self.data,self.defaultData);
+      $.extend(self.data,self.defaultData);*/
 
       $.each(settings,function(key,val){
         self.set(key,val);

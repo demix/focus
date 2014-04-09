@@ -129,7 +129,7 @@ define(['element'], function(Element) {
                     height: '18px',
                     'background-color': '',
                     'background-image': 'url(http://img.wan.sogou.com/ufo/img/newnav/dialog3/yx.jpg)',
-                    'background-repeat': '',
+                    'background-repeat': 'no-repeat',
                     'background-position': ''
                 },
                 '>:hover': {
@@ -254,7 +254,7 @@ define(['element'], function(Element) {
                                 top: '100px',
                                 width: '300px',
                                 height: '50px',
-                                display:'block'
+                                display: 'block'
                             }
                         },
                         children: {
@@ -273,7 +273,7 @@ define(['element'], function(Element) {
                                 top: '150px',
                                 width: '300px',
                                 height: '50px',
-                                display:'none'
+                                display: 'none'
                             }
                         },
                         children: {
@@ -329,7 +329,9 @@ define(['element'], function(Element) {
                             '': {
                                 display: 'block',
                                 left: '100px',
-                                top: '230px'
+                                top: '230px',
+                                width: '13px',
+                                height: '13px'
                             }
                         }
                     },
@@ -369,6 +371,23 @@ define(['element'], function(Element) {
                                 height: '20px',
                                 left: '120px',
                                 top: '230px',
+                                color: '#fff',
+                                'font-size': '12px',
+                                'font-family': ''
+                            }
+                        }
+                    },
+                    'tip-reg': {
+                        tag: 'label',
+                        text: '注册系统错误',
+                        props: {},
+                        css: {
+                            '': {
+                                display: 'none',
+                                width: '110px',
+                                height: '20px',
+                                left: '120px',
+                                top: '150px',
                                 color: '#fff',
                                 'font-size': '12px',
                                 'font-family': ''
@@ -427,9 +446,26 @@ define(['element'], function(Element) {
                         children: {
                             'lbl-login-server': areaRegLabelsDefine,
                             'input-login-server': areaRegInputsDefine,
-                            'tip-reg-server': areaRegTipsDefine
+                            'tip-login-server': areaRegTipsDefine
                         }
-                    } //line-login-server
+                    }, //line-login-server
+                    'tip-login': {
+                        tag: 'label',
+                        text: '登录系统错误',
+                        props: {},
+                        css: {
+                            '': {
+                                display: 'none',
+                                width: '110px',
+                                height: '20px',
+                                left: '120px',
+                                top: '150px',
+                                color: '#fff',
+                                'font-size': '12px',
+                                'font-family': ''
+                            }
+                        }
+                    }
                 };
                 /* var labels = index ? areaLoginLabels : areaRegLabels;
                 var inputs = index ? areaLoginInputs : areaRegInputs;
