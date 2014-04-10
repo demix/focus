@@ -1,4 +1,4 @@
-
+//
 //wan pingback
 (function(){
     
@@ -7,19 +7,24 @@
     
 	var t_interval = setInterval(function(){
         var flash = utils.get('Flash_Target');
-        if( flash.PercentLoaded && flash.PercentLoaded() == 100 ){
-            clearInterval(t_interval);
-		    var end_time= +new Date();
-		    var use_time=end_time - tstart;
 
-            utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG) , {
-                module: 'flashend',
-                tag: use_time,
-                et: end_time,
-                pt: use_time
-            }) );
-		    uigsPB('nav-load-end_nav-source-'+STATS_CONFIG['source']);
-            
+        try{
+            if( flash  && flash.PercentLoaded() == 100 ){
+
+                clearInterval(t_interval);
+		        var end_time= +new Date();
+		        var use_time=end_time - tstart;
+
+                utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG) , {
+                    module: 'flashend',
+                    tag: use_time,
+                    et: end_time,
+                    pt: use_time
+                }) );
+		        uigsPB('nav-load-end_nav-source-'+STATS_CONFIG['source']);
+            }
+        }catch(e){
+            clearInterval(t_interval);
         }
     },50);
 	setTimeout(function(){clearInterval(t_interval);},5000*60);

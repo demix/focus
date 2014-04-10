@@ -58,7 +58,7 @@ exports.compile = function(config , debug , callback){
         });
     }
     html = html.replace(/<\/style><style>/ig , '');
-    html = html.replace(/<\/script><script>/ig , '');
+    //html = html.replace(/(<script>.*?)<\/script><script>/ig , '$1');
     callback && callback(html);
 
 };

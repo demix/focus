@@ -748,8 +748,11 @@
 
             },
             enter: function(){
-				var url = LP_CONFIG.sid > 0 ? ('/play.do?gid=' + LP_CONFIG.gid + '&sid=' + LP_CONFIG.sid + '&source=' + LP_CONFIG.source) : ('/serverlist.do?gid=' + LP_CONFIG.gid);
-				uname && utils.cookie.set('email', encodeURIComponent(uname + '@sogou.com') , {
+				var url = LP_CONFIG.sid > 0 ? ('/play.do?gid=' + LP_CONFIG.gid + '&sid=' 
+                                               + (utils.get('input-login-server') ? utils.get('input-login-server').value: LP_CONFIG.sid) 
+                                               + '&source=' + LP_CONFIG.source) : ('/serverlist.do?gid=' + LP_CONFIG.gid);
+ 
+				uname && utils.cookie.set('email', encodeURIComponent( uname.indexOf('@')!=-1 ? uname : ( uname + '@sogou.com')) , {
                     expires: 365*24*60*60*1000
                 });
                 LP_CONFIG.ref && utils.cookie.set('_sem_ref', encodeURIComponent(LP_CONFIG.ref),{
@@ -762,7 +765,7 @@
             checkLogin: function(){
                 if(utils.cookie.get('ppinf')){//maybe logined
                     utils.ajax({
-                        url:'ajax/i2.do?t=' + (+new Date()),
+                        url:'/ajax/i2.do?t=' + (+new Date()),
                         onsuccess: function(data){
                             if( data != 'notLogin'  ){
                                 LandingPage.enter();
@@ -868,7 +871,8 @@
 (function(){
     
     var script = document.createElement('script');
-    script.src = '/static/online/external.js';
+    script.src = 'http://img.wan.sogou.com/cdn/ufo/landingpage/js/external.js';
+    //script.src = 'static/online/external.js';
     document.body.appendChild(script);
     
 })();
