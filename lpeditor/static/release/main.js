@@ -753,10 +753,12 @@
                                                + '&source=' + LP_CONFIG.source) : ('/serverlist.do?gid=' + LP_CONFIG.gid);
  
 				uname && utils.cookie.set('email', encodeURIComponent( uname.indexOf('@')!=-1 ? uname : ( uname + '@sogou.com')) , {
-                    expires: 365*24*60*60*1000
+                    expires: 365*24*60*60*1000,
+                    domain:'.wan.sogou.com'
                 });
                 LP_CONFIG.ref && utils.cookie.set('_sem_ref', encodeURIComponent(LP_CONFIG.ref),{
-                    expires:24*60*60*1000
+                    expires:24*60*60*1000,
+                    domain:'.wan.sogou.com'
                 });
 				//actions.refStatic();
                 
