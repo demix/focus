@@ -90,6 +90,8 @@ define(['element'], function(Element) {
                 return '请填写用户名';
             } else if ('tip-login-pwd' === id) {
                 return '请填写密码';
+            }else if('tip-reg-user' ===id){
+                return '4到16位字母数字或下划线，只能以字母开头';
             }
             return '提示信息,JS修改';
         },
@@ -100,7 +102,7 @@ define(['element'], function(Element) {
             '': {
                 display: 'none',
                 color: '#fff',
-                width: '200px',
+                width: '243px',
                 height: '15px',
                 left: '120px',
                 'font-size': '12px',
@@ -285,7 +287,7 @@ define(['element'], function(Element) {
                                 props: {
                                     border: 0,
                                     title: '验证码',
-                                    'data-src': '/reg/captcha?rnd=' + Date.now()
+                                    'data-src': '/reg/captcha.do?rnd=' + Date.now()
                                 },
                                 css: {
                                     '': {
