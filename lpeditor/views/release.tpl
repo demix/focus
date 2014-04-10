@@ -51,7 +51,7 @@
         {{html|raw}}
     </body>
     <!--[if IE 6]>
-        <script src="http://img.wan.sogou.com/ufo/helper/DD_belatedPNG.js"></script><script>DD_belatedPNG.fix('.daohang-logo, .daohang-icon, .dialog-bg');</script>
+        <script src="http://img.wan.sogou.com/ufo/helper/DD_belatedPNG.js"></script><script>DD_belatedPNG.fix('.daohang-logo, .daohang-icon');</script>
         <![endif]-->
 
     {% if sys.debug %}
