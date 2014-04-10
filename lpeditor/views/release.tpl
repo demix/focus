@@ -35,9 +35,6 @@
 		    <script>
                 {{ sys.flashjs|raw }}
 		    </script>
-            <!--[if IE 6]>
-                <script src="http://img.wan.sogou.com/ufo/helper/DD_belatedPNG.js"></script><script>DD_belatedPNG.fix('.daohang-logo, .daohang-icon, .dialog-bg');</script>
-            <![endif]-->
             
         </div>
         <!-- flash end -->
@@ -53,6 +50,10 @@
 
         {{html|raw}}
     </body>
+    <!--[if IE 6]>
+        <script src="http://img.wan.sogou.com/ufo/helper/DD_belatedPNG.js"></script><script>DD_belatedPNG.fix('.daohang-logo, .daohang-icon, .dialog-bg');</script>
+        <![endif]-->
+
     {% if sys.debug %}
     <script src="{{sys.jsurl}}"></script>
     {% else %}
