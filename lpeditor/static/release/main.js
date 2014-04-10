@@ -356,6 +356,7 @@
                 utils.event.dispatchEvent('dialog:show');
                 utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'regshow'}));
 
+                window['DD_belatedPNG'] && window['DD_belatedPNG'].fix('.dialog-bg');
             },
             hide: function(){
                 utils.dom.hide(dialog);
