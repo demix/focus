@@ -513,13 +513,19 @@
             }
         };
 
-        var showCaptcha = function(){
+        var showCaptcha = function(forcereload){
             utils.dom.show('line-reg-captcha');
-            if( !captcha_inited && utils.get('line-reg-captcha') ){
-                var img = utils.get('line-reg-captcha').getElementsByTagName('img')[0];
+            if( !utils.get('line-reg-captcha') ) return;
+            var img = utils.get('line-reg-captcha').getElementsByTagName('img')[0];
+            if( !captcha_inited  ){
                 img.src = img.getAttribute('data-src');
                 captcha_inited = true;
+            }else if( forcereload ){
+                var src = img.src;
+                src = src.split('?')[0] + '?rnd=' + (+new Date());
+                img.src = src;
             }
+
         };
 
         var onpostfailure = function(){
@@ -640,8 +646,9 @@
                         }else{
                             utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'doregfail' }));
                             if( +status == 4 || +status == 5 ) {
-                                showCaptcha();
+                                showCaptcha(true);
                                 utils.get('tip-reg-captcha') && (utils.get('tip-reg-captcha').innerHTML = (+status == 4 ? '请输入验证码' : '验证码错误' ));
+                                Dialog.tip('reg', '');
                             }else{
                                 Dialog.tip('reg' , '系统繁忙，请稍后重试');
                             }
