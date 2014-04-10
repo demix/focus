@@ -117,10 +117,10 @@ define(['setting'], function(Setting) {
               'height:' + Setting.get('dialogWidth')].join(';');
             var bgcss = ['position:absolute;left:0;top:0',
             'background-image:url(' +  Setting.get('dialogBgImg')+')', 
-            'background-color:' + Setting.get('dialogBgColor'), 
+            //'background-color:' + Setting.get('dialogBgColor'), 
             'width:' + Setting.get('dialogWidth'), 
             'height:' + Setting.get('dialogHeight')].join(';');
-            console.debug(css)
+
             return '<div id="lp-dialog" style="' + css + '"><div class="dialog-bg" id="dialog-bg" style="'+bgcss+'">';
         },
     };

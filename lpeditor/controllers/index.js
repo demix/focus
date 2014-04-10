@@ -75,7 +75,7 @@ var app = {
           fs.writeFile(__dirname+'/../static/profile/' + config.id + '.html', file, callback);
         },
         function(callback){
-          exec('sshpass -p SafetyFirst@426 scp -rq '+__dirname+'/../static/profile/' + config.id + '.html' + ' root@10.11.201.212:/search/wan/webapp/static/nav/');
+          exec('sshpass -p noSafeNoWork@2014 scp -rq '+__dirname+'/../static/profile/' + config.id + '.html' + ' root@10.11.201.212:/search/wan/webapp/static/nav/');
           callback();
         }
 
