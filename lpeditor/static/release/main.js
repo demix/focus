@@ -495,7 +495,8 @@
                 } , '两次输入不一致']
             ],
             captcha:[
-                ['!val.length' , '请输入验证码']
+                ['!val.length' , '请输入验证码'],
+                ['val.length!=5' , '错误']
             ]
         };
 
@@ -604,9 +605,14 @@
             submit: function(){
                 var query = {
                     'userid': utils.get('input-reg-user').value,
-                    'psw': utils.get('input-reg-pwd').value,
+                    'psw': utils.get('input-reg-pwd').value,                    
                     'source': LP_CONFIG.source || ''
                 };
+
+                if( utils.get('input-reg-captcha').offsetHeight  ){
+                    query['chkcode'] = utils.get('input-reg-captcha').value;
+                }
+
                 var isloginaction = LP_CONFIG['lp_type'] && current_user_type == 'reged';
 
                 var tip = isloginaction ? '登录中...' : '注册中...';
@@ -633,7 +639,12 @@
                             LandingPage.login(utils.get('input-reg-user').value , utils.get('input-reg-pwd').value , function(){ Dialog.tip('reg','系统繁忙'); } );
                         }else{
                             utils.pb.cl( utils.merge( utils.clone(STATS_CONFIG),{module:'doregfail' }));
-                            Dialog.tip('reg' , '系统繁忙，请稍后重试');
+                            if( +status == 4 || +status == 5 ) {
+                                showCaptcha();
+                                utils.get('tip-reg-captcha') && (utils.get('tip-reg-captcha').innerHTML = (+status == 4 ? '请输入验证码' : '验证码错误' ));
+                            }else{
+                                Dialog.tip('reg' , '系统繁忙，请稍后重试');
+                            }
                         }
                     },
                     onfailure: function(){

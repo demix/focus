@@ -10,8 +10,8 @@ a:hover { text-decoration: underline; color: #dc1c09;}
 
 /*flash*/
 .flash-wrp{text-align:center;position:absolute;top:0;width:100%;height:600px;left:0;}
-.flash-unnav-small{ height:600px;top:50%;margin-top:-300px; }
-.flash-unnav-big{ top:50%;left:50%;height:700px;width:1400px;margin-top:-350px;margin-left:-700px; }
+.flash-unnav-1000{ height:600px;top:50%;margin-top:-300px; }
+.flash-unnav-1400{ top:50%;left:50%;height:700px;width:1400px;margin-top:-350px;margin-left:-700px; }
 /*flash end*/
 
 

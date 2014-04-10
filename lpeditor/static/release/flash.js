@@ -39,6 +39,6 @@ var uigs_para={uigs_productid:"wan",m:2,uigs_cookie:"source,hostid,landing_ref,y
 
 })();
 
-document.write('<embed height="{%if bigFlash==1%}700{%else%}600{%endif%}" flashvars="" pluginspage="http://www.adobe.com/go/getflashplayer" src="{{flashUrl}}" type="application/x-shockwave-flash" width="{%if bigFlash==1%}1400{%else%}1000{%endif%}" wmode="opaque" quality="high" allowscriptaccess="always" id="Flash_Target">');
+document.write('<embed height="{{fheight}}" flashvars="" pluginspage="http://www.adobe.com/go/getflashplayer" src="{{flashUrl}}" type="application/x-shockwave-flash" width="{{fwidth}}" wmode="opaque" quality="high" allowscriptaccess="always" id="Flash_Target">');
 
 

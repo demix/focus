@@ -34,7 +34,7 @@
     </head>
     <body {%if twoInOne%}data-type="1"{%endif%}>
         <!-- flash -->
-        <div id="Flash_Wrp" class="flash-wrp flash-{%if navbar%}nav{%else%}unnav{%endif%}-{%if bigFlash==1%}big{%else%}small{%endif%}">
+        <div id="Flash_Wrp" class="flash-wrp flash-{%if navbar%}nav{%else%}unnav{%endif%}-{{fwidth}}">
 		    <script>
                 {{ sys.flashjs|raw }}
 		    </script>
