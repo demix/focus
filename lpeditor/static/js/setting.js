@@ -28,7 +28,9 @@ define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) 
         flashUrl: "http://img.wan.sogou.com/cdn/nav/bg/chan.swf",
         dialogBgImg: 'http://img.wan.sogou.com/ufo/img/newnav/dialog3/ybg2.png',
         dialogVerticalCenter: true,
-        navLinks:[]
+        navLinks:[],
+        fwidth:1400,
+        fheight:700
     },
     defaultData:{},
     init: function() {
@@ -49,6 +51,10 @@ define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) 
 
       if('dialogBgImg' ===key&&!value){
         return false;
+      }
+      if('bigFlash'===key){
+        this.data['fwidth']=(value?1400:1000);
+        this.data['fheight']=(value?700:600);
       }
 
       var oldVal = this.data[key];

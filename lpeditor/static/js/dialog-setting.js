@@ -32,7 +32,7 @@ define(['dialog', 'setting', 'text!tpl/setting.html', 'Ursa','yy.editable'], fun
         if ($(e.target).is(':checkbox')) {
           ret = Setting.set(e.target.name, $(e.target).prop('checked'));
         } else if ($(e.target).is(':radio')) {
-          ret = Setting.set(e.target.name, $('[name=' + e.target.name + ']').val());
+          ret = Setting.set(e.target.name, !!+$('[name=' + e.target.name + ']:checked').val());
         } else {
           ret = Setting.set(e.target.name, $(e.target).val());
         }
