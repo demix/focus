@@ -514,9 +514,9 @@
         };
 
         var showCaptcha = function(forcereload){
+            var img = utils.get('img-captcha');
+            if( !img ) return;
             utils.dom.show('line-reg-captcha');
-            if( !utils.get('line-reg-captcha') ) return;
-            var img = utils.get('line-reg-captcha').getElementsByTagName('img')[0];
             if( !captcha_inited  ){
                 img.src = img.getAttribute('data-src');
                 captcha_inited = true;
