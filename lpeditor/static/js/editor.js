@@ -25,7 +25,8 @@ define(['setting', 'initializing', 'element', 'listener', 'disk', 'jquery-ui' /*
                 id: id
             }, css = {
                     'z-index': '', //every has to set z-index
-                    position: 'absolute' //every element is absolute
+                    position: 'absolute', //every element is absolute
+                    display:'block'
                 };
             //Copy properties
             $.each((found.props || {}), function(k, v) {
