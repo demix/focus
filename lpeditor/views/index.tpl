@@ -107,7 +107,7 @@
             <div class="dialog" id="dialog-publish">
                 <div class="bar"><span class="name">发布到线上</span><div class="closer" title="关闭"></div></div>
                 <div class="content">
-                    <form action="http://10.11.201.199/api/landpageHtml.do" method="post" target="_blank">
+                    <form action="http://10.12.135.37/api/landpageHtml.do" method="post" target="_blank">
                          <fieldset>
                     <div class="row">
                         <label class="tit">lpageFl</label>
