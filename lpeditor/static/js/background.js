@@ -61,9 +61,9 @@ define(['setting'], function(Setting) {
     toggleFlash: function() {
       var c = 'navSmall,navBig,smallFlash,bigFlash'.split(',');
 
-      var embed = '<embed height="600" flashvars="" pluginspage="http://www.adobe.com/go/getflashplayer"\
+      var embed = '<embed height="'+(Setting.get('bigFlash') ? 700 : 600)+'" flashvars="" pluginspage="http://www.adobe.com/go/getflashplayer"\
        src="'+Setting.get('flashUrl')+'"\
-        type="application/x-shockwave-flash" width="1000" wmode="opaque" quality="high" allowscriptaccess="always" id="flash_id">';
+        type="application/x-shockwave-flash" width="'+(Setting.get('bigFlash') ? 1400 : 1000)+'" wmode="opaque" quality="high" allowscriptaccess="always" id="flash_id">';
 
       this.m$flashbg.html(embed);
 

@@ -56,6 +56,7 @@ define(['setting', 'editor', 'listener'], function(Setting, Editor, Listener) {
         var postData = {
           cmd: cmd,
           payload: {
+            version:1,
             timestamp: Date.now(),
             elements: Editor.dump(),
             setting: Setting.toJSON()

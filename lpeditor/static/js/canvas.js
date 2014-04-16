@@ -33,7 +33,7 @@ define(['setting'], function(Setting) {
             var w = parseInt(Setting.get('dialogWidth'))||405;
             var offset =parseInt(Setting.get('dialogLeftOffset'))||0;
             $canvas.css({
-                'margin-left':'-'+(w/2+offset)+'px'
+                'margin-left':(-w/2+offset)+'px'
             });
 
         },

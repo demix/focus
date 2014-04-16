@@ -633,3 +633,7 @@ text-align:center
 background:rgba(204,204,204,0.5)
 }
 #dialog-setting .tip{color:#bbb;font-size: 12px;}
+#dialog-publish{
+    width: 737px;
+    height: 168px;
+}

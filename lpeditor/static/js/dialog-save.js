@@ -37,6 +37,7 @@ define(['dialog','disk','editor','setting'],function(Dialog,DiskManager,Editor,S
                 var desc = self.m$profileDesc.val();
 
                 var payload={
+                    version:1,
                     elements:Editor.dump(),
                     setting:Setting.toJSON(),
                     desc:desc

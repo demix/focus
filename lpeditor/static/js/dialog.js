@@ -216,6 +216,7 @@ define(['local', 'jquery-ui'], function(LocalCache) {
             if (this.m$container.is(':visible')) {
                 this.m$container.css('z-index', ++gCurrentZindex);
             }
+            return this;
         },
         /**
          * [isVisible description]

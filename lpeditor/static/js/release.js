@@ -20,10 +20,10 @@ define(['editor', 'canvas', 'setting','disk','dialog-save','utils'], function(Ed
 
     
     
-    return function() {
+    return function(publish) {
         var id=DiskManager.getProfileId();
         if(!id){
-            return  SaveDialog.show().tryTop();
+            return  SaveDialog.show().tryTop().title('请先同步到服务器');
         }
 
         var code = Editor.generateCode();
@@ -34,12 +34,12 @@ define(['editor', 'canvas', 'setting','disk','dialog-save','utils'], function(Ed
         };
 
         $.extend(payload, Setting.toJSON());
-        //console.debug(payload);
 
         $.ajax({
             url:'/release',
             type:'post',
             data:{
+                publish:!!publish,
                 config:JSON.stringify(payload)
             },
             dataType:'json'

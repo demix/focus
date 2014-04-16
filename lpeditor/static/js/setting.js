@@ -49,9 +49,9 @@ define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) 
         return false;
       }
 
-      if('dialogBgImg' ===key&&!value){
+      /*if('dialogBgImg' ===key&&!value){
         return false;
-      }
+      }*/
       if('bigFlash'===key){
         this.data['fwidth']=(value?1400:1000);
         this.data['fheight']=(value?700:600);

@@ -40,13 +40,18 @@ var app = {
       html: html
     });
   }, //preview
+  /**
+   * [release description]
+   * @param  {[type]} req [description]
+   * @param  {[type]} res [description]
+   */
   release: function(req, res) {
 
     var debug = +req.query.debug;
 
     var config = !debug ? JSON.parse(req.body.config) : JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'mock', 'landing.json')));
 
-    if (!config.id && !debug) {
+    if (!/^\d{13}$/.test(config.id) && !debug) {
       return res.json({
         status: 0,
         msg: 'ID is needed'
@@ -69,15 +74,32 @@ var app = {
             } else {
               callback();
             }
-          })
+          });
         },
+/*        function(callback){
+          fs.exists(__dirname+'/../static/profile/'+config.id.slice(0,6), function(exists) {
+            if (!exists) {
+              fs.mkdir(__dirname+'/../static/profile/', callback);
+            } else {
+              callback();
+            }
+          })
+        },*/
         function(callback) {
           fs.writeFile(__dirname+'/../static/profile/' + config.id + '.html', file, callback);
         },
         function(callback){
-          exec('sshpass -p noSafeNoWork@2014 scp -rq '+__dirname+'/../static/profile/' + config.id + '.html' + ' root@10.11.201.212:/search/wan/webapp/static/nav/');
-          callback();
-        }
+          exec('sshpass -p noSafeNoWork@2014 scp -rq '+__dirname+'/../static/profile/' + config.id + '.html' + ' root@10.11.201.202:/search/wan/webapp/static/nav/' , callback);
+        }/*,
+        function(callback){
+          if(req.body.publish){
+            request({
+              url:
+            });
+          }else{
+            callback();
+          }
+        }*/
 
       ], function(error) {
         return res.json({

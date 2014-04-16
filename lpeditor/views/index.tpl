@@ -103,6 +103,30 @@
                 <div class="content">
                 </div>
             </div>
+            <!--PUBLISH Dialog-->
+            <div class="dialog" id="dialog-publish">
+                <div class="bar"><span class="name">发布到线上</span><div class="closer" title="关闭"></div></div>
+                <div class="content">
+                    <form action="http://10.11.201.199/api/landpageHtml.do" method="post" target="_blank">
+                         <fieldset>
+                    <div class="row">
+                        <label class="tit">lpageFl</label>
+                        <input type="text" name="lpageFl" required="required" autocomplete="off" style="width:30em" value="chan" placeholder="一般为swf文件的名字，不可重复"/>
+                    </div>
+                    <div class="row">
+                        <label class="tit">lpageUrl</label>
+                        <input type="text" name="vlpageUrl" required="required" autocomplete="off" style="width:30em" placeholder="生成的线上地址，无需修改"/>
+                        <input type="hidden" name="lpageUrl"/>
+                    </div>
+                    <div class="row">
+                        <label class="tit">lpageName</label>
+                        <input type="text" name="lpageName" required="required" autocomplete="off" style="width:30em" placeholder="随便起名字"/>
+                    </div>
+                   <div class="row"><label class="tit"></label> <button type="submit">发布</button></div>
+                     </fieldset>
+                    </form>
+                </div>
+            </div>
             <!--SAVE Dialog-->
             <div class="dialog" id="dialog-save">
                 <div class="bar"><span class="name">存储档案到服务器</span><div class="closer" title="关闭"></div></div>

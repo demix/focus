@@ -9,7 +9,7 @@
  * @version 0.0.1
  * @since 0.0.1
  */
-define(['draft','dialog','dialog-save','setting','release'], function(DraftManager,Dialog,DialogSave,Setting,release) {
+define(['draft','dialog','dialog-save','dialog-publish','setting','release'], function(DraftManager,Dialog,DialogSave,DialogPublish,Setting,release) {
 
     //mark right
     function Mark() {}
@@ -354,6 +354,25 @@ define(['draft','dialog','dialog-save','setting','release'], function(DraftManag
         });
         createPageMenu.init();
         MacTopbar.addMenu(createPageMenu);
+    })();
+
+    //publish to online
+    (function(){
+        var publishPageMenu = new Menu();
+        $.extend(publishPageMenu,{
+            init:function(){
+                this.m$div =$('<a href="javascript:;" class="item publish-page">发布到线上</a>');
+                this.initEvt();
+                return this;
+            },
+            initEvt:function(){
+                this.m$div.click(function(e){
+                   DialogPublish.toggle();
+                });
+            }
+        });
+        publishPageMenu.init();
+        MacTopbar.addMenu(publishPageMenu);
     })();
 
     return MacTopbar;
