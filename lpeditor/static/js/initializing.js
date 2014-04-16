@@ -569,7 +569,6 @@ define(['element'], function(Element) {
         }
     };
     Object.freeze(initializingElementsConfig);
-    console.log(initializingElementsConfig)
     return initializingElementsConfig;
 
 });

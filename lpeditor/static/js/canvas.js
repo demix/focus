@@ -107,10 +107,13 @@ define(['setting'], function(Setting) {
 
         },
         getCanvasHTML: function(preview) {
+            var w = parseInt(Setting.get('dialogWidth'))||405;
+            var offset =parseInt(Setting.get('dialogLeftOffset'))||0;
             var css = [preview ? '' : 'display:none',
              'position:absolute',
-              'margin-left:50%',
-              'left:-'+($canvas.width()/2)+'px', 
+              'left:50%',
+              'margin-left:'+(-w/2+offset)+'px',
+             /* 'left:-'+($canvas.width()/2)+'px', */
               'top:' + (Setting.get('dialogVerticalCenter')?'50%':Setting.get('dialogTop')),
               'margin-top:' + (Setting.get('dialogVerticalCenter')?('-' + (parseInt(Setting.get('dialogHeight'))|0) / 2 + 'px'):0),
               'width:' + Setting.get('dialogWidth'), 
