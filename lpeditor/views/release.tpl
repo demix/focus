@@ -22,6 +22,7 @@
 
         <style>
          {{css|raw}}
+         body{background:{{backgroundColor}};}
         </style>
         
 
