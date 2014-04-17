@@ -23,6 +23,7 @@ define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) 
         navbar:true,
         mask:true,
         title:'',
+        backgroundColor:'',
         twoInOne:false,//reg&login
         showDialog:true,
         flashUrl: "http://img.wan.sogou.com/cdn/nav/bg/chan.swf",
@@ -45,13 +46,10 @@ define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) 
      * @param {[type]} value
      */
     set: function(key, value) {
-      if (/*undefined === this.data[key] || */undefined === value || !key) {
+      if (undefined === value || !key) {
         return false;
       }
 
-      /*if('dialogBgImg' ===key&&!value){
-        return false;
-      }*/
       if('bigFlash'===key){
         this.data['fwidth']=(value?1400:1000);
         this.data['fheight']=(value?700:600);

@@ -21,6 +21,10 @@ define(['setting'], function(Setting) {
       self.toggleFlash();
       $('.bench .bg').toggle(Setting.get('mask'));
 
+      if(Setting.get('backgroundColor')){
+        $(document.body).css('background-color',Setting.get('backgroundColor'));
+      }
+
       document.addEventListener('webkitfullscreenchange', function() {
         setTimeout(function() {
           self.reload()
@@ -52,6 +56,8 @@ define(['setting'], function(Setting) {
          this.toggleFlash();
       }else if('mask' === arg.key){
         $('.bench .bg').toggle(Setting.get('mask'));
+      }else if('backgroundColor' === arg.key){
+        $(document.body).css('background-color',arg.newVal);
       }
     },
     /**
@@ -83,9 +89,7 @@ define(['setting'], function(Setting) {
      */
     reload: function() {
       this.toggleFlash();
-/*      var src = this.m$flashbg.find('embed').attr('src');
-       this.m$flashbg.find('embed')[0].src = src;
-*/    }
+    }
   };
   return Background.init();
 });

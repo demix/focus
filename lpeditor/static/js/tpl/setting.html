@@ -40,6 +40,10 @@
         <input type="text" name="title" autocomplete="off" value="{{setting.title|default('')}}" placeholder="页面Title，一般为游戏名称" style="width:25em" />
     </div>
     <div class="row">
+        <span class="tit">背景颜色：</span>
+        <input type="text" name="backgroundColor" autocomplete="off" value="{{setting.backgroundColor|default('')}}" placeholder="格式：#335578" style="width:25em" />
+    </div>
+    <div class="row">
         <span class="tit">Flash 尺寸：</span>
         <input type="radio" id="bigFlash-big" name="bigFlash" {%if setting.bigFlash%}checked="checked" {%endif%} value="1" />
         <label for="bigFlash-big">大</label>
