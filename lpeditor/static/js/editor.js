@@ -33,6 +33,9 @@ define(['setting', 'initializing', 'element', 'listener', 'disk', 'jquery-ui' /*
                 css['background-color']='';
                 css['background-position']='';
                 css['border']='';
+                css['color']='';
+                css['font-family']='';
+                css['font-size']='';
             }
 
             //Copy properties

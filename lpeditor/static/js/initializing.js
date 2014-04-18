@@ -78,6 +78,9 @@ define(['element'], function(Element) {
                 height: '20px',
                 top: '5px',
                 border:'',
+                'font-family':'',
+                'font-size':'',
+                 color:'',
                 'background-color':'',
                 'background-position':'',
                 display: 'block'
