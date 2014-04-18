@@ -32,6 +32,7 @@ define(['setting', 'initializing', 'element', 'listener', 'disk', 'jquery-ui' /*
             if(/^input\-/.test(id)){
                 css['background-color']='';
                 css['background-position']='';
+                css['border']='';
             }
 
             //Copy properties
