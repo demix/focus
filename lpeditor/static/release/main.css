@@ -6,7 +6,7 @@ ul, li { list-style: none;}
 a { text-decoration: none; outline: none; color: #676767;}
 a:hover { text-decoration: underline; color: #dc1c09;}
 
-
+#lp-dialog input{outline:none;}
 
 /*flash*/
 .flash-wrp{text-align:center;position:absolute;top:0;width:100%;height:600px;left:0;}
