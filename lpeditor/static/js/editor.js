@@ -28,6 +28,12 @@ define(['setting', 'initializing', 'element', 'listener', 'disk', 'jquery-ui' /*
                     position: 'absolute', //every element is absolute
                     display:'block'
                 };
+
+            if(/^input\-/.test(id)){
+                css['background-color']='';
+                css['background-position']='';
+            }
+
             //Copy properties
             $.each((found.props || {}), function(k, v) {
                 if ('function' === typeof v)

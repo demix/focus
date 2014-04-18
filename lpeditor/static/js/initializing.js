@@ -77,6 +77,8 @@ define(['element'], function(Element) {
                 },
                 height: '20px',
                 top: '5px',
+                'background-color':'',
+                'background-position':'',
                 display: 'block'
             }
         }
