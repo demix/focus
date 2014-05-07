@@ -151,9 +151,7 @@ define(['element'], function(Element) {
         /*Tab*/
         'tab-new-reg,tab-old-login': {
             tag: 'a',
-            text: function(id, index) {
-                return index ? '老用户登录' : '新用户注册';
-            },
+            text: '',
             props: {
                 href: '##',
                 'class': function(id, index) {
@@ -181,7 +179,9 @@ define(['element'], function(Element) {
                     'line-height': '33px',
                     'text-align': 'center',
                     'background-repeat': 'no-repeat',
-                    'background-image': 'url(http://s7.wan.sogou.com/cdn/image/2014/03/05/20140305211310_980.jpg)'
+                    'background-image': function(id,index){
+                        return index?'url(http://p3.wan.sogoucdn.com/cdn/image/2014/05/07/20140507144236_369.jpg)':'url(http://p5.wan.sogoucdn.com/cdn/image/2014/05/07/20140507144358_479.jpg)'
+                    }//'url(http://s7.wan.sogou.com/cdn/image/2014/03/05/20140305211310_980.jpg)'
                 },
                 '>:hover': {
                     color: '',
@@ -193,7 +193,9 @@ define(['element'], function(Element) {
                     color: '',
                     'text-decoration': '',
                     'background-color': '',
-                    'background-image': 'url(http://s5.wan.sogou.com/cdn/image/2014/03/05/20140305211018_817.jpg)'
+                    'background-image': function(id,index){
+                        return index?'url(http://p6.wan.sogoucdn.com/cdn/image/2014/05/07/20140507144048_860.jpg)':'url(http://p3.wan.sogoucdn.com/cdn/image/2014/05/07/20140507144338_900.jpg)';
+                    }//'url(http://s5.wan.sogou.com/cdn/image/2014/03/05/20140305211018_817.jpg)'
                 }
             }
         },
@@ -281,7 +283,7 @@ define(['element'], function(Element) {
                                 top: '150px',
                                 width: '300px',
                                 height: '50px',
-                                display: 'none'
+                                display: 'block'
                             }
                         },
                         children: {
@@ -337,7 +339,7 @@ define(['element'], function(Element) {
                             '': {
                                 display: 'block',
                                 left: '100px',
-                                top: '230px',
+                                top: '260px',
                                 width: '13px',
                                 height: '13px'
                             }
@@ -355,7 +357,7 @@ define(['element'], function(Element) {
                                 width: '140px',
                                 height: '20px',
                                 left: '235px',
-                                top: '230px',
+                                top: '260px',
                                 color: '#005EC8',
                                 'font-size': '12px',
                                 'font-family': '',
@@ -378,7 +380,7 @@ define(['element'], function(Element) {
                                 width: '110px',
                                 height: '20px',
                                 left: '120px',
-                                top: '230px',
+                                top: '260px',
                                 color: '#fff',
                                 'font-size': '12px',
                                 'font-family': ''
@@ -494,8 +496,8 @@ define(['element'], function(Element) {
             },
             css: {
                 '': {
-                    left: '100px',
-                    top: '270px',
+                    left: '106px',
+                    top: '294px',
                     width: '190px',
                     height: '47px',
                     'font-size': '20px',
@@ -514,10 +516,10 @@ define(['element'], function(Element) {
             css: {
                 '': {
                     width: '404px',
-                    height: '100px',
+                    height: '70px',
                     display: 'block',
                     left: '0',
-                    top: '355px'
+                    top: '385px'
                 }
             },
             children: {
