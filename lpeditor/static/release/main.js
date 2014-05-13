@@ -133,12 +133,14 @@
             removeClass: function(node, classname){
                 node = utils.get(node);
                 if(!node)return;
-                var oldcn = node.className;
-                var searchIdx;
-                if( (searchIdx=oldcn.search(new RegExp('(^|\\s)'+ classname +'(\\s|$)')) ) != -1) {
-                    node.className = oldcn.substring(searchIdx , classname.length);
+                var oldClasses = node.className.split(/\s+/);
+                for(var i = 0, lenOld = oldClasses.length; i < lenOld; ++i){
+                    if(oldClasses[i] == classname){
+            	        oldClasses.splice(i, 1);
+            	        break;
+                    }
                 }
-                
+                node.className = oldClasses.join(' ');
             }
         },
         addEvent: function(node , type , callback){

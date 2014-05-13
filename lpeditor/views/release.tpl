@@ -34,7 +34,11 @@
         <!-- flash -->
         <div id="Flash_Wrp" class="flash-wrp flash-{%if navbar%}nav{%else%}unnav{%endif%}-{{fwidth}}">
 		    <script>
+                {% if flashLoading %}
+                {{ sys.flashloadingjs|raw }}
+                {% else %}
                 {{ sys.flashjs|raw }}
+                {% endif %}
 		    </script>
             
         </div>
