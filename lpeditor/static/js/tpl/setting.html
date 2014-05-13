@@ -44,6 +44,13 @@
         <input type="text" name="backgroundColor" autocomplete="off" value="{{setting.backgroundColor|default('')}}" placeholder="格式：#335578" style="width:25em" />
     </div>
     <div class="row">
+        <span class="tit">是否用壳子加载素材flash：</span>
+        <input type="radio" id="flashLoading-big" name="flashLoading" {%if setting.flashLoading%}checked="checked" {%endif%} value="1" />
+        <label for="flashLoading-big">是</label>
+        <input type="radio" id="flashLoading-small" name="flashLoading" {%if not setting.flashLoading%}checked="checked" {%endif%} value="0" />
+        <label for="flashLoading-small">否</label>
+    </div>
+    <div class="row">
         <span class="tit">Flash 尺寸：</span>
         <input type="radio" id="bigFlash-big" name="bigFlash" {%if setting.bigFlash%}checked="checked" {%endif%} value="1" />
         <label for="bigFlash-big">大</label>

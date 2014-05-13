@@ -31,7 +31,8 @@ define(['local', 'listener','disk'], function(LocalCache, Listener,DiskManager) 
         dialogVerticalCenter: true,
         navLinks:[],
         fwidth:1400,
-        fheight:700
+        fheight:700,
+        flashLoading:false
     },
     defaultData:{},
     init: function() {
