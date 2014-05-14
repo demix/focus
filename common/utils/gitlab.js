@@ -4,11 +4,11 @@ var _ = require('lodash-node');
 
 var userModel = require('../models/user');
 
-const URL_PREFIX = 'http://gitlab.upd.sogou-inc.com/api/v3/';
+const URL_PREFIX = 'http://git.ufo.sogou-inc.com/api/v3/';
 
 var base_config_generator = function(conf){
     var base = {
-        hostname:'gitlab.upd.sogou-inc.com'
+        hostname:'git.ufo.sogou-inc.com'
     };
     var target = _.assign(_.clone(base) , conf);
     if( conf.method.toLowerCase() == 'post' && !conf.headers ){
