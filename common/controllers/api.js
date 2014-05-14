@@ -4,7 +4,7 @@ var _ = require('lodash-node');
 
 
 const URL_LIST = {
-    'gitlab': 'http://gitlab.upd.sogou-inc.com/api/v3/'
+    'gitlab': 'http://git.ufo.sogou-inc.com/api/v3/'
 };
 
 exports.get = function(req , res){
