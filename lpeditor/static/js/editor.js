@@ -192,6 +192,45 @@ define(['setting', 'initializing', 'element', 'listener', 'disk', 'jquery-ui' /*
             return ele;
         },
         /**
+         * [filterElements description]
+         * @param  {[type]} filter
+         * @param  {[type]} root
+         * @return {[type]}
+         */
+        filterElements:function(filter,root){
+            var self = this;
+            var ret = [];
+            if ('function'!==typeof filter) return [];
+
+            if (root && !(root instanceof Element)) {
+                throw Error('root MUST BE null or an Element');
+            }
+
+            if (!root) {
+                //search from gElements
+                for (var _id in self.gElements) {
+                    var child = self.gElements[_id];
+                    if(true===filter(child)){
+                        ret.push(child);
+                    }
+                    ret= ret.concat(self.filterElements(filter,child));
+                }
+
+                return ret;
+            } else {
+                //search from root
+                for (var _id in root.mChildren) {
+                    var child = root.mChildren[_id];
+                     if(true===filter(child)){
+                        ret.push(child);
+                    }
+                    ret= ret.concat(self.filterElements(filter,child));
+                }
+
+                return ret;
+            }
+        },
+        /**
          * [getElementById description]
          * @param  {[type]} id   [description]
          * @param  {[type]} root [description]
@@ -361,10 +400,18 @@ define(['setting', 'initializing', 'element', 'listener', 'disk', 'jquery-ui' /*
          */
         onCssChanged: function(evt, evtObj, args) {
             //Here we re-render through generating new stylesheet.
-            this.drawCanvas(REFRESH_CSS);
-
+            
             $canvas.find('*').removeAttr('style');
+            if(/^lbl/.test(evtObj.getId()) && ~['font-size','color','font-family'].indexOf(args[0].key)){
+                var otherLbls = (this.filterElements(function(e){
+                    return /^lbl/.test(e.getId()) && evtObj!==e;
+                }));
 
+                otherLbls.forEach(function(lbl){
+                    lbl.setCss(args[0].key,args[0].newVal,args[0].selector,args[0].isPrefix,true);
+                });
+            }
+            this.drawCanvas(REFRESH_CSS);
             this.trigger('csschanged', evtObj);
         },
         /**

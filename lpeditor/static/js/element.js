@@ -151,7 +151,9 @@ define(['listener'], function(Listener) {
             (!silence) && this.trigger('csschanged', {
                 key: key,
                 oldVal: oldVal,
-                newVal: value
+                newVal: value,
+                selector: selector,
+                isPrefix: isPrefix
             });
             return true;
         },

@@ -101,6 +101,18 @@
             <div class="dialog" id="dialog-disk">
                 <div class="bar"><span class="name">服务器档案列表</span><div class="closer" title="关闭"></div></div>
                 <div class="content">
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Load</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
             </div>
             <!--PUBLISH Dialog-->
@@ -159,7 +171,7 @@
                 <div class="bar"><span class="name">关于</span><div class="closer" title="关闭"></div></div>
                 <div class="content">
                     <img src="/static/img/ufologo-dark.png" class="bl hc"/>
-                    <h6 class="tc"><span class="appname">LP Dialog Editor Studio</span> (0.1&alpha;)</h6>
+                    <h6 class="tc"><span class="appname">LP Dialog Editor Studio</span> (0.2&beta;)</h6>
                     <p>仅用于<a href="http://wan.sogou.com" target="_blank">游戏</a>部编辑 <q cite="http://baike.baidu.com/view/3144149.htm">Landing Page</q>  登录注册对话框的样式。承诺持续针对最新版<a href="http://www.google.cn/intl/zh-CN/chrome/browser/" target="_blank">Chrome</a>的全部支持，以及对最新版<a href="http://www.firefox.com.cn/" target="_blank">Firefox</a>、<a href="http://www.opera.com/zh-cn" target="_blank">Opera</a>和Safari(Mac)的部分支持。</p>
                     <p>Copyright &copy; 2014 sogou.com. All Rights Reserved.</p>
                     <p>Bug Report：<a href="mailto:yinyong@sogou-inc.com?cc=zhengxin@sogou.com&subject=LP%20Dialog%20Editor%20Bug%20Report" target="_blank">yinyong@sogou-inc.com</a></p>

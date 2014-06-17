@@ -162,9 +162,9 @@ define(['element'], function(Element) {
                 '': {
                     left: function(id) {
                         if ('tab-new-reg' === id) {
-                            return '20px'
+                            return '30px'
                         } else {
-                            return '191px';
+                            return '201px';
                         }
                     },
                     top: '63px',
@@ -210,9 +210,9 @@ define(['element'], function(Element) {
                     display: function(id, index) {
                         return index ? 'none' : 'block';
                     },
-                    width: '300px',
+                    width: '330px',
                     height: '160px',
-                    left: '0px',
+                    left: '36px',
                     top: '100px'
                 }
             },
@@ -551,7 +551,7 @@ define(['element'], function(Element) {
                         '': {
                             top: '40px',
                             left: function(id, index) {
-                                return 30 + 75 * index + 'px';
+                                return 90 + 75 * index + 'px';
                             },
                             width: '70px',
                             height: '25px',

@@ -3,10 +3,11 @@
  *
  * changelog
  * 2014-03-18[12:12:17]:created
+ * 2014-06-17[22:53:48]:add delete
  *
  * @info yinyong,osx-x64,UTF-8,10.129.175.199,js,/Volumes/yinyong/focus/lpeditor/controllers
  * @author yanni4night@gmail.com
- * @version 0.0.1
+ * @version 0.0.2
  * @since 0.0.1
  */
 var fs = require('fs'),
@@ -16,7 +17,7 @@ var fs = require('fs'),
 
 
 
-const JSON_DIR = __dirname+"/../json/";
+const JSON_DIR = __dirname + "/../json/";
 
 var app = {
   /**
@@ -26,6 +27,27 @@ var app = {
    */
   index: function(req, res) {
     return res.render('index', {});
+  },
+  /**
+   * [delete description]
+   * @param  {Express Request} req
+   * @param  {Express Response} res
+   */
+  delete: function(req, res) {
+    var id = req.body.id;
+    if (!/^\d{13}$/.test(id)) {
+      return res.json({
+        status: -1,
+        msg: 'ID is needed'
+      });
+    }
+
+    return fs.unlink(JSON_DIR + id + ".json", function() {
+      return res.json({
+        status: 0,
+        id: id
+      });
+    });
   },
   /**
    * [preview description]
@@ -60,23 +82,23 @@ var app = {
 
     return require('./compile').compile(config, debug, function(file) {
 
-        if( debug ){
-            res.send(file);
-            return;
-        }
+      if (debug) {
+        res.send(file);
+        return;
+      }
 
       async.series([
 
         function(callback) {
-          fs.exists(__dirname+'/../static/profile/', function(exists) {
+          fs.exists(__dirname + '/../static/profile/', function(exists) {
             if (!exists) {
-              fs.mkdir(__dirname+'/../static/profile/', callback);
+              fs.mkdir(__dirname + '/../static/profile/', callback);
             } else {
               callback();
             }
           });
         },
-/*        function(callback){
+        /*        function(callback){
           fs.exists(__dirname+'/../static/profile/'+config.id.slice(0,6), function(exists) {
             if (!exists) {
               fs.mkdir(__dirname+'/../static/profile/', callback);
@@ -86,11 +108,12 @@ var app = {
           })
         },*/
         function(callback) {
-          fs.writeFile(__dirname+'/../static/profile/' + config.id + '.html', file, callback);
+          fs.writeFile(__dirname + '/../static/profile/' + config.id + '.html', file, callback);
         },
-        function(callback){
-          exec('sshpass -p noSafeNoWork@2014 scp -rq '+__dirname+'/../static/profile/' + config.id + '.html' + ' root@10.11.201.212:/search/wan/webapp/static/nav/' , callback);
-        }/*,
+        function(callback) {
+          exec('sshpass -p noSafeNoWork@2014 scp -rq ' + __dirname + '/../static/profile/' + config.id + '.html' + ' root@10.11.201.212:/search/wan/webapp/static/nav/', callback);
+        }
+        /*,
         function(callback){
           if(req.body.publish){
             request({
@@ -105,7 +128,7 @@ var app = {
         return res.json({
           status: error ? -1 : 0,
           id: config.id,
-          msg:error
+          msg: error
         });
       });
 
@@ -228,7 +251,7 @@ var app = {
         data: content //理论上，content应该是合法的json字符串
       });
     });
-  }//get
+  } //get
 };
 
 module.exports = app;

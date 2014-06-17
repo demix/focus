@@ -25,6 +25,7 @@ app.post('/preview', index.preview);
 app.all('/save', index.save);
 app.all('/list', index.list);
 app.all('/get', index.get);
+app.all('/delete', index.delete);
 app.all('/release', index.release);
 app.get('/', index.index);
 

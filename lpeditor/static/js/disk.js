@@ -12,6 +12,7 @@
 //looks stupid!!!
 var EVT_LOADING = 'loading';
 var EVT_LOADED = 'loaded';
+var EVT_DELETED = 'deleted';
 var EVT_LOAD_ERROR = 'loaderror';
 var EVT_LOADING_LIST = 'loadinglist';
 var EVT_LOADED_LIST = 'loadedlist';
@@ -26,6 +27,7 @@ define(['listener'], function(Listener) {
         __listLoading: false,
         __saving: false,
         __loading: false,
+        __deleting: false,
         __profileId:null,
         init:function(){
             this.listen(EVT_LOADED,this.onLoadedOrCreated,this);
@@ -68,6 +70,27 @@ define(['listener'], function(Listener) {
                 }
             }).fail(function(jqXHR, status) {
                 self.trigger(EVT_LOAD_ERROR);
+            });
+
+            return this;
+        },
+        delete:function(id){
+            var self = this;
+            if (self.__deleting||!id) return;
+            $.ajax({
+                url: '/delete',
+                dataType: 'json',
+                data:{id:id},
+                type: 'post',
+                beforeSend: function() {
+                    self.__deleting = true;
+                },
+                complete: function() {
+                    self.__deleting = false;
+                }
+            }).done(function(data) {
+                self.trigger(EVT_DELETED,id);
+            }).fail(function(jqXHR, status) {
             });
 
             return this;
