@@ -769,9 +769,9 @@
 
             },
             enter: function(){
-				var url = LP_CONFIG.sid > 0 ? ('/play.do?gid=' + LP_CONFIG.gid + '&sid=' 
-                                               + (utils.get('input-login-server') ? utils.get('input-login-server').value: LP_CONFIG.sid) 
-                                               + '&source=' + LP_CONFIG.source) : ('/serverlist.do?gid=' + LP_CONFIG.gid);
+				var url =  '/play.do?gid=' + LP_CONFIG.gid + '&sid=' 
+                        + (utils.get('input-login-server') ? utils.get('input-login-server').value: (LP_CONFIG.sid||'')) 
+                        + '&source=' + LP_CONFIG.source;
  
 				uname && utils.cookie.set('email', encodeURIComponent( uname.indexOf('@')!=-1 ? uname : ( uname + '@sogou.com')) , {
                     expires: 365*24*60*60*1000,
