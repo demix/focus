@@ -15,9 +15,15 @@ var fs = require('fs'),
   path = require('path'),
   exec = require('child_process').exec;
 
-
-
 const JSON_DIR = __dirname + "/../json/";
+const PROFILE_DIR = __dirname + '/../static/profile/';
+
+var TARGET_URI;
+if(process.env.NODE_ENV == 'development'){
+  TARGET_URI='root@10.136.31.61:/opt/my/'
+}else{
+  TARGET_URI='root@10.11.201.212:/search/wan/webapp/static/nav/'
+}
 
 var app = {
   /**
@@ -72,6 +78,7 @@ var app = {
     var debug = +req.query.debug;
 
     var config = !debug ? JSON.parse(req.body.config) : JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'mock', 'landing.json')));
+    var filedir,filepath;
 
     if (!/^\d{13}$/.test(config.id) && !debug) {
       return res.json({
@@ -79,50 +86,34 @@ var app = {
         msg: 'ID is needed'
       });
     }
+    var idDate = new Date(+config.id);
 
-    return require('./compile').compile(config, debug, function(file) {
+    filedir = PROFILE_DIR;//+([idDate.getFullYear(),idDate.getMonth()+1].join(''));
+    filepath = filedir+config.id+'.html';
+
+    return require('./compile').compile(config, debug, function(filecontent) {
 
       if (debug) {
-        res.send(file);
+        res.send(filecontent);
         return;
       }
 
       async.series([
-
         function(callback) {
-          fs.exists(__dirname + '/../static/profile/', function(exists) {
+          fs.exists(filedir, function(exists) {
             if (!exists) {
-              fs.mkdir(__dirname + '/../static/profile/', callback);
+              fs.mkdir(filedir, callback);
             } else {
               callback();
             }
           });
         },
-        /*        function(callback){
-          fs.exists(__dirname+'/../static/profile/'+config.id.slice(0,6), function(exists) {
-            if (!exists) {
-              fs.mkdir(__dirname+'/../static/profile/', callback);
-            } else {
-              callback();
-            }
-          })
-        },*/
         function(callback) {
-          fs.writeFile(__dirname + '/../static/profile/' + config.id + '.html', file, callback);
+          fs.writeFile(filepath, filecontent, callback);
         },
         function(callback) {
-          exec('sshpass -p noSafeNoWork@2014 scp -rq ' + __dirname + '/../static/profile/' + config.id + '.html' + ' root@10.11.201.212:/search/wan/webapp/static/nav/', callback);
+          exec('rsync -avz ' + filepath + ' ' +TARGET_URI, callback);
         }
-        /*,
-        function(callback){
-          if(req.body.publish){
-            request({
-              url:
-            });
-          }else{
-            callback();
-          }
-        }*/
 
       ], function(error) {
         return res.json({
@@ -251,7 +242,10 @@ var app = {
         data: content //理论上，content应该是合法的json字符串
       });
     });
-  } //get
+  }, //get
+  create:function(req,res){
+    return res.render('create',{});
+  }
 };
 
 module.exports = app;

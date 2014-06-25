@@ -14,7 +14,8 @@
         <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.min.js"></script>
         <script data-main="static/js/main" src="static/js/require.js"></script>
     </head>
-    <body onbeforeunload="return '不要忘记同步到服务器';">
+        <!-- onbeforeunload="return '不要忘记同步到服务器';"-->
+    <body>
     
     <div class="emu-bar" style="background: url(http://s3.wan.sogou.com/cdn/image/2014/02/18/20140218163552_499.png) repeat-x;height:41px;z-index: 10000;width: 100%;"></div>
     <div id="flashbg"></div>
@@ -96,6 +97,73 @@
                     <button class="showall">全部显示</button>
                 </div>
                 <div class="content"></div>
+            </div>
+            <!--HTML Dialog-->
+            <div class="dialog" id="dialog-html">
+                <div class="bar">
+                    <span class="name">创建Landing Page</span>
+                    <div class="closer" title="关闭"></div>
+                </div>
+                <div class="re content">
+                    <div class="wrapper f-f">
+                        <div class="ul-wrapper">
+                            <ul class="dialog-list"></ul>
+                            <div class="tool">
+                                <a href="#">-</a>
+                            </div>
+                        </div>
+                        <div class="ul-wrapper">
+                            <ul class="flash-list"></ul>
+                            <div class="tool">
+                                <a href="#" class="add-flash">+</a>
+                                <a href="#" class="del-flash">-</a>
+                            </div>
+                        </div>
+                        <div class="ul-wrapper">
+                            <ul class="online-list"></ul>
+
+                        </div>
+                    </div>
+                    <div class="f-f f-hr"><button class="generate">生成</button></div>
+                    <div class="ab new-flash">
+                        <p>请输入flash的相关参数</p>
+                        <form action="#" autocomplete="off">
+                            <div class="f-f">
+                            <label for="newflash-caption">标题</label>
+                                <input type="text" id="newflash-caption" required="required" class=""/>
+                            </div>
+
+                            <div class="f-f">
+                            <label for="newflash-bgcolor">背景颜色</label>
+                                <input type="text" id="newflash-bgcolor" required="required" class=""/>
+                            </div>
+
+                            <div class="f-f">
+                            <label for="newflash-flashLoading">是否用壳子加载素材Flash</label>
+                                <input type="checkbox" id="newflash-flashLoading" class=""/>
+                            </div>
+
+                            <div class="f-f">
+                            <label for="newflash-bigFlash">Flash使用大尺寸</label>
+                                <input type="checkbox" id="newflash-bigFlash" class=""/>
+                            </div>
+
+                            <div class="f-f">
+                            <label for="newflash-navbar">显示导航栏</label>
+                                <input type="checkbox" id="newflash-navbar" class=""/>
+                            </div>
+
+                            <div class="f-f">
+                            <label for="newflash-flashUrl">Flash 地址</label>
+                                <input type="text" id="newflash-flashUrl" required="required" class=""/>
+                            </div>
+                            <div class="f-f f-hr">
+                                <button type="button" class="cancel">取消</button>
+                                <button type="submit">确定</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
             <!--DISK Dialog-->
             <div class="dialog" id="dialog-disk">

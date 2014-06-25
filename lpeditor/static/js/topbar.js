@@ -338,7 +338,7 @@ define(['draft','dialog','dialog-save','dialog-publish','setting','release'], fu
     })();
 
     //create page menu
-    (function(){
+/*    (function(){
         var createPageMenu = new Menu();
         $.extend(createPageMenu,{
             init:function(){
@@ -373,7 +373,7 @@ define(['draft','dialog','dialog-save','dialog-publish','setting','release'], fu
         });
         publishPageMenu.init();
         MacTopbar.addMenu(publishPageMenu);
-    })();
+    })();*/
 
     return MacTopbar;
 });

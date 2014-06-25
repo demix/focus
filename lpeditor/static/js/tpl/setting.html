@@ -31,10 +31,26 @@
         <span class="tit">左偏移：</span>
         <input type="text" name="dialogLeftOffset" id="dialogLeftOffset" autocomplete="off"/>
     </div>
+        <div class="row">
+        <span class="tit">显示遮罩：</span>
+        <input type="checkbox" id="mask" name="mask" {%if setting.mask%}checked="checked" {%endif%}/>
+        <span class="tip">整屏的半透明背景</span>
+    </div>
+
+    <div class="row">
+        <span class="tit">默认显示对话框：</span>
+        <input type="checkbox" id="showDialog" name="showDialog" {%if setting.showDialog%}checked="checked" {%endif%}/>
+        <span class="tip">LP加载即显示对话框</span>
+    </div>
+    <div class="row">
+        <span class="tit">登录注册2合1：</span>
+        <input type="checkbox" id="twoInOne" name="twoInOne" {%if setting.twoInOne%}checked="checked" {%endif%}/>
+        <span class="tip">需要手动隐藏Tab切换按钮和重复密码框</span>
+    </div>
 </fieldset>
 
 <fieldset>
-    <legend>Landing Page</legend>
+    <legend>Landing Page(仅用于编辑预览)</legend>
     <div class="row">
         <span class="tit">标题：</span>
         <input type="text" name="title" autocomplete="off" value="{{setting.title|default('')}}" placeholder="页面Title，一般为游戏名称" style="width:25em" />
@@ -61,22 +77,6 @@
         <span class="tit">显示导航栏：</span>
         <input type="checkbox" id="navbar" name="navbar" {%if setting.navbar%}checked="checked" {%endif%}/>
         <span class="tip">顶部，一般为41px，需要手动设置对话框位置为非垂直居中</span>
-    </div>
-    <div class="row">
-        <span class="tit">显示遮罩：</span>
-        <input type="checkbox" id="mask" name="mask" {%if setting.mask%}checked="checked" {%endif%}/>
-        <span class="tip">整屏的半透明背景</span>
-    </div>
-
-    <div class="row">
-        <span class="tit">默认显示对话框：</span>
-        <input type="checkbox" id="showDialog" name="showDialog" {%if setting.showDialog%}checked="checked" {%endif%}/>
-        <span class="tip">LP加载即显示对话框</span>
-    </div>
-    <div class="row">
-        <span class="tit">登录注册2合1：</span>
-        <input type="checkbox" id="twoInOne" name="twoInOne" {%if setting.twoInOne%}checked="checked" {%endif%}/>
-        <span class="tip">需要手动隐藏Tab切换按钮和重复密码框</span>
     </div>
 
     <div class="row">
