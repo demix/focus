@@ -14,7 +14,7 @@
 define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskManager, Utils, Editor, Canvas) {
   var HtmlDialog = new Dialog('#dialog-html', {
     minHeight: 420,
-    minWidth: 680,
+    minWidth: 740,
     resizable: false
   });
 
@@ -26,6 +26,7 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
       this.m$newFlash = this.m$content.find('.new-flash');
       this.m$dialogList = this.m$content.find('.dialog-list');
       this.m$flashList = this.m$content.find('.flash-list');
+      this.m$onlineList = this.m$content.find('.online-list');
       this.m$generateBtn = this.m$content.find('button.generate');
 
       DiskManager.listen(EVT_LOADED_LIST, this.onListLoaded, this);
@@ -48,16 +49,6 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
     initEvt: function() {
       var self = this;
 
-      /*            self.m$content.delegate('a.load', 'click', function(e) {
-                e.preventDefault();
-                var id = $(e.target).attr('data-id');
-                id && DiskManager.load(id);
-            }).delegate('a.delete', 'click', function(e) {
-                e.preventDefault();
-                var id = $(e.target).attr('data-id');
-                id && DiskManager.delete(id);
-            });*/
-
       this.m$content.delegate('ul li', 'click', function(e) {
         $(this).toggleClass('selected');
       }).on('click', '.add-flash', function(e) {
@@ -68,7 +59,7 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
         //stupid
         var newFlashObject = {
           id: Date.now(),
-          title: $('#newflash-caption').val(),
+          title: $('#newflash-title').val(),
           backgroundColor: $('#newflash-bgcolor').val(),
           flashLoading: +$('#newflash-flashLoading').prop('checked'),
           bigFlash: +$('#newflash-bigFlash').prop('checked'),
@@ -99,7 +90,7 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
           return $(item).attr('data-id');
         });
 
-        //批量记载N个
+        //批量加载N个
         DiskManager.load(dialogIds.join(','), true, function(err, contents) {
           //todo
           if (err) {
@@ -129,7 +120,13 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
               pages: pages
             },
             dataType: 'json'
-          }).done(function(data){console.log(data)});
+          }).done(function(list) {
+            if(Array.isArray(list)){
+              list.forEach(function(item){
+                $('<li><a href="'+item+'" target="_blank">'+item+'</a></li>').appendTo(self.m$onlineList);
+              });
+            }
+          });
 
         });
         //console.log(dialogIds);

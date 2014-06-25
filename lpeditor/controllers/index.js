@@ -18,11 +18,13 @@ var fs = require('fs'),
 const JSON_DIR = __dirname + "/../json/";
 const PROFILE_DIR = __dirname + '/../static/profile/';
 
-var TARGET_URI;
+var TARGET_URI, ONLINE_URL;
 if (process.env.NODE_ENV == 'development') {
-  TARGET_URI = 'root@10.136.31.61:/opt/my/'
+  TARGET_URI = 'root@10.136.31.61:/opt/my/';
+  ONLINE_URL = 'http://10.136.31.61/';
 } else {
-  TARGET_URI = 'root@10.11.201.212:/search/wan/webapp/static/nav/'
+  TARGET_URI = 'root@10.11.201.212:/search/wan/webapp/static/nav/';
+  ONLINE_URL = 'http://wan.sogou.com/static/nav/'
 }
 
 var app = {
@@ -77,8 +79,6 @@ var app = {
 
     var debug = +req.query.debug;
 
-    //return res.json(req.body.pages);
-
     if (!Array.isArray(req.body.pages)) {
       return res.json({
         status: -1,
@@ -86,23 +86,19 @@ var app = {
       })
     }
 
-    //var config = !debug ? JSON.parse(req.body.config) : JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'mock', 'landing.json')));
-    var filedir = PROFILE_DIR, filepath;
-
-    /*if (!/^\d{13}$/.test(config.id) && !debug) {
-      return res.json({
-        status: 0,
-        msg: 'ID is needed'
-      });
-    }*/
-    // var idDate = new Date(+config.id);
+    var filedir = PROFILE_DIR,
+      filepath, filename;
 
     return async.map(req.body.pages, function(page, callback) {
       return require('./compile').compile(page, false, function(filecontent) {
 
-        filepath = filedir + Date.now()+''+((Math.random()*1e6)|0) + '.html';
+        //We use timestamp to create a unique id name
+        filename = Date.now() + '' + ((Math.random() * 1e6) | 0) + '.html';
+
+        filepath = filedir + filename;
 
         return async.series([
+
           function(callback) {
             fs.exists(filedir, function(exists) {
               if (!exists) {
@@ -117,10 +113,14 @@ var app = {
           },
           function(callback) {
             exec('rsync -avz ' + filepath + ' ' + TARGET_URI, callback);
+          },
+          function(callback) {
+            fs.unlink(filepath, function() {});
+            callback();
           }
 
         ], function(error) {
-           return callback(error,filepath);
+          return callback(error, ONLINE_URL + filename);
         });
 
       });
@@ -231,13 +231,6 @@ var app = {
    */
   get: function(req, res) {
     var id = req.body.id;
-    /* if (!/^\d+$/.test(id)) {
-      return res.json({
-        status: -1,
-        msg: 'id is required'
-      });
-    }*/
-    //支持多个id同时查询
     if (!id) {
       return res.json({
         status: -1,
@@ -263,19 +256,6 @@ var app = {
       });
     });
 
-
-    /*    return fs.readFile(JSON_DIR + id + '.json', {
-      encoding: 'UTF-8'
-    }, function(error, content) {
-      return res.json({
-        status: error ? -1 : 0,
-        msg: error,
-        data: content //理论上，content应该是合法的json字符串
-      });
-    });*/
-  }, //get
-  create: function(req, res) {
-    return res.render('create', {});
   }
 };
 

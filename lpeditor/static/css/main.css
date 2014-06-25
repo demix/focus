@@ -643,7 +643,7 @@ background:rgba(204,204,204,0.5)
 #dialog-html {}
 #dialog-html .wrapper{padding: 10px;}
 #dialog-html .ul-wrapper{
-    width: 200px;
+    width: 220px;
     height: 320px;
     position: relative;
     margin-left: 10px;
@@ -657,10 +657,9 @@ background:rgba(204,204,204,0.5)
     overflow-y: scroll;
 }
 #dialog-html ul li{
-    white-space: nowrap;
-    height: 30px;
+    word-break: break-all;
+    padding: 0 5px;
     line-height: 30px;
-    text-indent: 5px;
     cursor: pointer;
     font-size: 12px;
 }
@@ -724,4 +723,11 @@ background:rgba(204,204,204,0.5)
 }
 #dialog-html .generate{
     margin-right: 2em;
+}
+#dialog-html .tip{
+    height: 20px;
+    font-size: 13px;
+    line-height: 20px;
+    text-indent: 1em;
+    font-weight: 700;
 }

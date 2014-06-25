@@ -107,12 +107,14 @@
                 <div class="re content">
                     <div class="wrapper f-f">
                         <div class="ul-wrapper">
+                            <div class="tip">选择对话框：</div>
                             <ul class="dialog-list"></ul>
                             <div class="tool">
                                 <a href="#">-</a>
                             </div>
                         </div>
                         <div class="ul-wrapper">
+                            <div class="tip">新建Flash对象：</div>
                             <ul class="flash-list"></ul>
                             <div class="tool">
                                 <a href="#" class="add-flash">+</a>
@@ -120,6 +122,7 @@
                             </div>
                         </div>
                         <div class="ul-wrapper">
+                            <div class="tip">生成的线上地址：</div>
                             <ul class="online-list"></ul>
 
                         </div>
@@ -129,8 +132,8 @@
                         <p>请输入flash的相关参数</p>
                         <form action="#" autocomplete="off">
                             <div class="f-f">
-                            <label for="newflash-caption">标题</label>
-                                <input type="text" id="newflash-caption" required="required" class=""/>
+                            <label for="newflash-title">标题</label>
+                                <input type="text" id="newflash-title" required="required" class=""/>
                             </div>
 
                             <div class="f-f">
@@ -220,9 +223,6 @@
                             <div class="row">
                                 <label for="profile-id" class="tit">备注：</label>
                                 <input type="text" value="" id="profile-desc" max-length="50" placeholder="档案描述"/>
-                            </div><div class="row">
-                                <label for="profile-id" class="tit">线上地址：</label>
-                                <a href="#" target="_blank" id="onlineUrl"></a>
                             </div>
                             <div class="row">
                                 <label for="profile-init" class="tit">另存为：</label>
