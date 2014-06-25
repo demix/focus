@@ -116,16 +116,20 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
             url: '/release',
             type: 'post',
             data: {
-              publish: true,
               pages: pages
             },
             dataType: 'json'
-          }).done(function(list) {
-            if(Array.isArray(list)){
-              list.forEach(function(item){
+          }).done(function(data) {
+            if(0!==+data.status){
+              return self.toast(data.msg);
+            }
+            if(Array.isArray(data.urls)){
+              data.urls.forEach(function(item){
                 $('<li><a href="'+item+'" target="_blank">'+item+'</a></li>').appendTo(self.m$onlineList);
               });
             }
+          }).fail(function(){
+            self.toast('生成失败');
           });
 
         });

@@ -4,15 +4,16 @@
  * changelog
  * 2014-03-18[12:12:17]:created
  * 2014-06-17[22:53:48]:add delete
+ * 2014-06-26[07:58:22]:clean
  *
- * @info yinyong,osx-x64,UTF-8,10.129.175.199,js,/Volumes/yinyong/focus/lpeditor/controllers
  * @author yanni4night@gmail.com
- * @version 0.0.2
+ * @version 0.0.3
  * @since 0.0.1
  */
 var fs = require('fs'),
   async = require('async'),
   path = require('path'),
+  compiler = require('./compile'),
   exec = require('child_process').exec;
 
 const JSON_DIR = __dirname + "/../json/";
@@ -24,7 +25,7 @@ if (process.env.NODE_ENV == 'development') {
   ONLINE_URL = 'http://10.136.31.61/';
 } else {
   TARGET_URI = 'root@10.11.201.212:/search/wan/webapp/static/nav/';
-  ONLINE_URL = 'http://wan.sogou.com/static/nav/'
+  ONLINE_URL = 'http://wan.sogou.com/static/nav/';
 }
 
 var app = {
@@ -71,14 +72,15 @@ var app = {
     });
   }, //preview
   /**
-   * [release description]
-   * @param  {[type]} req [description]
-   * @param  {[type]} res [description]
+   * Release bulk of landing pages.
+   * 
+   * @param  {Express Request} req
+   * @param  {Express Response} res
    */
   release: function(req, res) {
 
-    var debug = +req.query.debug;
 
+    //pages has to be an array
     if (!Array.isArray(req.body.pages)) {
       return res.json({
         status: -1,
@@ -90,7 +92,7 @@ var app = {
       filepath, filename;
 
     return async.map(req.body.pages, function(page, callback) {
-      return require('./compile').compile(page, false, function(filecontent) {
+      return compiler.compile(page, false, function(filecontent) {
 
         //We use timestamp to create a unique id name
         filename = Date.now() + '' + ((Math.random() * 1e6) | 0) + '.html';
@@ -98,7 +100,7 @@ var app = {
         filepath = filedir + filename;
 
         return async.series([
-
+          //create directory if not exists
           function(callback) {
             fs.exists(filedir, function(exists) {
               if (!exists) {
@@ -108,12 +110,15 @@ var app = {
               }
             });
           },
+          //write file
           function(callback) {
             fs.writeFile(filepath, filecontent, callback);
           },
+          //upload
           function(callback) {
             exec('rsync -avz ' + filepath + ' ' + TARGET_URI, callback);
           },
+          //we remove it after upload
           function(callback) {
             fs.unlink(filepath, function() {});
             callback();
@@ -126,7 +131,12 @@ var app = {
       });
 
     }, function(err, urls) {
-      return res.json(urls);
+      //return online html list
+      return res.json({
+        status:err?-1:0,
+        msg:err,
+        urls:urls
+      });
     });
 
   },
@@ -173,9 +183,7 @@ var app = {
       },
       //write json
       function(callback) {
-        fs.writeFile(JSON_DIR + profileId + '.json', payload, function(error) {
-          callback(error);
-        });
+        fs.writeFile(JSON_DIR + profileId + '.json', payload,callback);
       }
     ], function(error) {
       return res.json({
@@ -225,7 +233,12 @@ var app = {
     });
   }, //list
   /**
-   * [get description]
+   * Get bulk of configrations by multiple ids.
+   *
+   * We support mutiple by IDs splited by ','.
+   *
+   * If only one id exists,we return an object instead of an array.
+   * 
    * @param  {Express Request} req
    * @param  {Express Response} res
    */
@@ -239,21 +252,45 @@ var app = {
     }
     var idArr = id.split(',');
 
+    //validate every id
+    if(!idArr.every(function(idx){
+      return /^\d{13}$/.test(idx);
+    })){
+      return res.json({
+        status:-1,
+        msg:'every id has to be a unix stamp'
+      });
+    }
+
     return async.map(idArr, function(id, callback) {
       return fs.readFile(JSON_DIR + id + '.json', {
         encoding: 'UTF-8'
       }, callback);
     }, function(error, contents) {
+      if(error){
+        return res.json({
+          status:-1,
+          msg:error
+        });
+      }
 
-      var rearr = contents.map(function(content) {
-        return JSON.parse(content);
-      });
+      try {
+        //we parse JSON here
+        var rearr = contents.map(function(content) {
+          return JSON.parse(content);
+        });
+        return res.json({
+          status: error ? -1 : 0,
+          msg: error,
+          data: rearr.length === 1 ? rearr[0] : rearr
+        });
+      } catch (e) {
+        return res.json({
+          status: -1,
+          msg: e
+        });
+      }
 
-      return res.json({
-        status: error ? -1 : 0,
-        msg: error,
-        data: rearr.length === 1 ? rearr[0] : rearr //理论上，content应该是合法的json字符串
-      });
     });
 
   }
