@@ -19,10 +19,10 @@ const JSON_DIR = __dirname + "/../json/";
 const PROFILE_DIR = __dirname + '/../static/profile/';
 
 var TARGET_URI;
-if(process.env.NODE_ENV == 'development'){
-  TARGET_URI='root@10.136.31.61:/opt/my/'
-}else{
-  TARGET_URI='root@10.11.201.212:/search/wan/webapp/static/nav/'
+if (process.env.NODE_ENV == 'development') {
+  TARGET_URI = 'root@10.136.31.61:/opt/my/'
+} else {
+  TARGET_URI = 'root@10.11.201.212:/search/wan/webapp/static/nav/'
 }
 
 var app = {
@@ -77,54 +77,58 @@ var app = {
 
     var debug = +req.query.debug;
 
-    var config = !debug ? JSON.parse(req.body.config) : JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'mock', 'landing.json')));
-    var filedir,filepath;
+    //return res.json(req.body.pages);
 
-    if (!/^\d{13}$/.test(config.id) && !debug) {
+    if (!Array.isArray(req.body.pages)) {
+      return res.json({
+        status: -1,
+        msg: 'pages 格式不正确'
+      })
+    }
+
+    //var config = !debug ? JSON.parse(req.body.config) : JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'mock', 'landing.json')));
+    var filedir = PROFILE_DIR, filepath;
+
+    /*if (!/^\d{13}$/.test(config.id) && !debug) {
       return res.json({
         status: 0,
         msg: 'ID is needed'
       });
-    }
-    var idDate = new Date(+config.id);
+    }*/
+    // var idDate = new Date(+config.id);
 
-    filedir = PROFILE_DIR;//+([idDate.getFullYear(),idDate.getMonth()+1].join(''));
-    filepath = filedir+config.id+'.html';
+    return async.map(req.body.pages, function(page, callback) {
+      return require('./compile').compile(page, false, function(filecontent) {
 
-    return require('./compile').compile(config, debug, function(filecontent) {
+        filepath = filedir + Date.now()+''+((Math.random()*1e6)|0) + '.html';
 
-      if (debug) {
-        res.send(filecontent);
-        return;
-      }
+        return async.series([
+          function(callback) {
+            fs.exists(filedir, function(exists) {
+              if (!exists) {
+                fs.mkdir(filedir, callback);
+              } else {
+                callback();
+              }
+            });
+          },
+          function(callback) {
+            fs.writeFile(filepath, filecontent, callback);
+          },
+          function(callback) {
+            exec('rsync -avz ' + filepath + ' ' + TARGET_URI, callback);
+          }
 
-      async.series([
-        function(callback) {
-          fs.exists(filedir, function(exists) {
-            if (!exists) {
-              fs.mkdir(filedir, callback);
-            } else {
-              callback();
-            }
-          });
-        },
-        function(callback) {
-          fs.writeFile(filepath, filecontent, callback);
-        },
-        function(callback) {
-          exec('rsync -avz ' + filepath + ' ' +TARGET_URI, callback);
-        }
-
-      ], function(error) {
-        return res.json({
-          status: error ? -1 : 0,
-          id: config.id,
-          msg: error
+        ], function(error) {
+           return callback(error,filepath);
         });
+
       });
 
-
+    }, function(err, urls) {
+      return res.json(urls);
     });
+
   },
   /**
    * This is just a file-system version of persistence,
@@ -227,13 +231,40 @@ var app = {
    */
   get: function(req, res) {
     var id = req.body.id;
-    if (!/^\d+$/.test(id)) {
+    /* if (!/^\d+$/.test(id)) {
       return res.json({
         status: -1,
         msg: 'id is required'
       });
+    }*/
+    //支持多个id同时查询
+    if (!id) {
+      return res.json({
+        status: -1,
+        msg: 'id is needed'
+      });
     }
-    return fs.readFile(JSON_DIR + id + '.json', {
+    var idArr = id.split(',');
+
+    return async.map(idArr, function(id, callback) {
+      return fs.readFile(JSON_DIR + id + '.json', {
+        encoding: 'UTF-8'
+      }, callback);
+    }, function(error, contents) {
+
+      var rearr = contents.map(function(content) {
+        return JSON.parse(content);
+      });
+
+      return res.json({
+        status: error ? -1 : 0,
+        msg: error,
+        data: rearr.length === 1 ? rearr[0] : rearr //理论上，content应该是合法的json字符串
+      });
+    });
+
+
+    /*    return fs.readFile(JSON_DIR + id + '.json', {
       encoding: 'UTF-8'
     }, function(error, content) {
       return res.json({
@@ -241,10 +272,10 @@ var app = {
         msg: error,
         data: content //理论上，content应该是合法的json字符串
       });
-    });
+    });*/
   }, //get
-  create:function(req,res){
-    return res.render('create',{});
+  create: function(req, res) {
+    return res.render('create', {});
   }
 };
 

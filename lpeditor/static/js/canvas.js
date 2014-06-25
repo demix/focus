@@ -106,23 +106,22 @@ define(['setting'], function(Setting) {
             this.computePosition();
 
         },
-        getCanvasHTML: function(preview) {
-            var w = parseInt(Setting.get('dialogWidth'))||405;
-            var offset =parseInt(Setting.get('dialogLeftOffset'))||0;
+        getCanvasHTML: function(preview,setting) {
+            setting = setting || Setting
+            var w = parseInt(setting.get('dialogWidth'))||405;
+            var offset =parseInt(setting.get('dialogLeftOffset'))||0;
             var css = [preview ? '' : 'display:none',
              'position:absolute',
               'left:50%',
               'margin-left:'+(-w/2+offset)+'px',
-             /* 'left:-'+($canvas.width()/2)+'px', */
-              'top:' + (Setting.get('dialogVerticalCenter')?'50%':Setting.get('dialogTop')),
-              'margin-top:' + (Setting.get('dialogVerticalCenter')?('-' + (parseInt(Setting.get('dialogHeight'))|0) / 2 + 'px'):0),
-              'width:' + Setting.get('dialogWidth'), 
-              'height:' + Setting.get('dialogWidth')].join(';');
+              'top:' + (setting.get('dialogVerticalCenter')?'50%':setting.get('dialogTop')),
+              'margin-top:' + (setting.get('dialogVerticalCenter')?('-' + (parseInt(setting.get('dialogHeight'))|0) / 2 + 'px'):0),
+              'width:' + setting.get('dialogWidth'), 
+              'height:' + setting.get('dialogWidth')].join(';');
             var bgcss = ['position:absolute;left:0;top:0',
-            'background-image:url(' +  Setting.get('dialogBgImg')+')', 
-            //'background-color:' + Setting.get('dialogBgColor'), 
-            'width:' + Setting.get('dialogWidth'), 
-            'height:' + Setting.get('dialogHeight')].join(';');
+            'background-image:url(' +  setting.get('dialogBgImg')+')', 
+            'width:' + setting.get('dialogWidth'), 
+            'height:' + setting.get('dialogHeight')].join(';');
 
             return '<div id="lp-dialog" style="' + css + '"><div class="dialog-bg" id="dialog-bg" style="'+bgcss+'">';
         },
