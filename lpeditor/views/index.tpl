@@ -114,28 +114,43 @@
                             <div class="tip">二、新建Flash对象：</div>
                             <ul class="flash-list selectable"></ul>
                             <div class="tool">
-                                <a href="#" class="add-flash">+</a>
-                                <a href="#" class="del-flash">-</a>
+                                <a href="#" class="add-flash" title="新增">+</a>
+                                <a href="#" class="del-flash" title="移除选中">-</a>
                             </div>
                         </div>
                         <div class="ul-wrapper">
                             <div class="tip">三、生成的线上地址：</div>
                             <ul class="online-list"></ul>
-
+                                <div class="tool">
+                                <a href="#" class="del-online" title="清空">-</a>
+                            </div>
                         </div>
                     </div>
-                    <div class="f-f f-hr"><button class="generate">生成</button></div>
+                    <div class="f-f f-hr">
+                        <span class="generate-tip">生成页面速度较慢，请耐心等待</span>
+                        <button class="generate">生成</button>
+                    </div>
                     <div class="ab new-flash">
                         <p>请输入flash的相关参数</p>
                         <form action="#" autocomplete="off">
                             <div class="f-f">
-                            <label for="newflash-title">标题</label>
-                                <input type="text" id="newflash-title" required="required" class=""/>
+                                <label for="newflash-id">引导页ID</label>
+                                <input type="text" id="newflash-id" required="required" class="" placeholder="请保证系统唯一性"/>
+                            </div>
+        
+                            <div class="f-f">
+                            <label for="newflash-name">引导页名称</label>
+                                <input type="text" id="newflash-name" required="required" class="" placeholder="LP语义索引"/>
+                            </div>
+                            
+                            <div class="f-f">
+                            <label for="newflash-title">引导页标题</label>
+                                <input type="text" id="newflash-title" required="required" class="" placeholder="页面标题"/>
                             </div>
 
                             <div class="f-f">
-                            <label for="newflash-bgcolor">背景颜色</label>
-                                <input type="text" id="newflash-bgcolor" required="required" class=""/>
+                            <label for="newflash-bgcolor">引导页背景颜色</label>
+                                <input type="text" id="newflash-bgcolor" class="" value="#000"/>
                             </div>
 
                             <div class="f-f">
@@ -144,8 +159,9 @@
                             </div>
 
                             <div class="f-f">
-                            <label for="newflash-bigFlash">Flash使用大尺寸</label>
-                                <input type="checkbox" id="newflash-bigFlash" class=""/>
+                            <label for="newflash-bigFlash">Flash尺寸</label>
+                                <input type="radio" name="newflash-bigFlash" class="" value="0" checked="checked"/> 小 
+                                <input type="radio" name="newflash-bigFlash" class="" value="1"/> 大
                             </div>
 
                             <div class="f-f">
@@ -155,7 +171,7 @@
 
                             <div class="f-f">
                             <label for="newflash-flashUrl">Flash 地址</label>
-                                <input type="text" id="newflash-flashUrl" required="required" class=""/>
+                                <input type="text" id="newflash-flashUrl" required="required" class="" placeholder="合法的HTTP超链接"/>
                             </div>
                             <div class="f-f f-hr">
                                 <button type="button" class="cancel">取消</button>

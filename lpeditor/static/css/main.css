@@ -698,7 +698,7 @@ background:rgba(204,204,204,0.5)
 #dialog-html .new-flash{
     font-size: 12px;
     width: 400px;
-    height: 230px;
+    height: 270px;
     top: 0;
     left: 50%;
     margin-left: -200px;
@@ -737,4 +737,7 @@ background:rgba(204,204,204,0.5)
     line-height: 20px;
     text-indent: 1em;
     font-weight: 700;
+}
+#dialog-html .generate-tip{
+    margin-right: 2em;
 }

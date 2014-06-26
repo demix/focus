@@ -18,9 +18,10 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
     resizable: false
   });
 
-  var flashes = [];
+  var gFlashes = [];
 
   $.extend(HtmlDialog, {
+    __mCreating:false,
     init: function() {
 
       this.m$newFlash = this.m$content.find('.new-flash');
@@ -28,6 +29,7 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
       this.m$flashList = this.m$content.find('.flash-list');
       this.m$onlineList = this.m$content.find('.online-list');
       this.m$generateBtn = this.m$content.find('button.generate');
+      this.m$generateTip = this.m$content.find('.generate-tip');
 
       DiskManager.listen(EVT_LOADED_LIST, this.onListLoaded, this);
       DiskManager.listen(EVT_LOADED, function() {
@@ -54,28 +56,51 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
       }).on('click', '.add-flash', function(e) {
         e.preventDefault();
         self.m$newFlash.show();
+      }).on('click', '.del-online', function(e) {
+        e.preventDefault();
+        self.m$onlineList.empty();
+      }).on('click', '.del-flash', function(e) {
+        e.preventDefault();
+        var selectedFlashes = self.m$flashList.find('li.selected');
+        var deletingIds = Array.prototype.slice.call(selectedFlashes).map(function(item) {
+          return +$(item).attr('data-id');
+        });
+
+        gFlashes = gFlashes.filter(function(flash){
+          return !~deletingIds.indexOf(flash._id);
+        });
+
+        selectedFlashes.remove();
+
       }).on('submit', '.new-flash form', function(e) {
         e.preventDefault();
-        //stupid
+        //stupid,ugliy
         var newFlashObject = {
-          id: Date.now(),
-          title: $('#newflash-title').val(),
-          backgroundColor: $('#newflash-bgcolor').val(),
-          flashLoading: $('#newflash-flashLoading').prop('checked'),
-          bigFlash: $('#newflash-bigFlash').prop('checked'),
-          navbar: $('#newflash-navbar').prop('checked'),
-          flashUrl: $('#newflash-flashUrl').val()
+          _id: Date.now(), //This is for finding
+          payload: {
+            title: $('#newflash-title').val(),
+            backgroundColor: $('#newflash-bgcolor').val(),
+            flashLoading: $('#newflash-flashLoading').prop('checked'),
+            bigFlash: !!+$('input[name="newflash-bigFlash"]:checked').val(),
+            navbar: $('#newflash-navbar').prop('checked'),
+            flashUrl: $('#newflash-flashUrl').val()
+          },
+          lpid:$('#newflash-id').val(),
+          lpname:$('#newflash-name').val()
         };
 
-        console.log(newFlashObject);
+        newFlashObject.fwidth = (newFlashObject.payload.bigFlash?1400:1000);
+        newFlashObject.fheight = (newFlashObject.payload.bigFlash?700:600);
 
-        flashes.push(newFlashObject);
+        gFlashes.push(newFlashObject);
 
-        self.m$newFlash.find('input').empty();
+        //JQuery has not reset on form element
+        self.m$newFlash.find('form')[0].reset();
 
-        $('<li/>').attr('data-id', newFlashObject.id).text(newFlashObject.title).appendTo(self.m$flashList);
+        $('<li/>').attr('data-id', newFlashObject._id).text(newFlashObject.lpname).appendTo(self.m$flashList);
 
         self.slideUpNewFlash();
+
       }).on('click', 'button.cancel', function(e) {
         e.preventDefault();
         self.slideUpNewFlash();
@@ -83,32 +108,57 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
 
       this.m$generateBtn.click(function(e) {
         var selectedDialogs = self.m$dialogList.find('li.selected');
-        //var selectedFlashes = self.m$flashList.find('li.selected');
-        //if(!(selectedDialogs.length*selectedFlashes.length))return;
+        var selectedFlashes = self.m$flashList.find('li.selected');
+        if(!(selectedDialogs.length*selectedFlashes.length))
+        {
+          return self.toast('必须至少选择一个对话框和一个Flash');
+        }
 
         var dialogIds = Array.prototype.slice.call(selectedDialogs).map(function(item) {
           return $(item).attr('data-id');
         });
 
+        var FlashIds = Array.prototype.slice.call(selectedFlashes).map(function(item) {
+          return +$(item).attr('data-id');
+        });
+
+        var flashes = gFlashes.filter(function(flash){
+          return ~FlashIds.indexOf(flash._id);
+        });
+
+
+        //This should return true
+        if(flashes.length!==FlashIds.length){
+          return self.toast('内存泄漏了～');
+        }
+
+        selectedDialogs.removeClass('selected');
+        selectedFlashes.removeClass('selected');
+
         //批量加载N个
         DiskManager.load(dialogIds.join(','), true, function(err, contents) {
           //todo
           if (err) {
-            return self.toast(err);
+            return self.toast(err.message);
           }
           if (!Array.isArray(contents)) {
             contents = [contents];
           }
 
-          var pages = contents.map(function(conf) {
-            var codes = Editor.getCodeFromConf(conf.elements);
+          var pages = [],conf,codes,canvasHTML;
+
+          contents.forEach(function(conf) {
+            codes = Editor.getCodeFromConf(conf.elements);
             //codes 
-            var canvasHTML = Canvas.getCanvasHTML(conf.setting);
-            var task = {
+            canvasHTML = Canvas.getCanvasHTML(conf.setting);
+            flashes.forEach(function(flash){
+              pages.push($.extend( {
+              lpid:flash.lpid,
+              lpname:flash.lpname,
               css: codes.styleText,
               html: canvasHTML + codes.innerHtml + '</div></div>'
-            };
-            return $.extend(task, conf.setting);
+            },flash.payload));
+            });
 
           });
 
@@ -118,7 +168,19 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
             data: {
               pages: pages
             },
-            dataType: 'json'
+            dataType: 'json',
+            beforeSend:function(){
+              if(self.__mCreating){
+                return false;
+              }
+
+              self.m$generateTip.text('正在生成'+pages.length+'个页面...');
+              self.__mCreating = true;
+            },
+            complete:function(){
+              self.m$generateTip.empty();
+              self.__mCreating = false;
+            }
           }).done(function(data) {
             if(0!==+data.status){
               return self.toast(data.msg);

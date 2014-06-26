@@ -133,11 +133,11 @@ var app = {
           },
           //register to http://10.12.135.37/api/landpageHtml.do
           function(callback) {
-            if (dev) {
+           /* if (dev) {
               return callback();
             }
-
-            return request('http://10.12.135.37/api/landpageHtml.do?lpageUrl=' + encodeURIComponent(fileurl) + '&lpageFl=' + fileid + '&lpageName=' + encodeURIComponent(page.title || "名称未定义"), function(error, response, body) {
+*/
+            return request('http://10.12.135.37/api/landpageHtml.do?lpageUrl=' + encodeURIComponent(fileurl) + '&lpageFl=' + page.lpid + '&lpageName=' + encodeURIComponent(page.lpname), function(error, response, body) {
               if (error) {
                 return callback(error);
               }
@@ -158,7 +158,7 @@ var app = {
           }
 
         ], function(error) {
-          return callback(error, fileurl.slice(0));
+          return callback(error, fileurl);
         });
 
       });
@@ -167,7 +167,7 @@ var app = {
       //return online html list
       return res.json({
         status: err ? -1 : 0,
-        msg: err,
+        msg: err.message,
         urls: urls
       });
     });
