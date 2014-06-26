@@ -142,11 +142,11 @@ var app = {
           },
           //register to http://10.12.135.37/api/landpageHtml.do
           function(callback) {
-           /* if (dev) {
+            if (dev) {
               return callback();
             }
-*/
-            return request('http://10.12.135.37/api/landpageHtml.do?lpageUrl=' + encodeURIComponent(fileurl) + '&lpageFl=' + page.lpid + '&lpageName=' + encodeURIComponent(page.lpname), function(error, response, body) {
+
+            return request.post('http://10.12.135.37/api/landpageHtml.do?lpageUrl=' + encodeURIComponent(fileurl) + '&lpageFl=' + page.lpid + '&lpageName=' + encodeURIComponent(page.lpname), function(error, response, body) {
               if (error) {
                 return callback(error);
               }
@@ -169,7 +169,7 @@ var app = {
       //return online html list
       return res.json({
         status: err ? -1 : 0,
-        msg: err.message,
+        msg: err&&err.message,
         urls: urls
       });
     });
