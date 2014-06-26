@@ -107,22 +107,19 @@
                 <div class="re content">
                     <div class="wrapper f-f">
                         <div class="ul-wrapper">
-                            <div class="tip">选择对话框：</div>
-                            <ul class="dialog-list"></ul>
-                            <div class="tool">
-                                <a href="#">-</a>
-                            </div>
+                            <div class="tip">一、选择对话框：</div>
+                            <ul class="dialog-list selectable"></ul>
                         </div>
                         <div class="ul-wrapper">
-                            <div class="tip">新建Flash对象：</div>
-                            <ul class="flash-list"></ul>
+                            <div class="tip">二、新建Flash对象：</div>
+                            <ul class="flash-list selectable"></ul>
                             <div class="tool">
                                 <a href="#" class="add-flash">+</a>
                                 <a href="#" class="del-flash">-</a>
                             </div>
                         </div>
                         <div class="ul-wrapper">
-                            <div class="tip">生成的线上地址：</div>
+                            <div class="tip">三、生成的线上地址：</div>
                             <ul class="online-list"></ul>
 
                         </div>
@@ -194,11 +191,11 @@
                         <fieldset>
                             <div class="row">
                                 <label for="profile-id" class="tit">ID：</label>
-                                <input type="text" value="" readonly="readonly" id="profile-id" placeholder="新建为空"/>
+                                <input type="text" value="" readonly="readonly" id="profile-id" placeholder="系统自动生成"/>
                             </div>
                             <div class="row">
-                                <label for="profile-id" class="tit">备注：</label>
-                                <input type="text" value="" id="profile-desc" max-length="50" placeholder="档案描述"/>
+                                <label for="profile-id" class="tit">描述：</label>
+                                <input type="text" value="" id="profile-desc" max-length="50" style="width:25em" placeholder="档案描述，用于肉眼识别"/>
                             </div>
                             <div class="row">
                                 <label for="profile-init" class="tit">另存为：</label>

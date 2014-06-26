@@ -413,6 +413,7 @@ background:-moz-linear-gradient(top,#e7e7e7,#aaa)
 }
 
 .editor-content .topbar .item {
+font-size: 12px;
 margin:0 5px;
 float:left;
 color:#151617;
@@ -543,7 +544,10 @@ background:-moz-linear-gradient(top,#fff,#a2a2a2);
 cursor:pointer;
 color: rgb(29,29,29);
 }
-
+.dialog button:active{
+background:-webkit-gradient(linear,left top,left bottom,from(#caf1fd),to(#82eefd));
+background:-moz-linear-gradient(top,#caf1fd,#82eefd); 
+}
 #dialog-draft .content li{
 text-indent:2em;
 height:25px;
@@ -662,6 +666,9 @@ background:rgba(204,204,204,0.5)
     line-height: 30px;
     cursor: pointer;
     font-size: 12px;
+}
+#dialog-html ul li a{
+    color: inherit;
 }
 #dialog-html ul li:hover{
     background: rgba(0,0,0,0.3);

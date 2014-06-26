@@ -17,7 +17,7 @@ define(['dialog', 'text!tpl/help.html', 'local'], function(Dialog, Tpl_Help, Loc
         resizable: false
     });
 
-    var HELP_VERSION = 4;
+    var HELP_VERSION = 5;
 
     helpDialog.m$content.html(Tpl_Help);
 

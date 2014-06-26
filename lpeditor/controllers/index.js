@@ -7,9 +7,10 @@
  * 2014-06-26[07:58:22]:clean
  * 2014-06-26[08:22:22]:preview using compiler
  * 2014-06-26[08:37:31]:register to back-end system
+ * 2014-06-26[10:23:44]:sh 212 rsync_static2m1.sh
  *
  * @author yanni4night@gmail.com
- * @version 0.0.5
+ * @version 0.0.6
  * @since 0.0.1
  */
 var fs = require('fs'),
@@ -21,8 +22,10 @@ var fs = require('fs'),
 
 const JSON_DIR = __dirname + "/../json/";
 const PROFILE_DIR = __dirname + '/../static/profile/';
+
 var dev = process.env.NODE_ENV === 'development';
 var TARGET_URI, ONLINE_URL;
+
 if (dev) {
   TARGET_URI = 'root@10.136.31.61:/opt/my/';
   ONLINE_URL = 'http://10.136.31.61/';
@@ -33,7 +36,8 @@ if (dev) {
 
 var app = {
   /**
-   * [get description]
+   * Index page
+   * 
    * @param  {Express Request} req
    * @param  {Express Response} res
    */
@@ -41,7 +45,8 @@ var app = {
     return res.render('index', {});
   },
   /**
-   * [delete description]
+   * Delete json config file.
+   * 
    * @param  {Express Request} req
    * @param  {Express Response} res
    */
@@ -62,7 +67,8 @@ var app = {
     });
   },
   /**
-   * [preview description]
+   * Show preview by posting.
+   * 
    * @param  {Express Request} req
    * @param  {Express Response} res
    */
@@ -81,8 +87,6 @@ var app = {
    * @param  {Express Response} res
    */
   release: function(req, res) {
-
-
     //pages has to be an array
     if (!Array.isArray(req.body.pages)) {
       return res.json({
@@ -91,47 +95,45 @@ var app = {
       })
     }
 
-    var filedir = PROFILE_DIR,
-      fileid,
-      filepath, filename, fileurl;
+    var filedir = PROFILE_DIR;
 
     return async.map(req.body.pages, function(page, callback) {
       return compiler.compile(page, false, function(filecontent) {
+        //We use timestamp to create an unique id name
+       var fileid = Date.now() + '' + ((Math.random() * 1e6) | 0);
+        var filename = fileid + '.html';
 
-        //We use timestamp to create a unique id name
-        fileid = Date.now() + '' + ((Math.random() * 1e6) | 0);
-        filename = fileid + '.html';
-
-        filepath = filedir + filename;
-        fileurl = ONLINE_URL + filename;
+        var filepath = filedir + filename;
+        var fileurl = ONLINE_URL + filename;
 
         return async.series([
           //create directory if not exists
           function(callback) {
             fs.exists(filedir, function(exists) {
               if (!exists) {
-                fs.mkdir(filedir, callback);
+                return fs.mkdir(filedir, callback);
               } else {
-                callback();
+                return callback();
               }
             });
           },
           //write file
           function(callback) {
-            fs.writeFile(filepath, filecontent, callback);
+            return fs.writeFile(filepath, filecontent, callback);
           },
           //upload
           function(callback) {
-            exec('rsync -avz ' + filepath + ' ' + TARGET_URI, callback);
+            return exec(['rsync', '-avz', filepath, TARGET_URI].join(' '), callback);
           },
           //we remove it after upload
           function(callback) {
+            //ignore unlink failure
             fs.unlink(filepath, function() {});
-            callback();
+            return callback();
           },
           //register to http://10.12.135.37/api/landpageHtml.do
           function(callback) {
-            if(dev){
+            if (dev) {
               return callback();
             }
 
@@ -139,17 +141,24 @@ var app = {
               if (error) {
                 return callback(error);
               }
-              if (200 === response.statusCode && 'success' === body) {
+              if (200 === response.statusCode && 'success' === String(body).trim()) {
                 return callback();
               } else {
                 return callback(new Error(String(body) || ('HTTP:' + code)));
               }
 
             });
+          },
+          //rsync from 212 to online
+          function(callback) {
+            if (dev) {
+              return callback();
+            }
+            return exec(['ssh', '-l', 'root', '10.11.201.212', '"sh /search/script/publishscript/rsync_static2m1_new.sh static/nav/' + filename + '"'].join(' '), callback);
           }
 
         ], function(error) {
-          return callback(error, fileurl);
+          return callback(error, fileurl.slice(0));
         });
 
       });
@@ -267,7 +276,7 @@ var app = {
    * @param  {Express Response} res
    */
   get: function(req, res) {
-    var id = req.body.id;
+    var id = req.param('id');
     if (!id) {
       return res.json({
         status: -1,

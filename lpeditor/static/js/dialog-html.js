@@ -49,7 +49,7 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
     initEvt: function() {
       var self = this;
 
-      this.m$content.delegate('ul li', 'click', function(e) {
+      this.m$content.delegate('ul.selectable li', 'click', function(e) {
         $(this).toggleClass('selected');
       }).on('click', '.add-flash', function(e) {
         e.preventDefault();
@@ -61,9 +61,9 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
           id: Date.now(),
           title: $('#newflash-title').val(),
           backgroundColor: $('#newflash-bgcolor').val(),
-          flashLoading: +$('#newflash-flashLoading').prop('checked'),
-          bigFlash: +$('#newflash-bigFlash').prop('checked'),
-          navbar: +$('#newflash-navbar').prop('checked'),
+          flashLoading: $('#newflash-flashLoading').prop('checked'),
+          bigFlash: $('#newflash-bigFlash').prop('checked'),
+          navbar: $('#newflash-navbar').prop('checked'),
           flashUrl: $('#newflash-flashUrl').val()
         };
 
