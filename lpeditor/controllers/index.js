@@ -6,22 +6,24 @@
  * 2014-06-17[22:53:48]:add delete
  * 2014-06-26[07:58:22]:clean
  * 2014-06-26[08:22:22]:preview using compiler
+ * 2014-06-26[08:37:31]:register to back-end system
  *
  * @author yanni4night@gmail.com
- * @version 0.0.4
+ * @version 0.0.5
  * @since 0.0.1
  */
 var fs = require('fs'),
   async = require('async'),
   path = require('path'),
+  request = require('request'),
   compiler = require('./compile'),
   exec = require('child_process').exec;
 
 const JSON_DIR = __dirname + "/../json/";
 const PROFILE_DIR = __dirname + '/../static/profile/';
-
+var dev = process.env.NODE_ENV === 'development';
 var TARGET_URI, ONLINE_URL;
-if (process.env.NODE_ENV == 'development') {
+if (dev) {
   TARGET_URI = 'root@10.136.31.61:/opt/my/';
   ONLINE_URL = 'http://10.136.31.61/';
 } else {
@@ -65,16 +67,16 @@ var app = {
    * @param  {Express Response} res
    */
   preview: function(req, res) {
-    var config = req.body.config; 
+    var config = req.body.config;
     config = JSON.parse(config);
 
-    return compiler.compile(config,true,function(content){
+    return compiler.compile(config, true, function(content) {
       return res.send(content);
     })
   }, //preview
   /**
    * Release bulk of landing pages.
-   * 
+   *
    * @param  {Express Request} req
    * @param  {Express Response} res
    */
@@ -90,15 +92,18 @@ var app = {
     }
 
     var filedir = PROFILE_DIR,
-      filepath, filename;
+      fileid,
+      filepath, filename, fileurl;
 
     return async.map(req.body.pages, function(page, callback) {
       return compiler.compile(page, false, function(filecontent) {
 
         //We use timestamp to create a unique id name
-        filename = Date.now() + '' + ((Math.random() * 1e6) | 0) + '.html';
+        fileid = Date.now() + '' + ((Math.random() * 1e6) | 0);
+        filename = fileid + '.html';
 
         filepath = filedir + filename;
+        fileurl = ONLINE_URL + filename;
 
         return async.series([
           //create directory if not exists
@@ -123,10 +128,28 @@ var app = {
           function(callback) {
             fs.unlink(filepath, function() {});
             callback();
+          },
+          //register to http://10.12.135.37/api/landpageHtml.do
+          function(callback) {
+            if(dev){
+              return callback();
+            }
+
+            return request('http://10.12.135.37/api/landpageHtml.do?lpageUrl=' + encodeURIComponent(fileurl) + '&lpageFl=' + fileid + '&lpageName=' + encodeURIComponent(page.title || "名称未定义"), function(error, response, body) {
+              if (error) {
+                return callback(error);
+              }
+              if (200 === response.statusCode && 'success' === body) {
+                return callback();
+              } else {
+                return callback(new Error(String(body) || ('HTTP:' + code)));
+              }
+
+            });
           }
 
         ], function(error) {
-          return callback(error, ONLINE_URL + filename);
+          return callback(error, fileurl);
         });
 
       });
@@ -134,9 +157,9 @@ var app = {
     }, function(err, urls) {
       //return online html list
       return res.json({
-        status:err?-1:0,
-        msg:err,
-        urls:urls
+        status: err ? -1 : 0,
+        msg: err,
+        urls: urls
       });
     });
 
@@ -184,7 +207,7 @@ var app = {
       },
       //write json
       function(callback) {
-        fs.writeFile(JSON_DIR + profileId + '.json', payload,callback);
+        fs.writeFile(JSON_DIR + profileId + '.json', payload, callback);
       }
     ], function(error) {
       return res.json({
@@ -239,7 +262,7 @@ var app = {
    * We support mutiple by IDs splited by ','.
    *
    * If only one id exists,we return an object instead of an array.
-   * 
+   *
    * @param  {Express Request} req
    * @param  {Express Response} res
    */
@@ -254,12 +277,12 @@ var app = {
     var idArr = id.split(',');
 
     //validate every id
-    if(!idArr.every(function(idx){
+    if (!idArr.every(function(idx) {
       return /^\d{13}$/.test(idx);
-    })){
+    })) {
       return res.json({
-        status:-1,
-        msg:'every id has to be a unix stamp'
+        status: -1,
+        msg: 'every id has to be a unix stamp'
       });
     }
 
@@ -268,10 +291,10 @@ var app = {
         encoding: 'UTF-8'
       }, callback);
     }, function(error, contents) {
-      if(error){
+      if (error) {
         return res.json({
-          status:-1,
-          msg:error
+          status: -1,
+          msg: error
         });
       }
 

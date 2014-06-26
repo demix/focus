@@ -3,13 +3,13 @@
  *
  * changelog
  * 2014-03-09[15:16:28]:created
- *
- * @info yinyong,osx-x64,UTF-8,192.168.1.105,js,/Volumes/yinyong-1/focus/lpeditor/static/js
+ * 2014-06-26[08:39:26]:removed DialogPublish
+ * 
  * @author yanni4night@gmail.com
- * @version 0.0.1
+ * @version 0.0.2
  * @since 0.0.1
  */
-define(['draft','dialog','dialog-save','dialog-publish','setting','release'], function(DraftManager,Dialog,DialogSave,DialogPublish,Setting,release) {
+define(['draft','dialog','dialog-save','setting'], function(DraftManager,Dialog,DialogSave,Setting) {
 
     //mark right
     function Mark() {}
@@ -336,44 +336,6 @@ define(['draft','dialog','dialog-save','dialog-publish','setting','release'], fu
         saveProfileMenu.init();
         MacTopbar.addMenu(saveProfileMenu);
     })();
-
-    //create page menu
-/*    (function(){
-        var createPageMenu = new Menu();
-        $.extend(createPageMenu,{
-            init:function(){
-                this.m$div =$('<a href="javascript:;" class="item create-page">生成页面</a>');
-                this.initEvt();
-                return this;
-            },
-            initEvt:function(){
-                this.m$div.click(function(e){
-                    release();
-                });
-            }
-        });
-        createPageMenu.init();
-        MacTopbar.addMenu(createPageMenu);
-    })();
-
-    //publish to online
-    (function(){
-        var publishPageMenu = new Menu();
-        $.extend(publishPageMenu,{
-            init:function(){
-                this.m$div =$('<a href="javascript:;" class="item publish-page">发布到线上</a>');
-                this.initEvt();
-                return this;
-            },
-            initEvt:function(){
-                this.m$div.click(function(e){
-                   DialogPublish.toggle();
-                });
-            }
-        });
-        publishPageMenu.init();
-        MacTopbar.addMenu(publishPageMenu);
-    })();*/
 
     return MacTopbar;
 });
