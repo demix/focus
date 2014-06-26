@@ -124,7 +124,16 @@ var app = {
           //upload
           function(callback) {
             return exec(['rsync', '-avz', filepath, TARGET_URI].join(' '), callback);
+          }
+          ,
+          //rsync from 212 to online
+          function(callback) {
+            if (dev) {
+              return callback();
+            }
+            return exec(['ssh', '-l', 'root', '10.11.201.212', '"sh /search/script/publishscript/rsync_static2m1_new.sh static/nav/' + filename + '"'].join(' '), callback);
           },
+
           //we remove it after upload
           function(callback) {
             //ignore unlink failure
@@ -148,13 +157,6 @@ var app = {
               }
 
             });
-          },
-          //rsync from 212 to online
-          function(callback) {
-            if (dev) {
-              return callback();
-            }
-            return exec(['ssh', '-l', 'root', '10.11.201.212', '"sh /search/script/publishscript/rsync_static2m1_new.sh static/nav/' + filename + '"'].join(' '), callback);
           }
 
         ], function(error) {
