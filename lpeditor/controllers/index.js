@@ -5,9 +5,10 @@
  * 2014-03-18[12:12:17]:created
  * 2014-06-17[22:53:48]:add delete
  * 2014-06-26[07:58:22]:clean
+ * 2014-06-26[08:22:22]:preview using compiler
  *
  * @author yanni4night@gmail.com
- * @version 0.0.3
+ * @version 0.0.4
  * @since 0.0.1
  */
 var fs = require('fs'),
@@ -64,12 +65,12 @@ var app = {
    * @param  {Express Response} res
    */
   preview: function(req, res) {
-    var css = req.body.css || '';
-    var html = req.body.html || '';
-    return res.render('preview', {
-      css: css,
-      html: html
-    });
+    var config = req.body.config; 
+    config = JSON.parse(config);
+
+    return compiler.compile(config,true,function(content){
+      return res.send(content);
+    })
   }, //preview
   /**
    * Release bulk of landing pages.
