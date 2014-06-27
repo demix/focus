@@ -148,7 +148,7 @@ var app = {
               return callback();
             }
 
-            return request.post('http://10.12.135.37/api/landpageHtml.do?lpageUrl=' + encodeURIComponent(fileurl) + '&lpageFl=' + page.lpid + '&lpageName=' + encodeURIComponent(page.lpname), function(error, response, body) {
+            return request.post('http://10.12.135.37/api/landpageHtml.do?lpageUrl=' + encodeURIComponent(fileurl + "?fl=" + page.lpid) + '&lpageFl=' + page.lpid + '&lpageName=' + encodeURIComponent(page.lpname), function(error, response, body) {
               if (error) {
                 return callback(error);
               }
