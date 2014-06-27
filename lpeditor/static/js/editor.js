@@ -84,6 +84,49 @@ define(['setting', 'initializing', 'element', 'listener', 'disk', 'jquery-ui' /*
         return self;
     }
 
+    var ElementsConfResolver  = function(){
+        this.gElements = {};
+       
+        this.addElement = function(ele, parent, silence) {
+            var self = this;
+            if (!(ele instanceof Element)) {
+                throw Error('Only element could be added!');
+            }
+
+            var id = ele.getId();
+
+            if (parent) {
+                parent.appendChild(ele);
+            } else {
+                ele.parent = null;
+                self.gElements[id] = ele;
+            }
+
+            return ele;
+        };
+        this.generateCode = function(level) {
+            var styleText = '',
+                innerHtml = '';
+            var levelNum = level | 0;
+            $.each(this.gElements, function(id, ele) {
+                if (undefined === level || REFRESH_HTML === (levelNum & REFRESH_HTML))
+                    innerHtml += ele.html(false);
+                if (undefined === level || REFRESH_CSS === (levelNum & REFRESH_CSS))
+                    styleText += ele.style(true);
+            });
+            return {
+                styleText: styleText,
+                innerHtml: innerHtml
+            }
+        };
+    };
+
+    function getCodeFromConf(conf){
+        var resolver = new ElementsConfResolver();
+        loadDefaultElements.call(resolver, conf);
+        return resolver.generateCode();
+    }
+
     var REFRESH_HTML = 1,
         REFRESH_CSS = 1 << 1;
     //Singleton Editor Object
@@ -516,7 +559,8 @@ define(['setting', 'initializing', 'element', 'listener', 'disk', 'jquery-ui' /*
             });
 
             return draft;
-        }
+        },
+        getCodeFromConf:getCodeFromConf
     };
     $.extend(Editor, new Listener());
     return Editor.init();

@@ -3,13 +3,14 @@
  *
  * changelog
  * 2014-03-07[12:15:10]:created
+ * 2014-06-25[10:21:30]:add DialogHtml
  *
  * @info yinyong,osx-x64,UTF-8,10.129.172.32,js,/Volumes/yinyong-1/focus/lpeditor/static/js
  * @author yanni4night@gmail.com
- * @version 0.0.1
+ * @version 0.0.2
  * @since 0.0.1
  */
-define(['preview','dialog-tree','dialog-disk','dialog-tools', 'dialog-new', 'dialog-about', 'dialog-help', 'dialog-setting', 'dialog-prop', 'dialog-draft', 'background', 'jquery-fisheye'], function(preview,DialogTree,DialogDisk,DialogTools,DialogNew, DialogAbout, DialogHelp, DialogSetting, DialogProp,DialogDraft, Background) {
+define(['preview','dialog-tree','dialog-disk','dialog-tools', 'dialog-new', 'dialog-about', 'dialog-help', 'dialog-setting', 'dialog-prop', 'dialog-draft', 'dialog-html', 'background', 'jquery-fisheye'], function(preview,DialogTree,DialogDisk,DialogTools,DialogNew, DialogAbout, DialogHelp, DialogSetting, DialogProp, DialogDraft, DialogHtml, Background) {
   var Dock = {
     /**
      * [init description]
@@ -24,35 +25,39 @@ define(['preview','dialog-tree','dialog-disk','dialog-tools', 'dialog-new', 'dia
         action: 'structure'
       }, {
         icon: 'launchpad',
-        title: '属性',
+        title: '元素属性',
         action: 'property'
       }, {
         icon: 'missioncontrol',
-        title: '新增',
+        title: '新增元素',
         action: 'new'
       }, {
         icon: 'systemsettings',
-        title: '设置',
+        title: '系统设置',
         action: 'setting'
       }, {
         icon: 'tools',
-        title: '工具',
+        title: '其它工具',
         action: 'tools'
       }, {
         icon: 'disk',
-        title: '存储',
+        title: '档案存储',
         action: 'disk'
       }, {
         icon: 'notes',
-        title: '草稿',
+        title: '草稿列表',
         action: 'draft'
       }, {
         icon: 'preview',
-        title: '预览',
+        title: '创建预览',
         action: 'preview'
       }, {
+        icon: 'html',
+        title: '创建Landing Page',
+        action: 'html'
+      }, {
         icon: 'fullscreen',
-        title: '全屏',
+        title: '全屏显示',
         action: 'fullscreen'
       }, {
         icon: 'help-browser',
@@ -130,6 +135,9 @@ define(['preview','dialog-tree','dialog-disk','dialog-tools', 'dialog-new', 'dia
             break;
           case 'draft':
             DialogDraft.toggle();
+            break;
+          case 'html':
+            DialogHtml.toggle();
             break;
           case 'fullscreen':
             var request = document.body.webkitRequestFullScreen || document.body.mozRequestFullScreen || document.body.requestFullScreen;

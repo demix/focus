@@ -337,7 +337,7 @@ define(['element'], function(Element) {
                         },
                         css: {
                             '': {
-                                display: 'block',
+                                display: 'none',
                                 left: '100px',
                                 top: '260px',
                                 width: '13px',
@@ -356,7 +356,7 @@ define(['element'], function(Element) {
                             '': {
                                 width: '140px',
                                 height: '20px',
-                                left: '235px',
+                                left: '174px',
                                 top: '260px',
                                 color: '#005EC8',
                                 'font-size': '12px',
@@ -379,7 +379,7 @@ define(['element'], function(Element) {
                             '': {
                                 width: '110px',
                                 height: '20px',
-                                left: '120px',
+                                left: '46px',
                                 top: '260px',
                                 color: '#fff',
                                 'font-size': '12px',
@@ -531,7 +531,7 @@ define(['element'], function(Element) {
                         '': {
                             width: '100px',
                             height: '20px',
-                            left: '10px',
+                            left: '106px',
                             top: '10px',
                             color: '#fff',
                             'font-size': '12px',
@@ -549,7 +549,7 @@ define(['element'], function(Element) {
                     },
                     css: {
                         '': {
-                            top: '40px',
+                            top: '37px',
                             left: function(id, index) {
                                 return 90 + 75 * index + 'px';
                             },
