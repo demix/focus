@@ -89,8 +89,8 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
           lpname:$('#newflash-name').val()
         };
 
-        newFlashObject.fwidth = (newFlashObject.payload.bigFlash?1400:1000);
-        newFlashObject.fheight = (newFlashObject.payload.bigFlash?700:600);
+        newFlashObject.payload.fwidth = (newFlashObject.payload.bigFlash?1400:1000);
+        newFlashObject.payload.fheight = (newFlashObject.payload.bigFlash?700:600);
 
         gFlashes.push(newFlashObject);
 
@@ -157,7 +157,7 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
               lpname:flash.lpname,
               css: codes.styleText,
               html: canvasHTML + codes.innerHtml + '</div></div>'
-            },flash.payload));
+            },conf.setting,flash.payload));
             });
 
           });
@@ -166,7 +166,7 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
             url: '/release',
             type: 'post',
             data: {
-              pages: pages
+              pages: JSON.stringify(pages)
             },
             dataType: 'json',
             beforeSend:function(){

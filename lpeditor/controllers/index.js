@@ -87,8 +87,9 @@ var app = {
    * @param  {Express Response} res
    */
   release: function(req, res) {
+    var pages = JSON.parse(req.body.pages||"");
     //pages has to be an array
-    if (!Array.isArray(req.body.pages)) {
+    if (!Array.isArray(pages)) {
       return res.json({
         status: -1,
         msg: 'pages 格式不正确'
@@ -97,7 +98,8 @@ var app = {
 
     var filedir = PROFILE_DIR;
 
-    return async.map(req.body.pages, function(page, callback) {
+    return async.map(pages, function(page, callback) {
+
       return compiler.compile(page, false, function(filecontent) {
         //We use timestamp to create an unique id name
        var fileid = Date.now() + '' + ((Math.random() * 1e6) | 0);

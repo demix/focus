@@ -127,7 +127,7 @@
                         </div>
                     </div>
                     <div class="f-f f-hr">
-                        <span class="generate-tip">生成页面速度较慢，请耐心等待</span>
+                        <span class="generate-tip">生成页面速度较慢，请耐心等待，上线有几十秒的延迟</span>
                         <button class="generate">生成</button>
                     </div>
                     <div class="ab new-flash">
@@ -155,7 +155,7 @@
 
                             <div class="f-f">
                             <label for="newflash-flashLoading">是否用壳子加载素材Flash</label>
-                                <input type="checkbox" id="newflash-flashLoading" class=""/>
+                                <input type="checkbox" id="newflash-flashLoading" checked="checked" class=""/>
                             </div>
 
                             <div class="f-f">
