@@ -107,7 +107,7 @@ define(['setting'], function(Setting) {
 
         },
         getCanvasHTML: function(preview,setting) {
-            setting = setting || Setting
+            setting = setting || Setting;
             var w = parseInt(setting.get('dialogWidth'))||405;
             var offset =parseInt(setting.get('dialogLeftOffset'))||0;
             var css = [preview ? '' : 'display:none',

@@ -150,8 +150,13 @@ define(['dialog', 'disk', 'utils', 'editor', 'canvas'], function(Dialog, DiskMan
           contents.forEach(function(conf) {
             codes = Editor.getCodeFromConf(conf.elements);
             //codes 
-            canvasHTML = Canvas.getCanvasHTML(conf.setting);
-            flashes.forEach(function(flash){
+            canvasHTML = Canvas.getCanvasHTML(false, {
+              get: function(name) {
+                return conf.setting[name];
+              }
+            });
+
+            flashes.forEach(function(flash) {
               pages.push($.extend( {
               lpid:flash.lpid,
               lpname:flash.lpname,
