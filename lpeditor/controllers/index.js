@@ -162,7 +162,7 @@ var app = {
           }
 
         ], function(error) {
-          return callback(error, fileurl);
+          return callback(error, fileurl+"?fl="+page.lpid+"&gid=2");
         });
 
       });

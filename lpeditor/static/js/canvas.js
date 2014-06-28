@@ -110,7 +110,7 @@ define(['setting'], function(Setting) {
             setting = setting || Setting;
             var w = parseInt(setting.get('dialogWidth'))||405;
             var offset =parseInt(setting.get('dialogLeftOffset'))||0;
-            var css = [preview ? '' : 'display:none',
+            var css = ['display:none',
              'position:absolute',
               'left:50%',
               'margin-left:'+(-w/2+offset)+'px',
