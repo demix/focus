@@ -258,6 +258,7 @@
         pcode:'new',
         gid:LP_CONFIG['gid'] || '',
         fid: LP_CONFIG['fid'] || '',
+        mid: LP_CONFIG['mid'] || '',
         sid: LP_CONFIG['sid'] || '',
         source: LP_CONFIG['source'] || '',
         pid: LP_CONFIG['pid'] || '',
