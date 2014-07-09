@@ -45,7 +45,7 @@ var uigs_para={uigs_productid:"wan",m:2,uigs_cookie:"source,hostid,landing_ref,y
     window[ffuncname] = flashonload;
 
 
-    document.write('<embed height="{{fheight}}" pluginspage="http://www.adobe.com/go/getflashplayer" src="http://p7.wan.sogoucdn.com/cdn/flash/2014/05/13/20140513183020_816.swf" type="application/x-shockwave-flash" width="{{fwidth}}" wmode="opaque" quality="high" allowscriptaccess="always" id="Flash_Target" flashvars="flashurl='+ encodeURIComponent('{{flashUrl}}') +'&loadfunc='+ ffuncname +'" >');
+    document.write('<embed height="{{fheight}}" pluginspage="http://www.adobe.com/go/getflashplayer" {% if fwidth <=1000 %}src="http://p5.wan.sogoucdn.com/cdn/flash/2014/07/09/20140709160527_226.swf"{%else%}src="http://p7.wan.sogoucdn.com/cdn/flash/2014/05/13/20140513183020_816.swf"{%endif%} type="application/x-shockwave-flash" width="{{fwidth}}" wmode="opaque" quality="high" allowscriptaccess="always" id="Flash_Target" flashvars="flashurl='+ encodeURIComponent('{{flashUrl}}') +'&loadfunc='+ ffuncname +'" >');
 
 
 
