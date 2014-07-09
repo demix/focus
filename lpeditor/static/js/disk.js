@@ -39,12 +39,19 @@ define(['listener'], function(Listener) {
         },  
         /**
          * [load description]
-         * @param  {[type]} id [description]
-         * @return {[type]}    [description]
+         * @param  {[type]}   id       [description]
+         * @param  {[type]}   silence  [description]
+         * @param  {Function} callback [description]
+         * @return {[type]}            [description]
          */
-        load: function(id) {
+        load: function(id,silence,callback) {
             var self = this;
-            if (self.__loading||!id) return;
+            if (self.__loading||!id) {
+                if(callback){
+                    return callback(new Error('id is needed'));
+                }
+                else return;
+            }
             $.ajax({
                 url: '/get',
                 dataType: 'json',
@@ -52,24 +59,25 @@ define(['listener'], function(Listener) {
                 type: 'post',
                 beforeSend: function() {
                     self.__loading = true;
-                    self.trigger(EVT_LOADING);
+                    !silence&&self.trigger(EVT_LOADING);
                 },
                 complete: function() {
                     self.__loading = false;
                 }
             }).done(function(data) {
                 if (data&&!+data.status) {
-                    try{
-                        var profile=JSON.parse(data.data);
-                        self.trigger(EVT_LOADED, profile,id);
-                    }catch(e){
-                    self.trigger(EVT_LOAD_ERROR);
-                    }
+                    var profile=data.data;
+
+                    !silence&&self.trigger(EVT_LOADED, profile,id);
+                    return callback&&callback(null,profile,id);
+
                 } else {
-                    self.trigger(EVT_LOAD_ERROR);
+                    !silence&&self.trigger(EVT_LOAD_ERROR);
+                    return callback&&callback(new Error('加载失败'));
                 }
             }).fail(function(jqXHR, status) {
-                self.trigger(EVT_LOAD_ERROR);
+                !silence&&self.trigger(EVT_LOAD_ERROR);
+                return callback&&callback(new Error('加载失败'));
             });
 
             return this;

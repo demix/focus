@@ -4,24 +4,40 @@
  * changelog
  * 2014-03-18[12:12:17]:created
  * 2014-06-17[22:53:48]:add delete
+ * 2014-06-26[07:58:22]:clean
+ * 2014-06-26[08:22:22]:preview using compiler
+ * 2014-06-26[08:37:31]:register to back-end system
+ * 2014-06-26[10:23:44]:sh 212 rsync_static2m1.sh
  *
- * @info yinyong,osx-x64,UTF-8,10.129.175.199,js,/Volumes/yinyong/focus/lpeditor/controllers
  * @author yanni4night@gmail.com
- * @version 0.0.2
+ * @version 0.0.6
  * @since 0.0.1
  */
 var fs = require('fs'),
   async = require('async'),
   path = require('path'),
+  request = require('request'),
+  compiler = require('./compile'),
   exec = require('child_process').exec;
 
-
-
 const JSON_DIR = __dirname + "/../json/";
+const PROFILE_DIR = __dirname + '/../static/profile/';
+
+var dev = process.env.NODE_ENV === 'development';
+var TARGET_URI, ONLINE_URL;
+
+if (dev) {
+  TARGET_URI = 'root@10.136.31.61:/opt/my/';
+  ONLINE_URL = 'http://10.136.31.61/';
+} else {
+  TARGET_URI = 'root@10.11.201.212:/search/wan/webapp/static/nav/';
+  ONLINE_URL = 'http://wan.sogou.com/static/nav/';
+}
 
 var app = {
   /**
-   * [get description]
+   * Index page
+   * 
    * @param  {Express Request} req
    * @param  {Express Response} res
    */
@@ -29,7 +45,8 @@ var app = {
     return res.render('index', {});
   },
   /**
-   * [delete description]
+   * Delete json config file.
+   * 
    * @param  {Express Request} req
    * @param  {Express Response} res
    */
@@ -50,90 +67,115 @@ var app = {
     });
   },
   /**
-   * [preview description]
+   * Show preview by posting.
+   * 
    * @param  {Express Request} req
    * @param  {Express Response} res
    */
   preview: function(req, res) {
-    var css = req.body.css || '';
-    var html = req.body.html || '';
-    return res.render('preview', {
-      css: css,
-      html: html
-    });
+    var config = req.body.config;
+    config = JSON.parse(config);
+
+    return compiler.compile(config, true, function(content) {
+      return res.send(content);
+    })
   }, //preview
   /**
-   * [release description]
-   * @param  {[type]} req [description]
-   * @param  {[type]} res [description]
+   * Release bulk of landing pages.
+   *
+   * @param  {Express Request} req
+   * @param  {Express Response} res
    */
   release: function(req, res) {
-
-    var debug = +req.query.debug;
-
-    var config = !debug ? JSON.parse(req.body.config) : JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'mock', 'landing.json')));
-
-    if (!/^\d{13}$/.test(config.id) && !debug) {
+    var pages = JSON.parse(req.body.pages||"");
+    //pages has to be an array
+    if (!Array.isArray(pages)) {
       return res.json({
-        status: 0,
-        msg: 'ID is needed'
-      });
+        status: -1,
+        msg: 'pages 格式不正确'
+      })
     }
 
-    return require('./compile').compile(config, debug, function(file) {
+    var filedir = PROFILE_DIR;
 
-      if (debug) {
-        res.send(file);
-        return;
-      }
+    return async.map(pages, function(page, callback) {
 
-      async.series([
+      return compiler.compile(page, false, function(filecontent) {
+        //We use timestamp to create an unique id name
+       var fileid = Date.now() + '' + ((Math.random() * 1e6) | 0);
+        var filename = fileid + '.html';
 
-        function(callback) {
-          fs.exists(__dirname + '/../static/profile/', function(exists) {
-            if (!exists) {
-              fs.mkdir(__dirname + '/../static/profile/', callback);
-            } else {
-              callback();
-            }
-          });
-        },
-        /*        function(callback){
-          fs.exists(__dirname+'/../static/profile/'+config.id.slice(0,6), function(exists) {
-            if (!exists) {
-              fs.mkdir(__dirname+'/../static/profile/', callback);
-            } else {
-              callback();
-            }
-          })
-        },*/
-        function(callback) {
-          fs.writeFile(__dirname + '/../static/profile/' + config.id + '.html', file, callback);
-        },
-        function(callback) {
-          exec('sshpass -p noSafeNoWork@2014 scp -rq ' + __dirname + '/../static/profile/' + config.id + '.html' + ' root@10.11.201.212:/search/wan/webapp/static/nav/', callback);
-        }
-        /*,
-        function(callback){
-          if(req.body.publish){
-            request({
-              url:
+        var filepath = filedir + filename;
+        var fileurl = ONLINE_URL + filename;
+
+        return async.series([
+          //create directory if not exists
+          function(callback) {
+            fs.exists(filedir, function(exists) {
+              if (!exists) {
+                return fs.mkdir(filedir, callback);
+              } else {
+                return callback();
+              }
             });
-          }else{
-            callback();
+          },
+          //write file
+          function(callback) {
+            return fs.writeFile(filepath, filecontent, callback);
+          },
+          //upload
+          function(callback) {
+            return exec(['rsync', '-avz', filepath, TARGET_URI].join(' '), callback);
           }
-        }*/
+          ,
+          //rsync from 212 to online
+          function(callback) {
+            if (dev) {
+              return callback();
+            }
+            return exec(['ssh', '-l', 'root', '10.11.201.212', '"sh /search/script/publishscript/rsync_static2m1_new.sh static/nav/' + filename + '"'].join(' '), callback);
+          },
 
-      ], function(error) {
-        return res.json({
-          status: error ? -1 : 0,
-          id: config.id,
-          msg: error
+          //we remove it after upload
+          function(callback) {
+            //ignore unlink failure
+            fs.unlink(filepath, function() {});
+            return callback();
+          },
+          //register to http://10.12.135.37/api/landpageHtml.do
+          function(callback) {
+            if (dev) {
+              return callback();
+            }
+
+            return request.post('http://10.12.135.37/api/landpageHtml.do?lpageUrl=' + encodeURIComponent(fileurl + "?fl=" + page.lpid) + '&lpageFl=' + page.lpid + '&lpageName=' + encodeURIComponent(page.lpname), function(error, response, body) {
+              if (error) {
+                return callback(error);
+              }
+              if (200 === response.statusCode && 'success' === String(body).trim()) {
+                return callback();
+              } else {
+                return callback(new Error(String(body) || ('HTTP:' + code)));
+              }
+
+            });
+          }
+
+        ], function(error) {
+          return callback(error, fileurl+"?fl="+page.lpid+"&gid=2");
         });
+
       });
 
-
+    }, function(err, urls) {
+      //return online html list
+      return res.json({
+        status: err ? -1 : 0,
+        msg: err&&err.message,
+        urls: urls
+      });
     });
+
   },
   /**
    * This is just a file-system version of persistence,
@@ -178,9 +220,7 @@ var app = {
       },
       //write json
       function(callback) {
-        fs.writeFile(JSON_DIR + profileId + '.json', payload, function(error) {
-          callback(error);
-        });
+        fs.writeFile(JSON_DIR + profileId + '.json', payload, callback);
       }
     ], function(error) {
       return res.json({
@@ -230,28 +270,67 @@ var app = {
     });
   }, //list
   /**
-   * [get description]
+   * Get bulk of configrations by multiple ids.
+   *
+   * We support mutiple by IDs splited by ','.
+   *
+   * If only one id exists,we return an object instead of an array.
+   *
    * @param  {Express Request} req
    * @param  {Express Response} res
    */
   get: function(req, res) {
-    var id = req.body.id;
-    if (!/^\d+$/.test(id)) {
+    var id = req.param('id');
+    if (!id) {
       return res.json({
         status: -1,
-        msg: 'id is required'
+        msg: 'id is needed'
       });
     }
-    return fs.readFile(JSON_DIR + id + '.json', {
-      encoding: 'UTF-8'
-    }, function(error, content) {
+    var idArr = id.split(',');
+
+    //validate every id
+    if (!idArr.every(function(idx) {
+      return /^\d{13}$/.test(idx);
+    })) {
       return res.json({
-        status: error ? -1 : 0,
-        msg: error,
-        data: content //理论上，content应该是合法的json字符串
+        status: -1,
+        msg: 'every id has to be a unix stamp'
       });
+    }
+
+    return async.map(idArr, function(id, callback) {
+      return fs.readFile(JSON_DIR + id + '.json', {
+        encoding: 'UTF-8'
+      }, callback);
+    }, function(error, contents) {
+      if (error) {
+        return res.json({
+          status: -1,
+          msg: error
+        });
+      }
+
+      try {
+        //we parse JSON here
+        var rearr = contents.map(function(content) {
+          return JSON.parse(content);
+        });
+        return res.json({
+          status: error ? -1 : 0,
+          msg: error,
+          data: rearr.length === 1 ? rearr[0] : rearr
+        });
+      } catch (e) {
+        return res.json({
+          status: -1,
+          msg: e
+        });
+      }
+
     });
-  } //get
+
+  }
 };
 
 module.exports = app;

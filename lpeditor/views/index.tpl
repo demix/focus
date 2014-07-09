@@ -14,7 +14,8 @@
         <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.min.js"></script>
         <script data-main="static/js/main" src="static/js/require.js"></script>
     </head>
-    <body onbeforeunload="return '不要忘记同步到服务器';">
+        <!-- onbeforeunload="return '不要忘记同步到服务器';"-->
+    <body>
     
     <div class="emu-bar" style="background: url(http://s3.wan.sogou.com/cdn/image/2014/02/18/20140218163552_499.png) repeat-x;height:41px;z-index: 10000;width: 100%;"></div>
     <div id="flashbg"></div>
@@ -97,6 +98,89 @@
                 </div>
                 <div class="content"></div>
             </div>
+            <!--HTML Dialog-->
+            <div class="dialog" id="dialog-html">
+                <div class="bar">
+                    <span class="name">创建Landing Page</span>
+                    <div class="closer" title="关闭"></div>
+                </div>
+                <div class="re content">
+                    <div class="wrapper f-f">
+                        <div class="ul-wrapper">
+                            <div class="tip">一、选择对话框：</div>
+                            <ul class="dialog-list selectable"></ul>
+                        </div>
+                        <div class="ul-wrapper">
+                            <div class="tip">二、新建Flash对象：</div>
+                            <ul class="flash-list selectable"></ul>
+                            <div class="tool">
+                                <a href="#" class="add-flash" title="新增">+</a>
+                                <a href="#" class="del-flash" title="移除选中">-</a>
+                            </div>
+                        </div>
+                        <div class="ul-wrapper">
+                            <div class="tip">三、生成的线上地址：</div>
+                            <ul class="online-list"></ul>
+                                <div class="tool">
+                                <a href="#" class="del-online" title="清空">-</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="f-f f-hr">
+                        <span class="generate-tip">生成页面速度较慢，请耐心等待，上线有几十秒的延迟</span>
+                        <button class="generate">生成</button>
+                    </div>
+                    <div class="ab new-flash">
+                        <p>请输入flash的相关参数</p>
+                        <form action="#" autocomplete="off">
+                            <div class="f-f">
+                                <label for="newflash-id">引导页ID</label>
+                                <input type="text" id="newflash-id" required="required" class="" placeholder="请保证系统唯一性"/>
+                            </div>
+        
+                            <div class="f-f">
+                            <label for="newflash-name">引导页名称</label>
+                                <input type="text" id="newflash-name" required="required" class="" placeholder="LP语义索引"/>
+                            </div>
+                            
+                            <div class="f-f">
+                            <label for="newflash-title">引导页标题</label>
+                                <input type="text" id="newflash-title" required="required" class="" placeholder="页面标题"/>
+                            </div>
+
+                            <div class="f-f">
+                            <label for="newflash-bgcolor">引导页背景颜色</label>
+                                <input type="text" id="newflash-bgcolor" class="" value="#000"/>
+                            </div>
+
+                            <div class="f-f">
+                            <label for="newflash-flashLoading">是否用壳子加载素材Flash</label>
+                                <input type="checkbox" id="newflash-flashLoading" checked="checked" class=""/>
+                            </div>
+
+                            <div class="f-f">
+                            <label for="newflash-bigFlash">Flash尺寸</label>
+                                <input type="radio" name="newflash-bigFlash" class="" value="0" checked="checked"/> 小 
+                                <input type="radio" name="newflash-bigFlash" class="" value="1"/> 大
+                            </div>
+
+                            <div class="f-f">
+                            <label for="newflash-navbar">显示导航栏</label>
+                                <input type="checkbox" id="newflash-navbar" class=""/>
+                            </div>
+
+                            <div class="f-f">
+                            <label for="newflash-flashUrl">Flash 地址</label>
+                                <input type="text" id="newflash-flashUrl" required="required" class="" placeholder="合法的HTTP超链接"/>
+                            </div>
+                            <div class="f-f f-hr">
+                                <button type="button" class="cancel">取消</button>
+                                <button type="submit">确定</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <!--DISK Dialog-->
             <div class="dialog" id="dialog-disk">
                 <div class="bar"><span class="name">服务器档案列表</span><div class="closer" title="关闭"></div></div>
@@ -104,39 +188,15 @@
                     <table width="100%">
                         <thead>
                             <tr>
-                                <th>No.</th>
-                                <th>Name</th>
-                                <th>Date</th>
-                                <th>Load</th>
-                                <th>Delete</th>
+                                <th>序号.</th>
+                                <th>名称</th>
+                                <th>日期</th>
+                                <th>加载</th>
+                                <th>删除</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
                     </table>
-                </div>
-            </div>
-            <!--PUBLISH Dialog-->
-            <div class="dialog" id="dialog-publish">
-                <div class="bar"><span class="name">发布到线上</span><div class="closer" title="关闭"></div></div>
-                <div class="content">
-                    <form action="http://10.12.135.37/api/landpageHtml.do" method="post" target="_blank">
-                         <fieldset>
-                    <div class="row">
-                        <label class="tit">lpageFl</label>
-                        <input type="text" name="lpageFl" required="required" autocomplete="off" style="width:30em" value="chan" placeholder="一般为swf文件的名字，不可重复"/>
-                    </div>
-                    <div class="row">
-                        <label class="tit">lpageUrl</label>
-                        <input type="text" name="vlpageUrl" required="required" autocomplete="off" style="width:30em" placeholder="生成的线上地址，无需修改"/>
-                        <input type="hidden" name="lpageUrl"/>
-                    </div>
-                    <div class="row">
-                        <label class="tit">lpageName</label>
-                        <input type="text" name="lpageName" required="required" autocomplete="off" style="width:30em" placeholder="随便起名字"/>
-                    </div>
-                   <div class="row"><label class="tit"></label> <button type="submit">发布</button></div>
-                     </fieldset>
-                    </form>
                 </div>
             </div>
             <!--SAVE Dialog-->
@@ -147,14 +207,11 @@
                         <fieldset>
                             <div class="row">
                                 <label for="profile-id" class="tit">ID：</label>
-                                <input type="text" value="" readonly="readonly" id="profile-id" placeholder="新建为空"/>
+                                <input type="text" value="" readonly="readonly" id="profile-id" placeholder="系统自动生成"/>
                             </div>
                             <div class="row">
-                                <label for="profile-id" class="tit">备注：</label>
-                                <input type="text" value="" id="profile-desc" max-length="50" placeholder="档案描述"/>
-                            </div><div class="row">
-                                <label for="profile-id" class="tit">线上地址：</label>
-                                <a href="#" target="_blank" id="onlineUrl"></a>
+                                <label for="profile-id" class="tit">描述：</label>
+                                <input type="text" value="" id="profile-desc" max-length="50" style="width:25em" placeholder="档案描述，用于肉眼识别"/>
                             </div>
                             <div class="row">
                                 <label for="profile-init" class="tit">另存为：</label>
@@ -171,7 +228,7 @@
                 <div class="bar"><span class="name">关于</span><div class="closer" title="关闭"></div></div>
                 <div class="content">
                     <img src="/static/img/ufologo-dark.png" class="bl hc"/>
-                    <h6 class="tc"><span class="appname">LP Dialog Editor Studio</span> (0.2&beta;)</h6>
+                    <h6 class="tc"><span class="appname">LP Dialog Editor Studio</span> (0.3&beta;)</h6>
                     <p>仅用于<a href="http://wan.sogou.com" target="_blank">游戏</a>部编辑 <q cite="http://baike.baidu.com/view/3144149.htm">Landing Page</q>  登录注册对话框的样式。承诺持续针对最新版<a href="http://www.google.cn/intl/zh-CN/chrome/browser/" target="_blank">Chrome</a>的全部支持，以及对最新版<a href="http://www.firefox.com.cn/" target="_blank">Firefox</a>、<a href="http://www.opera.com/zh-cn" target="_blank">Opera</a>和Safari(Mac)的部分支持。</p>
                     <p>Copyright &copy; 2014 sogou.com. All Rights Reserved.</p>
                     <p>Bug Report：<a href="mailto:yinyong@sogou-inc.com?cc=zhengxin@sogou.com&subject=LP%20Dialog%20Editor%20Bug%20Report" target="_blank">yinyong@sogou-inc.com</a></p>

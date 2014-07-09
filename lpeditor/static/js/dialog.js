@@ -3,10 +3,11 @@
  *
  * changelog
  * 2014-03-07[10:31:42]:created
+ * 2014-06-25[10:20:53]:set min height&width
  *
  * @info yinyong,osx-x64,UTF-8,10.129.172.32,js,/Volumes/yinyong-1/focus/lpeditor/static/js
  * @author yanni4night@gmail.com
- * @version 0.0.1
+ * @version 0.0.2
  * @since 0.0.1
  */
 define(['local', 'jquery-ui'], function(LocalCache) {
@@ -75,6 +76,10 @@ define(['local', 'jquery-ui'], function(LocalCache) {
         this.m$name = this.m$container.find(opt.name);
 
         this.mCacheName = DIALOG_CACHE_PREFIX + String(container);
+
+        //set minWidth&minHeight at startup
+        this.m$container.width(Math.max(this.m$container.width(),opt.minWidth));
+        this.m$container.height(Math.max(this.m$container.height(),opt.minHeight));
 
         //Try read the saved position and size.
         if (this.opt.saveStatus) {
