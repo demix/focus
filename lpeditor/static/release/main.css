@@ -6,6 +6,7 @@ ul, li { list-style: none;}
 a { text-decoration: none; outline: none; color: #676767;}
 a:hover { text-decoration: underline; color: #dc1c09;}
 
+#lp-dialog{background:url(about:blank)}
 #lp-dialog input{outline:none;}
 
 /*flash*/
