@@ -180,8 +180,8 @@ define(['element'], function(Element) {
                     'text-align': 'center',
                     'background-repeat': 'no-repeat',
                     'background-image': function(id,index){
-                        return !index?'url(http://p3.wan.sogoucdn.com/cdn/image/2014/05/07/20140507144236_369.jpg)':'url(http://p5.wan.sogoucdn.com/cdn/image/2014/05/07/20140507144358_479.jpg)'
-                    }//'url(http://s7.wan.sogou.com/cdn/image/2014/03/05/20140305211310_980.jpg)'
+                        return !index?'url(http://p0.wan.sogoucdn.com/cdn/image/2014/05/07/20140507144236_369.jpg)':'url(http://p0.wan.sogoucdn.com/cdn/image/2014/05/07/20140507144358_479.jpg)'
+                    }
                 },
                 '>:hover': {
                     color: '',
@@ -194,8 +194,8 @@ define(['element'], function(Element) {
                     'text-decoration': '',
                     'background-color': '',
                     'background-image': function(id,index){
-                        return !index?'url(http://p6.wan.sogoucdn.com/cdn/image/2014/05/07/20140507144048_860.jpg)':'url(http://p3.wan.sogoucdn.com/cdn/image/2014/05/07/20140507144338_900.jpg)';
-                    }//'url(http://s5.wan.sogou.com/cdn/image/2014/03/05/20140305211018_817.jpg)'
+                        return !index?'url(http://p0.wan.sogoucdn.com/cdn/image/2014/05/07/20140507144048_860.jpg)':'url(http://p0.wan.sogoucdn.com/cdn/image/2014/05/07/20140507144338_900.jpg)';
+                    }
                 }
             }
         },
