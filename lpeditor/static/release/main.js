@@ -263,6 +263,9 @@
     setLPCookies('gid');
     setLPCookies('mid');
     setLPCookies('source');
+	LP_CONFIG['fl'] && utils.cookie.set('fl_cookie', LP_CONFIG['fl'] , {
+        domain:'.wan.sogou.com'
+    });
 
 
     var STATS_CONFIG = {
