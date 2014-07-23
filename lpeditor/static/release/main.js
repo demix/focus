@@ -252,7 +252,19 @@
     var LP_CONFIG = utils.queryToJson(location.search);
 
     LP_CONFIG.lp_type = +document.body.getAttribute('data-type');//0:normal;1:two in one
-    
+
+
+    var setLPCookies = function(name){
+	    LP_CONFIG[name] && utils.cookie.set(name, LP_CONFIG[name] , {
+            expires: 365*24*60*60*1000,
+            domain:'.wan.sogou.com'
+        });
+    };
+    setLPCookies('gid');
+    setLPCookies('mid');
+    setLPCookies('source');
+
+
     var STATS_CONFIG = {
         ptype:'landingpage',
         pcode:'new',
