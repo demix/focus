@@ -14,7 +14,7 @@
             <h4>Choose project to create</h4>
             <ul class="project-list">
                 <% for(var i=0,l=data.length;i<l;i++){ %>
-                <li><%=data[i].name%></li>
+                <li><span><%=data[i].name%></span></li>
                 <%}%>
             </ul>
         </script>

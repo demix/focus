@@ -7,10 +7,23 @@ define(function(){
     };
 
     register({
-        name:'test'
+        name:'loginclient'
+    });
+
+    register({
+        name:'test2'
+    });
+    register({
+        name:'test3'
+    });
+    register({
+        name:'test3'
+    });
+    register({
+        name:'test3'
     });
     
-    
+
     return{
         get: function(){
             return projects;
